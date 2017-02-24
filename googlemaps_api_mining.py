@@ -6,6 +6,7 @@ import traceback
 import cPickle
 import os
 import time
+import itertools
 
 
 # TODO: command line implementation
@@ -37,13 +38,14 @@ class GooglemapsAPIMiner:
         Reads CSV file with header to get list of queries. Some columns are direct and some are range parameters.
         See README.txt for more information on each and tips on formatting input documents.
         Direct parameters:
-            - origin        - destination
-            - mode          - waypoints
+            - origin (required)
+            - destination (required)
+            - mode (required)
+            - waypoints     - traffic_model
             - alternatives  - avoid
             - units         - departure_time
             - arrival_time  - optimize_waypoints
             - transit_mode  - transit_routing_parameters
-            - traffic_model
         Range parameters:
             - arrival_time (arrival_time_min, arrival_time_max, arrival_time_delta)
             - departure_time (departure_time_min, departure_time_max, departure_time_delta)
@@ -73,7 +75,7 @@ class GooglemapsAPIMiner:
             rs = [r + '_min', r + '_max', r + '_delta']
             for q in self.queries:
                 if any([ri in q for ri in rs]):
-                    assert all([ri in q for ri in rs]), "Range parameter" + r + " needs '_min', '_max', and '_delta'."
+                    assert all([ri in q for ri in rs]), "Range param" + r + " needs '_min', '_max', and '_delta'."
                     rmin = dt.datetime.strptime(q[r + '_min'], '%m/%d/%Y %H:%M')
                     rmax = dt.datetime.strptime(q[r + '_max'], '%m/%d/%Y %H:%M')
                     rdel = dt.timedelta(minutes=q[r + '_delta'])
@@ -87,24 +89,46 @@ class GooglemapsAPIMiner:
                         self.queries.append(qn)
                         i += 1
                     self.queries.__delitem__(self.queries.index(q))
+                else:
+                    if q[r].lower() != 'now':
+                        try:
+                            q[r] = dt.datetime.strptime(q[r], '%m/%d/%Y %H:%M')
+                        except ValueError:
+                            print "Problem with query format on", r, "('now' not used and couldn't convert to datetime)"
+                            print q
+                            self.queries.__delitem__(self.queries.index(q))
         for r in ['origin', 'destination']:
-            rs = [r + '_min', r + '_max', r + '_delta']
+            rs = [r + '_min', r + '_max', r + '_divs', r + '_arrange']
             for q in self.queries:
                 if any([ri in q for ri in rs]):
-                    assert all([ri in q for ri in rs]), "Range parameter" + r + "needs '_min', '_max', and '_delta'."
-                    rmin = float(q[r + '_min'])
-                    rmax = float(q[r + '_max'])
-                    rdel = float(q[r + '_delta'])
-                    i = 0
-                    while rmin + i * rdel < rmax:
+                    assert all([ri in q for ri in rs]), "Range param" + r + "needs '_min', '_max', '_divs', '_arrange'."
+                    rmin = (float(q[r + '_min'].split(';')[0]), float(q[r + '_min'].split(';')[1]))
+                    rmax = (float(q[r + '_max'].split(';')[0]), float(q[r + '_max'].split(';')[1]))
+                    rdiv = (int(q[r + '_divs'].split(';')[0]), int(q[r + '_divs'].split(';')[1]))
+                    rarr = q[r + '_arrange']
+                    rdel = ((rmax[0] - rmin[0]) / (rdiv[0] - 1), (rmax[1] - rmin[1]) / (rdiv[1] - 1))
+                    rvals = ([rmin[0] + i * rdel[0] for i in range(rdiv[0])],
+                             [rmin[1] + i * rdel[1] for i in range(rdiv[1])])
+                    if rarr == 'line':
+                        rq = zip(rvals[0], rvals[1])
+                    elif rarr == 'grid':
+                        rq = [i for i in itertools.product(rvals[0], rvals[1])]
+                    for rv in rq:
                         qn = {}
                         for k, v in q:
                             if k not in [r] + rs:
                                 qn[k] = v
-                        qn[r] = rmin + i * rdel
+                        qn[r] = rv
                         self.queries.append(qn)
-                        i += 1
-
+                    self.queries.__delitem__(self.queries.index(q))
+                else:
+                    if ';' in q[r]:
+                        try:
+                            q[r] = tuple([float(i) for i in q[r].split(';')])
+                        except ValueError:
+                            print "Problem with query format on", r, "(';' included but couldn't convert to lat/long)"
+                            print q
+                            self.queries.__delitem__(self.queries.index(q))
         if verbose:
             for i in self.queries:
                 print i
@@ -119,25 +143,21 @@ class GooglemapsAPIMiner:
         """
         for q in self.queries:
             if 'departure_time' in q:
+                # q['departure_time'] should have already been converted to dt.datetime unless it is 'now'
                 if type(q['departure_time']) is str and q['departure_time'].lower() == 'now':
                     q['departure_time'] = dt.datetime.now()
                 elif type(q['departure_time']) is dt.datetime:
                     pass
                 else:
-                    try:
-                        q['departure_time'] = dt.datetime.strptime(q['departure_time'], '%m/%d/%Y %H:%M')
-                    except ValueError:
-                        print "Query invalid on departure_time, got", q['departure_time']
+                    raise ValueError("Invalid type for parameter 'departure_time'.")
             if 'arrival_time' in q:
+                # q['arrival_time'] should have already been converted to dt.datetime unless it is 'now'
                 if type(q['arrival_time']) is str and q['arrival_time'].lower() == 'now':
                     q['arrival_time'] = dt.datetime.now()
                 elif type(q['arrival_time']) is dt.datetime:
                     pass
                 else:
-                    try:
-                        q['arrival_time'] = dt.datetime.strptime(q['arrival_time'], '%m/%d/%Y %H:%M')
-                    except ValueError:
-                        print "Query invalid on departure_time, got", q['arrival_time']
+                    raise ValueError("Invalid type for parameter 'arrival_time'.")
 
             try:
                 q_result = self.gmaps.directions(**q)
@@ -154,12 +174,14 @@ class GooglemapsAPIMiner:
                 time.sleep(delay)
         return
 
-    def output_results(self, output_filename=None, write_csv=True, write_pickle=True):
+    def output_results(self, output_filename=None, write_csv=True, write_pickle=True, get_outputs=None):
         """
         Write previously-gathered query results to file(s).
         :param output_filename: (optional) override 'output_' + input_filename for output files
         :param write_csv: write output as CSV file (distance, duration, start(x, y), end(x, y))
         :param write_pickle: write results to pickle file, full query returns in list
+        :param get_outputs: dict of column headers (keys) with tuples of the depth-wise calls to make to the list-dict
+            results gathered; already defined within function, but these may not be valid depending on queries
         :return: None
         """
         if not self.results:
@@ -167,26 +189,46 @@ class GooglemapsAPIMiner:
         if output_filename is None:
             output_filename = 'output_' + os.path.splitext(os.path.split(self.saved_input_filename)[-1])[0]
         if write_pickle:
-            with open(output_filename + '.cpkl', 'wb') as f:
-                cPickle.dump(self.results, f)
+            try:
+                with open(output_filename + '.cpkl', 'wb') as f:
+                    cPickle.dump(self.results, f)
+            except:
+                traceback.print_exc()
+                print "Problem with output as pickle."
+                print "Attempting to save as file './exception_dump.cpkl'."
+                print "Rename that file to recover results, it may be overwritten if output fails again."
+                with open("./exception_dump.cpkl", 'wb') as f:
+                    cPickle.dump(self.results, f)
         if write_csv:
-            # define output parameters and the appropriate depth-wise calls to list-dict combinations to get each
-            outputs = {'distance': (0, 'legs', 0, 'distance', 'text'),
-                       'duration': (0, 'legs', 0, 'duration', 'text'),
-                       'start_x': (0, 'legs', 0, 'start_location', 'lng'),
-                       'start_y': (0, 'legs', 0, 'start_location', 'lat'),
-                       'end_x': (0, 'legs', 0, 'end_location', 'lng'),
-                       'end_y': (0, 'legs', 0, 'end_location', 'lat')}
-            with open(output_filename + '.csv', 'w') as f:
-                writer = csv.writer(f, delimiter='|')
-                outputs_keys, outputs_values = zip(*outputs.items())
-                output_header = self.input_header + list(outputs_keys)
-                writer.writerow(output_header)
-                for q, r in zip(self.queries, self.results):
-                    line = [q[ih] if ih in q else ''
-                            for ih in self.input_header] + [recursive_get(r, oh)
-                                                            for oh in outputs_values]
-                    writer.writerow(line)
+            try:
+                # define output parameters and the appropriate depth-wise calls to list-dict combinations to get each
+                if get_outputs:
+                    outputs = get_outputs
+                else:
+                    outputs = {'distance': (0, 'legs', 0, 'distance', 'text'),
+                               'duration': (0, 'legs', 0, 'duration', 'text'),
+                               'start_x': (0, 'legs', 0, 'start_location', 'lng'),
+                               'start_y': (0, 'legs', 0, 'start_location', 'lat'),
+                               'end_x': (0, 'legs', 0, 'end_location', 'lng'),
+                               'end_y': (0, 'legs', 0, 'end_location', 'lat')}
+                with open(output_filename + '.csv', 'w') as f:
+                    writer = csv.writer(f, delimiter='|')
+                    outputs_keys, outputs_values = zip(*outputs.items())
+                    output_header = self.input_header + list(outputs_keys)
+                    writer.writerow(output_header)
+                    for q, r in zip(self.queries, self.results):
+                        line = [q[ih] if ih in q else ''
+                                for ih in self.input_header] + [recursive_get(r, oh)
+                                                                for oh in outputs_values]
+                        writer.writerow(line)
+            except:
+                traceback.print_exc()
+                print "Problem with output as CSV."
+                if not write_pickle:
+                    print "Attempting to save results as pickle at './exception_dump.cpkl'."
+                    print "Rename that file to recover results, it may be overwritten if output fails again."
+                    with open("./exception_dump.cpkl", 'wb') as f:
+                        cPickle.dump(self.results, f)
         return
 
     def run_pipeline(self, input_filename, output_filename=None, verbose=False, write_csv=True, write_pickle=True):
