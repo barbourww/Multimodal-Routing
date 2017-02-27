@@ -5,11 +5,11 @@ import csv
 import traceback
 import cPickle
 import os
-import time
 import itertools
+import sys
+import getopt
+import inspect
 
-
-# TODO: command line implementation
 
 class GooglemapsAPIMiner:
     """
@@ -61,7 +61,7 @@ class GooglemapsAPIMiner:
             self.input_header = input_reader.next()
             valid_args = inspect.getargspec(directions)[0]
             if not all([h in valid_args for h in self.input_header]):
-                print set(self.input_header).difference(set(valid_args))
+                print "Invalid:", set(self.input_header).difference(set(valid_args))
                 raise IOError("Header contains invalid columns/arguments.")
             self.queries = [{h: v for h, v in zip(self.input_header, row) if v is not None and v != ''}
                             for row in input_reader]
@@ -75,7 +75,11 @@ class GooglemapsAPIMiner:
             rs = [r + '_min', r + '_max', r + '_delta']
             for q in self.queries:
                 if any([ri in q for ri in rs]):
-                    assert all([ri in q for ri in rs]), "Range param" + r + " needs '_min', '_max', and '_delta'."
+                    if not all([ri in q for ri in rs]):
+                        print "Range param" + r + " needs '_min', '_max', and '_delta'."
+                        print q
+                        self.queries.__delitem__(self.queries.index(q))
+                        continue
                     rmin = dt.datetime.strptime(q[r + '_min'], '%m/%d/%Y %H:%M')
                     rmax = dt.datetime.strptime(q[r + '_max'], '%m/%d/%Y %H:%M')
                     rdel = dt.timedelta(minutes=q[r + '_delta'])
@@ -89,7 +93,7 @@ class GooglemapsAPIMiner:
                         self.queries.append(qn)
                         i += 1
                     self.queries.__delitem__(self.queries.index(q))
-                else:
+                elif r in q:
                     if q[r].lower() != 'now':
                         try:
                             q[r] = dt.datetime.strptime(q[r], '%m/%d/%Y %H:%M')
@@ -101,7 +105,11 @@ class GooglemapsAPIMiner:
             rs = [r + '_min', r + '_max', r + '_divs', r + '_arrange']
             for q in self.queries:
                 if any([ri in q for ri in rs]):
-                    assert all([ri in q for ri in rs]), "Range param" + r + "needs '_min', '_max', '_divs', '_arrange'."
+                    if not all([ri in q for ri in rs]):
+                        print "Range param" + r + "needs '_min', '_max', '_divs', '_arrange'."
+                        print q
+                        self.queries.__delitem__(self.queries.index(q))
+                        continue
                     rmin = (float(q[r + '_min'].split(';')[0]), float(q[r + '_min'].split(';')[1]))
                     rmax = (float(q[r + '_max'].split(';')[0]), float(q[r + '_max'].split(';')[1]))
                     rdiv = (int(q[r + '_divs'].split(';')[0]), int(q[r + '_divs'].split(';')[1]))
@@ -113,6 +121,11 @@ class GooglemapsAPIMiner:
                         rq = zip(rvals[0], rvals[1])
                     elif rarr == 'grid':
                         rq = [i for i in itertools.product(rvals[0], rvals[1])]
+                    else:
+                        print "Invalid arrangement argument. Use 'line' or 'grid'."
+                        print q
+                        self.queries.__delitem__(self.queries.index(q))
+                        continue
                     for rv in rq:
                         qn = {}
                         for k, v in q:
@@ -135,10 +148,9 @@ class GooglemapsAPIMiner:
         print "Loaded", len(self.queries), "API queries."
         return
 
-    def run_queries(self, delay=None):
+    def run_queries(self):
         """
         Sequentially executes previously-loaded queries.
-        :param delay: time (in seconds) to delay between query execution (secondary to googlemaps queries_per_second)
         :return: None
         """
         for q in self.queries:
@@ -168,16 +180,12 @@ class GooglemapsAPIMiner:
 
             # recursive_print(q_result)
             self.results.append(q_result)
-
-            # delay sequential execution, if indicated
-            if delay:
-                time.sleep(delay)
         return
 
     def output_results(self, output_filename=None, write_csv=True, write_pickle=True, get_outputs=None):
         """
         Write previously-gathered query results to file(s).
-        :param output_filename: (optional) override 'output_' + input_filename for output files
+        :param output_filename: (optional) override 'output_' + input_filename for output files (no extension needed)
         :param write_csv: write output as CSV file (distance, duration, start(x, y), end(x, y))
         :param write_pickle: write results to pickle file, full query returns in list
         :param get_outputs: dict of column headers (keys) with tuples of the depth-wise calls to make to the list-dict
@@ -187,10 +195,14 @@ class GooglemapsAPIMiner:
         if not self.results:
             return
         if output_filename is None:
-            output_filename = 'output_' + os.path.splitext(os.path.split(self.saved_input_filename)[-1])[0]
+            output_stub = os.path.split(self.saved_input_filename)[0]
+            output_fn = 'output_' + os.path.splitext(os.path.split(self.saved_input_filename)[-1])[0]
+        else:
+            output_stub = os.path.split(output_filename)[0]
+            output_fn = os.path.splitext(os.path.split(output_filename)[-1])[0]
         if write_pickle:
             try:
-                with open(output_filename + '.cpkl', 'wb') as f:
+                with open(output_stub + '/' + output_fn + '.cpkl', 'wb') as f:
                     cPickle.dump(self.results, f)
             except:
                 traceback.print_exc()
@@ -211,7 +223,7 @@ class GooglemapsAPIMiner:
                                'start_y': (0, 'legs', 0, 'start_location', 'lat'),
                                'end_x': (0, 'legs', 0, 'end_location', 'lng'),
                                'end_y': (0, 'legs', 0, 'end_location', 'lat')}
-                with open(output_filename + '.csv', 'w') as f:
+                with open(output_stub + '/' + output_fn + '.csv', 'w') as f:
                     writer = csv.writer(f, delimiter='|')
                     outputs_keys, outputs_values = zip(*outputs.items())
                     output_header = self.input_header + list(outputs_keys)
@@ -248,7 +260,61 @@ class GooglemapsAPIMiner:
 
 
 if __name__ == '__main__':
-    key_file = '/Users/wbarbour1/Google Drive/Classes/CEE_418/final_project/googlemaps_api_key.txt'
-    input_file = './test_queries.csv'
-    g = GooglemapsAPIMiner(api_key_file=key_file)
-    g.run_pipeline(input_filename=input_file, verbose=True)
+    # key_file = '/Users/wbarbour1/Google Drive/Classes/CEE_418/final_project/googlemaps_api_key.txt'
+    # input_file = './test_queries.csv'
+    # g = GooglemapsAPIMiner(api_key_file=key_file)
+    # g.run_pipeline(input_filename=input_file, verbose=True)
+    if True:
+        usage = """
+        usage: googlemaps_api_mining.py -k <api_key_file> -i <input_file>
+                --[queries_per_second, output_filename, write_csv, write_pickle]
+        example: googlemaps_api_mining.py -k "./api_key.txt" -i "./test_queries.csv" --output_file "./output_test.csv"
+        """
+        arg = sys.argv[1:]
+
+        initargs = inspect.getargspec(GooglemapsAPIMiner.__init__)
+        req = zip(initargs.args[1:-len(initargs.defaults)], [None]*len(initargs.args[1:-len(initargs.defaults)]))
+        initspec = {k: v for k, v in req + zip(initargs.args[-len(initargs.defaults):], initargs.defaults)}
+        rpargs = inspect.getargspec(GooglemapsAPIMiner.run_pipeline)
+        req = zip(rpargs.args[1:-len(rpargs.defaults)], [None]*len(rpargs.args[1:-len(rpargs.defaults)]))
+        rpspec = {k: v for k, v in req + zip(rpargs.args[-len(rpargs.defaults):], rpargs.defaults)}
+
+        try:
+            opts, args = getopt.getopt(arg, "hk:i:", ["queries_per_second=", "output_filename=",
+                                                      "write_csv=", "write_pickle="])
+        except getopt.GetoptError:
+            print usage
+            sys.exit(2)
+        for opt, arg in opts:
+            if opt == '-h':
+                print usage
+                sys.exit()
+
+            elif opt in ("-k", "--api_key_file"):
+                initspec['api_key_file'] = arg
+            elif opt == "--queries_per_second":
+                initspec['queries_per_second'] = int(arg)
+
+            elif opt in ("-i", "--input_filename"):
+                rpspec['input_filename'] = arg
+            elif opt == "--output_filename":
+                rpspec['output_filename'] = arg
+            elif opt == "--write_csv":
+                if arg.lower() == 'true':
+                    rpspec['write_csv'] = True
+                elif arg.lower() == 'false':
+                    rpspec['write_csv'] = False
+                else:
+                    print "--write_csv should be [True/False/TRUE/FALSE/true/false]"
+                    sys.exit(2)
+            elif opt == "--write_pickle":
+                if arg.lower() == 'true':
+                    rpspec['write_pickle'] = True
+                elif arg.lower() == 'false':
+                    rpspec['write_pickle'] = False
+                else:
+                    print "--write_pickle should be [True/False/TRUE/FALSE/true/false]"
+                    sys.exit(2)
+
+        g = GooglemapsAPIMiner(**initspec)
+        g.run_pipeline(**rpspec)

@@ -7,20 +7,35 @@ This document describes the process of mining the Google Maps Directions API usi
 The documentation for the API package is here - https://googlemaps.github.io/google-maps-services-python/docs/2.4.5/
 Some sections of this README are taken from this documentation.
 Two Python files are used for mining: a class file and a utility function file.
-The overall process is as follows:
+The overall process is as follows (3 component functions):
     - take input in the form of a CSV file, detailing the queries to be executed on the Google Maps Directions API
+        read_input_queries(input_filename, verbose=False)
     - sequentially execute queries and store results
+        run_queries()
     - output results of queries in CSV and/or Python pickled object
+        output_results(output_filename=None, write_csv=True, write_pickle=True, get_outputs=None)
+These three functions are wrapped into a pipeline function run_pipeline(...) with arguments:
+    input_filename,
+    output_filename=None,
+    verbose=False,
+    write_csv=True,
+    write_pickle=True
+The pipeline function may also be executed from the command line with the following usage:
+    usage: python googlemaps_api_mining.py -k <api_key_file> -i <input_file>
+            --[queries_per_second, output_filename, write_csv, write_pickle]
+    example: python googlemaps_api_mining.py -k "./api_key.txt" -i "./test_queries.csv"
+                --output_file "./output_test.csv" --write_csv True --write_pickle False
 
 
 INPUT:
 ------------------
 The GooglemapsAPIMiner class will load an input query file using its read_input_queries(filename, verbose=False)
-    function. This file can be assembled using Microsoft Excel and saved as a CSV file. The guidelines for the file
-    format are as follows:
+    function. This file can be assembled using Microsoft Excel and saved as a CSV file. An example Excel file (.xlsx)
+    and the corresponding CSV file are included for reference. The guidelines for the file format are as follows:
 
 The header (first) row of the file defines the parameters (columns) of the queries. Including a parameter does not mean
-    that every query must define a value for it. That being said, there are three required parameters that every
+    that every query must define a value for it. Therefore, it is fine to use a header line with all available
+    parameters, and define only the needed ones. That being said, there are three required parameters that every
     query must define: origin, destination, and mode. Parameters fall into two types: direct and range parameters.
     Range parameters are used to generate a series of queries using the range of values specified; they override their
     corresponding direct parameters if supplied. Quoting is not necessary; all parameters loaded as strings and
