@@ -5,7 +5,7 @@ import csv
 import traceback
 import cPickle
 import os
-from itertools import product
+from itertools import product, chain
 import sys
 import getopt
 from inspect import getargspec
@@ -69,6 +69,8 @@ class GooglemapsAPIMiner:
                 raise IOError("Header contains invalid columns/arguments.")
             self.queries = [{h: v for h, v in zip(self.input_header, row) if v is not None and v != ''}
                             for row in input_reader]
+            self.input_header = list(set(chain(*[tuple(q.keys()) for q in self.queries])))
+            print self.input_header
         assert all(['origin' in q or 'origin_min' in q for q in self.queries]), \
             "Origin point must be supplied for all queries."
         assert all(['destination' in q or 'destination_min' in q for q in self.queries]), \

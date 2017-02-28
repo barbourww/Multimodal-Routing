@@ -96,6 +96,7 @@ Output from the API queries is provided according to the documentation of the AP
     - stores results in full in their object form so that they may be mined in more detail later
 
     CSV:
+    - keeps query values and header (only direct parameters used in a query are kept)
     - looks at each result and gathers basic values (by default: distance, duration, start (X, Y), end (X, Y))
     - can be supplied with 'get_outputs' to output different values from the results
         (format is dict{ column_names: tuple(depth-wise calls to make to each query result lists/dicts to get value)}
