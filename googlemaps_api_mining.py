@@ -69,8 +69,6 @@ class GooglemapsAPIMiner:
                 raise IOError("Header contains invalid columns/arguments.")
             self.queries = [{h: v for h, v in zip(self.input_header, row) if v is not None and v != ''}
                             for row in input_reader]
-            self.input_header = list(set(chain(*[tuple(q.keys()) for q in self.queries])))
-            print self.input_header
         assert all(['origin' in q or 'origin_min' in q for q in self.queries]), \
             "Origin point must be supplied for all queries."
         assert all(['destination' in q or 'destination_min' in q for q in self.queries]), \
@@ -159,6 +157,7 @@ class GooglemapsAPIMiner:
         if verbose:
             for i in self.queries:
                 print i
+        self.input_header = list(set(chain(*[tuple(q.keys()) for q in self.queries])))
         print "Loaded", len(self.queries), "API queries."
         return
 
@@ -194,6 +193,7 @@ class GooglemapsAPIMiner:
 
             # recursive_print(q_result)
             self.results.append(q_result)
+        print "Executed", len(self.results), "queries successfully."
         return
 
     def output_results(self, output_filename=None, write_csv=True, write_pickle=True, get_outputs=None):
