@@ -5,10 +5,10 @@ import csv
 import traceback
 import cPickle
 import os
-import itertools
+from itertools import product
 import sys
 import getopt
-import inspect
+from inspect import getargspec
 
 
 class GooglemapsAPIMiner:
@@ -55,64 +55,75 @@ class GooglemapsAPIMiner:
         :param verbose: T/F to print loaded queries
         :return: None
         """
-        # TODO: more format checking
+        date_rp = (['arrival_time', 'departure_time'], ['_min', '_max', '_delta'])
+        loc_rp = (['origin', 'destination'], ['_min', '_max', '_count', '_arrange'])
+
         with open(input_filename, 'rU') as f:
             input_reader = csv.reader(f, delimiter=',')
             self.input_header = input_reader.next()
-            valid_args = inspect.getargspec(directions)[0]
+            valid_args = getargspec(directions)[0] \
+                         + [va[0] + va[1] for va in product(date_rp[0], date_rp[1])] \
+                         + [va[0] + va[1] for va in product(loc_rp[0], loc_rp[1])]
             if not all([h in valid_args for h in self.input_header]):
                 print "Invalid:", set(self.input_header).difference(set(valid_args))
                 raise IOError("Header contains invalid columns/arguments.")
             self.queries = [{h: v for h, v in zip(self.input_header, row) if v is not None and v != ''}
                             for row in input_reader]
-        assert all(['origin' in q for q in self.queries]), "Origin point must be supplied for all queries."
-        assert all(['destination' in q for q in self.queries]), "Destination point must be supplied for all queries."
+        assert all(['origin' in q or 'origin_min' in q for q in self.queries]), \
+            "Origin point must be supplied for all queries."
+        assert all(['destination' in q or 'destination_min' in q for q in self.queries]), \
+            "Destination point must be supplied for all queries."
         assert all(['mode' in q for q in self.queries]), "Mode must be supplied for all queries."
         self.saved_input_filename = input_filename
 
+        remove_indices = []
         # change range parameters to direct parameters
-        for r in ['arrival_time', 'departure_time']:
-            rs = [r + '_min', r + '_max', r + '_delta']
+        for r in date_rp[0]:
+            rs = [r + suf for suf in date_rp[1]]
             for q in self.queries:
                 if any([ri in q for ri in rs]):
                     if not all([ri in q for ri in rs]):
-                        print "Range param" + r + " needs '_min', '_max', and '_delta'."
+                        print "Range param", r, "needs", date_rp[1]
                         print q
-                        self.queries.__delitem__(self.queries.index(q))
+                        remove_indices.append(self.queries.index(q))
                         continue
                     rmin = dt.datetime.strptime(q[r + '_min'], '%m/%d/%Y %H:%M')
                     rmax = dt.datetime.strptime(q[r + '_max'], '%m/%d/%Y %H:%M')
-                    rdel = dt.timedelta(minutes=q[r + '_delta'])
+                    rdel = dt.timedelta(minutes=int(q[r + '_delta']))
                     i = 0
                     while rmin + i * rdel <= rmax:
                         qn = {}
-                        for k, v in q:
+                        for k, v in q.items():
                             if k not in [r] + rs:
                                 qn[k] = v
                         qn[r] = rmin + i * rdel
                         self.queries.append(qn)
                         i += 1
-                    self.queries.__delitem__(self.queries.index(q))
+                    remove_indices.append(self.queries.index(q))
                 elif r in q:
-                    if q[r].lower() != 'now':
+                    if type(q[r]) is str and q[r].lower() != 'now':
                         try:
                             q[r] = dt.datetime.strptime(q[r], '%m/%d/%Y %H:%M')
                         except ValueError:
                             print "Problem with query format on", r, "('now' not used and couldn't convert to datetime)"
                             print q
-                            self.queries.__delitem__(self.queries.index(q))
-        for r in ['origin', 'destination']:
-            rs = [r + '_min', r + '_max', r + '_divs', r + '_arrange']
+                            remove_indices.append(self.queries.index(q))
+
+        self.queries = [self.queries[j] for j in range(len(self.queries)) if j not in remove_indices]
+        remove_indices = []
+
+        for r in loc_rp[0]:
+            rs = [r + suf for suf in loc_rp[1]]
             for q in self.queries:
                 if any([ri in q for ri in rs]):
                     if not all([ri in q for ri in rs]):
-                        print "Range param" + r + "needs '_min', '_max', '_divs', '_arrange'."
+                        print "Range param", r, "needs", loc_rp[1]
                         print q
-                        self.queries.__delitem__(self.queries.index(q))
+                        remove_indices.append(self.queries.index(q))
                         continue
                     rmin = (float(q[r + '_min'].split(';')[0]), float(q[r + '_min'].split(';')[1]))
                     rmax = (float(q[r + '_max'].split(';')[0]), float(q[r + '_max'].split(';')[1]))
-                    rdiv = (int(q[r + '_divs'].split(';')[0]), int(q[r + '_divs'].split(';')[1]))
+                    rdiv = (int(q[r + '_count'].split(';')[0]), int(q[r + '_count'].split(';')[1]))
                     rarr = q[r + '_arrange']
                     rdel = ((rmax[0] - rmin[0]) / (rdiv[0] - 1), (rmax[1] - rmin[1]) / (rdiv[1] - 1))
                     rvals = ([rmin[0] + i * rdel[0] for i in range(rdiv[0])],
@@ -120,20 +131,20 @@ class GooglemapsAPIMiner:
                     if rarr == 'line':
                         rq = zip(rvals[0], rvals[1])
                     elif rarr == 'grid':
-                        rq = [i for i in itertools.product(rvals[0], rvals[1])]
+                        rq = [i for i in product(rvals[0], rvals[1])]
                     else:
                         print "Invalid arrangement argument. Use 'line' or 'grid'."
                         print q
-                        self.queries.__delitem__(self.queries.index(q))
+                        remove_indices.append(self.queries.index(q))
                         continue
                     for rv in rq:
                         qn = {}
-                        for k, v in q:
+                        for k, v in q.items():
                             if k not in [r] + rs:
                                 qn[k] = v
                         qn[r] = rv
                         self.queries.append(qn)
-                    self.queries.__delitem__(self.queries.index(q))
+                    remove_indices.append(self.queries.index(q))
                 else:
                     if ';' in q[r]:
                         try:
@@ -141,7 +152,8 @@ class GooglemapsAPIMiner:
                         except ValueError:
                             print "Problem with query format on", r, "(';' included but couldn't convert to lat/long)"
                             print q
-                            self.queries.__delitem__(self.queries.index(q))
+                            remove_indices.append(self.queries.index(q))
+        self.queries = [self.queries[j] for j in range(len(self.queries)) if j not in remove_indices]
         if verbose:
             for i in self.queries:
                 print i
@@ -260,61 +272,63 @@ class GooglemapsAPIMiner:
 
 
 if __name__ == '__main__':
-    # key_file = '/Users/wbarbour1/Google Drive/Classes/CEE_418/final_project/googlemaps_api_key.txt'
-    # input_file = './test_queries.csv'
-    # g = GooglemapsAPIMiner(api_key_file=key_file)
-    # g.run_pipeline(input_filename=input_file, verbose=True)
-    if True:
-        usage = """
-        usage: googlemaps_api_mining.py -k <api_key_file> -i <input_file>
-                --[queries_per_second, output_filename, write_csv, write_pickle]
-        example: googlemaps_api_mining.py -k "./api_key.txt" -i "./test_queries.csv" --output_file "./output_test.csv"
-        """
-        arg = sys.argv[1:]
+    if False:
+        key_file = './will_googlemaps_api_key.txt'
+        input_file = './test_queries.csv'
+        g = GooglemapsAPIMiner(api_key_file=key_file)
+        g.read_input_queries(input_filename=input_file, verbose=True)
+        raise KeyboardInterrupt
+        g.run_pipeline(input_filename=input_file, verbose=False)
+    usage = """
+    usage: googlemaps_api_mining.py -k <api_key_file> -i <input_file>
+            --[queries_per_second, output_filename, write_csv, write_pickle]
+    ex: python googlemaps_api_mining.py -k "./api_key.txt" -i "./test_queries.csv" --output_file "./output_test.csv"
+    """
+    arg = sys.argv[1:]
 
-        initargs = inspect.getargspec(GooglemapsAPIMiner.__init__)
-        req = zip(initargs.args[1:-len(initargs.defaults)], [None]*len(initargs.args[1:-len(initargs.defaults)]))
-        initspec = {k: v for k, v in req + zip(initargs.args[-len(initargs.defaults):], initargs.defaults)}
-        rpargs = inspect.getargspec(GooglemapsAPIMiner.run_pipeline)
-        req = zip(rpargs.args[1:-len(rpargs.defaults)], [None]*len(rpargs.args[1:-len(rpargs.defaults)]))
-        rpspec = {k: v for k, v in req + zip(rpargs.args[-len(rpargs.defaults):], rpargs.defaults)}
+    initargs = getargspec(GooglemapsAPIMiner.__init__)
+    req = zip(initargs.args[1:-len(initargs.defaults)], [None]*len(initargs.args[1:-len(initargs.defaults)]))
+    initspec = {k: v for k, v in req + zip(initargs.args[-len(initargs.defaults):], initargs.defaults)}
+    rpargs = getargspec(GooglemapsAPIMiner.run_pipeline)
+    req = zip(rpargs.args[1:-len(rpargs.defaults)], [None]*len(rpargs.args[1:-len(rpargs.defaults)]))
+    rpspec = {k: v for k, v in req + zip(rpargs.args[-len(rpargs.defaults):], rpargs.defaults)}
 
-        try:
-            opts, args = getopt.getopt(arg, "hk:i:", ["queries_per_second=", "output_filename=",
-                                                      "write_csv=", "write_pickle="])
-        except getopt.GetoptError:
+    try:
+        opts, args = getopt.getopt(arg, "hk:i:", ["queries_per_second=", "output_filename=",
+                                                  "write_csv=", "write_pickle="])
+    except getopt.GetoptError:
+        print usage
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
             print usage
-            sys.exit(2)
-        for opt, arg in opts:
-            if opt == '-h':
-                print usage
-                sys.exit()
+            sys.exit()
 
-            elif opt in ("-k", "--api_key_file"):
-                initspec['api_key_file'] = arg
-            elif opt == "--queries_per_second":
-                initspec['queries_per_second'] = int(arg)
+        elif opt in ("-k", "--api_key_file"):
+            initspec['api_key_file'] = arg
+        elif opt == "--queries_per_second":
+            initspec['queries_per_second'] = int(arg)
 
-            elif opt in ("-i", "--input_filename"):
-                rpspec['input_filename'] = arg
-            elif opt == "--output_filename":
-                rpspec['output_filename'] = arg
-            elif opt == "--write_csv":
-                if arg.lower() == 'true':
-                    rpspec['write_csv'] = True
-                elif arg.lower() == 'false':
-                    rpspec['write_csv'] = False
-                else:
-                    print "--write_csv should be [True/False/TRUE/FALSE/true/false]"
-                    sys.exit(2)
-            elif opt == "--write_pickle":
-                if arg.lower() == 'true':
-                    rpspec['write_pickle'] = True
-                elif arg.lower() == 'false':
-                    rpspec['write_pickle'] = False
-                else:
-                    print "--write_pickle should be [True/False/TRUE/FALSE/true/false]"
-                    sys.exit(2)
+        elif opt in ("-i", "--input_filename"):
+            rpspec['input_filename'] = arg
+        elif opt == "--output_filename":
+            rpspec['output_filename'] = arg
+        elif opt == "--write_csv":
+            if arg.lower() == 'true':
+                rpspec['write_csv'] = True
+            elif arg.lower() == 'false':
+                rpspec['write_csv'] = False
+            else:
+                print "--write_csv should be [True/False/TRUE/FALSE/true/false]"
+                sys.exit(2)
+        elif opt == "--write_pickle":
+            if arg.lower() == 'true':
+                rpspec['write_pickle'] = True
+            elif arg.lower() == 'false':
+                rpspec['write_pickle'] = False
+            else:
+                print "--write_pickle should be [True/False/TRUE/FALSE/true/false]"
+                sys.exit(2)
 
-        g = GooglemapsAPIMiner(**initspec)
-        g.run_pipeline(**rpspec)
+    g = GooglemapsAPIMiner(**initspec)
+    g.run_pipeline(**rpspec)

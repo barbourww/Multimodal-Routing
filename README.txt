@@ -30,16 +30,18 @@ The pipeline function may also be executed from the command line with the follow
 INPUT:
 ------------------
 The GooglemapsAPIMiner class will load an input query file using its read_input_queries(filename, verbose=False)
-    function. This file can be assembled using Microsoft Excel and saved as a CSV file. An example Excel file (.xlsx)
-    and the corresponding CSV file are included for reference. The guidelines for the file format are as follows:
+    function. This file can be assembled using Microsoft Excel and saved as a CSV file. An example file and the
+    corresponding is included for reference. Ensure that no cells contain commas, as Excel saves CSV files with comma
+    delimiters. Additionally, the entire sheet may need to be formatted as text in order to avoid the correction of
+    exact date strings into Excel's date format. The guidelines for the file format are as follows:
 
 The header (first) row of the file defines the parameters (columns) of the queries. Including a parameter does not mean
     that every query must define a value for it. Therefore, it is fine to use a header line with all available
     parameters, and define only the needed ones. That being said, there are three required parameters that every
     query must define: origin, destination, and mode. Parameters fall into two types: direct and range parameters.
     Range parameters are used to generate a series of queries using the range of values specified; they override their
-    corresponding direct parameters if supplied. Quoting is not necessary; all parameters loaded as strings and
-    converted as necessary.
+    corresponding direct parameters if supplied. Multiple range parameters may be combined per line. Quoting is not
+    necessary; all parameters loaded as strings and converted as necessary.
 
     Direct parameters:
     > origin (string, ;-separated floats) – address or lat/long value from which you wish to calculate directions
@@ -51,8 +53,8 @@ The header (first) row of the file defines the parameters (columns) of the queri
     > avoid (list or string) – indicates that the calculated route(s) should avoid the indicated features
         [tolls, highways, ferries, indoor]
     > units (string) – Specifies the unit system to use when displaying results [metric, imperial]
-    > departure_time (string format "MM/DD/YYYY hh:mm" or "now") – desired time of departure
-    > arrival_time (string format "MM/DD/YYYY hh:mm" or "now") – desired time of arrival
+    > departure_time (string format "MM/DD/YYYY hh:mm" or "now") – desired time of departure (must be now or in future)
+    > arrival_time (string format "MM/DD/YYYY hh:mm" or "now") – desired time of arrival (must be now or in future)
         Note: may not specify both departure_time and arrival_time
     > optimize_waypoints (bool) – optimize route by reordering waypoints [true, false, t, f, TRUE, FALSE]
     > transit_mode (string, ;-delimited strings) – one or more preferred modes of transit ('mode' must be 'transit')
@@ -72,7 +74,7 @@ The header (first) row of the file defines the parameters (columns) of the queri
         >> departure_time_delta (integer number of minutes)
     > origin [must be lat/long] (origin_min, origin_max, origin_divs, origin_arrange)
         >> origin_min - ;-separated floats for lat/long
-        >> origin_max - ;-separated floats for lat/long
+        >> origin_max - ;-separated floats for lat/long (defines coordinates of opposite corner of grid/line)
         >> origin_divs - ;-separated integers for number of points including _min and _max to generate on lat/long
         >> origin_arrange - [line, grid] for incrementing lat/long simultaneously (line) or independently (grid)
     > destination [must be in lat/long] (destination_min, destination_max, destination_divs, destination_arrange)
