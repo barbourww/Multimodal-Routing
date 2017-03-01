@@ -25,6 +25,7 @@ The pipeline function may also be executed from the command line with the follow
             --[queries_per_second, output_filename, write_csv, write_pickle]
     example: python googlemaps_api_mining.py -k "./api_key.txt" -i "./test_queries.csv"
                 --output_file "./output_test.csv" --write_csv True --write_pickle False
+    note: it is advised that the query input filename be given as an absolute path
 
 
 INPUT:
