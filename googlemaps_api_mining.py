@@ -59,7 +59,7 @@ class GooglemapsAPIMiner:
         loc_rp = (['origin', 'destination'], ['_min', '_max', '_count', '_arrange'])
 
         with open(input_filename, 'rU') as f:
-            input_reader = csv.reader(f, delimiter=',')
+            input_reader = csv.reader(f, delimiter=',', quotechar='"')
             self.input_header = input_reader.next()
             valid_args = getargspec(directions)[0] \
                          + [va[0] + va[1] for va in product(date_rp[0], date_rp[1])] \
@@ -68,7 +68,7 @@ class GooglemapsAPIMiner:
                 print "Invalid:", set(self.input_header).difference(set(valid_args))
                 raise IOError("Header contains invalid columns/arguments.")
             self.queries = [{h: v for h, v in zip(self.input_header, row) if v is not None and v != ''}
-                            for row in input_reader]
+                            for row in input_reader if not row[0].startswith('#')]
         assert all(['origin' in q or 'origin_min' in q for q in self.queries]), \
             "Origin point must be supplied for all queries."
         assert all(['destination' in q or 'destination_min' in q for q in self.queries]), \
