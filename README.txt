@@ -2,6 +2,7 @@ README.txt for googlemaps_api_miner.py
 Language: Python 2.7
 Author: William Barbour
 Date: 02/22/2017
+Revised: 03/06/2017
 
 This document describes the process of mining the Google Maps Directions API using the Python API package, googlemaps.
 The documentation for the API package is here - https://googlemaps.github.io/google-maps-services-python/docs/2.4.5/
@@ -22,13 +23,21 @@ These three functions are wrapped into a pipeline function run_pipeline(...) wit
     write_pickle=True
 The pipeline function may also be executed from the command line with the following usage:
     usage: python googlemaps_api_mining.py -k <api_key_file> -i <input_file>
-            --[execute_in_time, queries_per_second, output_filename, write_csv, write_pickle]
+            --[execute_in_time, queries_per_second, output_filename, write_csv, write_pickle, parallel_input_files]
     example: python googlemaps_api_mining.py -k "./api_key.txt" -i "./test_queries.csv"
                 --output_file "./output_test.csv" --write_csv True --write_pickle False
-    note: it is advised that the query input filename be given as an absolute path
+    note: it is advised that the query input filenames be given as an absolute path
+    note: using --parallel_input_files overrides output_filename and other parameters will be used for all tasks
+    note: to check number of allowable parallel processes use... googlemaps_api_mining.py -c
 This package also provides the ability to execute queries on the API at the time for which they are indicated in the
     future. This functionality is useful in acquiring real time data, which is more accurate than the predicted values
     that Google will provide. Use the execute_in_time option in the class __init__ or the command line call.
+After the implementation of execute_in_time option, it was observed that a method was needed to run multiple of these
+    query batches simultaneously. Since the process relies heavily on waiting appropriate amounts of time, the processes
+    needed to be spread across functional CPU cores and not pooled as threads (see Global Interpreter Lock). This mining
+     program uses Python's Multiprocessing library and asynchronous pooling to achieve this. To use, perform a command
+     line call with one input via -i and additional inputs via --parallel_input_files ("-enclosed string of |-delimited
+     filenames). Also use the -c option (with no others) for information of the current systems parallel capabilities.
 
 
 INPUT:

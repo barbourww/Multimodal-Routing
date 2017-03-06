@@ -9,6 +9,8 @@ from itertools import product, chain
 import sys
 import getopt
 from inspect import getargspec
+import multiprocessing
+from copy import copy
 
 
 class GooglemapsAPIMiner:
@@ -333,6 +335,28 @@ class GooglemapsAPIMiner:
         return
 
 
+def parallel_run_pipeline(self, all_args):
+    """
+
+    :param self:
+    :param all_args:
+    :return:
+    """
+    try:
+        pipeline_args = all_args['pipeline_args']
+        init_args = all_args['init_args']
+        print "Beginning execution of input %s with PID %d." % (pipeline_args['input_file'], os.getpid())
+        GooglemapsAPIMiner(**init_args).run_pipeline(**pipeline_args)
+        print "Execution of input %s with PID %d was successful." % (pipeline_args['input_file'], os.getpid())
+        return "Success"
+    except KeyboardInterrupt:
+        pass
+    except BaseException as e:
+        print "Exception raised on PID %d..." % os.getpid()
+        print type(e), e.message
+        return "Failure"
+
+
 if __name__ == '__main__':
     if True:
         key_file = './will_googlemaps_api_key.txt'
@@ -343,9 +367,12 @@ if __name__ == '__main__':
         g.run_pipeline(input_filename=input_file, verbose_input=True, verbose_execute=True)
         sys.exit(0)
     usage = """
-    usage: googlemaps_api_mining.py -k <api_key_file> -i <input_file>
-            --[execute_in_time, queries_per_second, output_filename, write_csv, write_pickle]
+    usage: googlemaps_api_mining.py -k <api_key_file> -i <input_filename>
+            --[execute_in_time, queries_per_second, output_filename, write_csv, write_pickle, parallel_input_files]
     ex: python googlemaps_api_mining.py -k "./api_key.txt" -i "./test_queries.csv" --output_file "./output_test.csv"
+    note: it is advised that the query input filenames be given as an absolute path
+    note: using --parallel_input_files overrides output_filename and other parameters will be used for all tasks
+    note: to check number of allowable parallel processes use... googlemaps_api_mining.py -c
     """
     arg = sys.argv[1:]
 
@@ -355,19 +382,26 @@ if __name__ == '__main__':
     rpargs = getargspec(GooglemapsAPIMiner.run_pipeline)
     req = zip(rpargs.args[1:-len(rpargs.defaults)], [None]*len(rpargs.args[1:-len(rpargs.defaults)]))
     rpspec = {k: v for k, v in req + zip(rpargs.args[-len(rpargs.defaults):], rpargs.defaults)}
+    add_inputs = []
 
     try:
-        opts, args = getopt.getopt(arg, "hk:i:", ["queries_per_second=", "output_filename=",
-                                                  "write_csv=", "write_pickle="])
+        opts, args = getopt.getopt(arg, "hck:i:", ["execute_in_time", "queries_per_second=", "output_filename=",
+                                                   "write_csv=", "write_pickle=", "parallel_input_files"])
     except getopt.GetoptError:
         print usage
         sys.exit(2)
     for opt, arg in opts:
-        if opt == '-h':
+        if opt == "-h":
             print usage
-            sys.exit()
+            sys.exit(0)
+        elif opt == "-c":
+            print "This system can safely execute %i mining processes in parallel." % multiprocessing.cpu_count()
+            print "Provide one input file using -i and %i more with --parallel_input_files option, '|'-delimited." % \
+                  (multiprocessing.cpu_count() - 1)
+            sys.exit(0)
 
-        elif opt in ("-k", "--api_key_file"):
+        # Initialization arguments
+        elif opt == "-k":
             initspec['api_key_file'] = arg
         elif opt == "--queries_per_second":
             initspec['queries_per_second'] = int(arg)
@@ -378,8 +412,10 @@ if __name__ == '__main__':
                 initspec['execute_in_time'] = False
             else:
                 print "--execute_in_time should be [True/False/TRUE/FALSE/true/false]"
+                sys.exit(2)
 
-        elif opt in ("-i", "--input_filename"):
+        # Pipeline arguments
+        elif opt == "-i":
             rpspec['input_filename'] = arg
         elif opt == "--output_filename":
             rpspec['output_filename'] = arg
@@ -400,5 +436,33 @@ if __name__ == '__main__':
                 print "--write_pickle should be [True/False/TRUE/FALSE/true/false]"
                 sys.exit(2)
 
-    g = GooglemapsAPIMiner(**initspec)
-    g.run_pipeline(**rpspec)
+        elif opt == "--parallel_input_files":
+            add_inputs = arg.split('|')
+            # With the addition of the other input supplied by -i, the input file count must not exceed CPU cores.
+            assert (len(add_inputs) + 1) <= multiprocessing.cpu_count(), \
+                "Exceeded number of allowable processes. Use -c for info on processor availability."
+
+    if add_inputs:
+        # Assemble full list of inputs. Then 'input_filename' in rpspec can be overwritten.
+        add_inputs.append(copy(rpspec['input_filename']))
+        # Need copies of pipeline argument spec with appropriate input filenames.
+        pipes = []
+        for ai in add_inputs:
+            rpspec['input_filename'] = ai
+            pipes.append(copy(rpspec))
+
+        pool = multiprocessing.Pool(multiprocessing.cpu_count())
+        p = pool.map_async(parallel_run_pipeline, [{'init_args': initspec, 'pipeline_args': p} for p in pipes])
+        try:
+            # Timeout set at approximately 12 days.
+            results = p.get(0xFFFFF)
+        except KeyboardInterrupt:
+            print 'Multiprocessing got KeyboardInterrupt. Terminating...'
+            sys.exit(1)
+
+        print "Parallel execution results:"
+        for r in results:
+            print r
+    else:
+        g = GooglemapsAPIMiner(**initspec)
+        g.run_pipeline(**rpspec)

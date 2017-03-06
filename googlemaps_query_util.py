@@ -1,6 +1,7 @@
 import pytz
 import traceback
 import time
+import multiprocessing, os
 
 tzmap = {'p': 'US/Pacific', 'pst': 'US/Pacific', 'pdt': 'US/Pacific',
          'pacific': 'US/Pacific', 'us/pacific': 'US/Pacific',
@@ -57,3 +58,42 @@ def localize_to_query_tz(time_in_query, timezone_in_query):
 
 def convert_to_my_timezone(local_time_from_query):
     return local_time_from_query.astimezone(mytz)
+
+
+# Multiprocessing testing
+# - had to figure out how to handle KeyboardInterrupt at parent level since execution will be long
+# - also worked out a way to pass a single argument to child function (use dictionary)
+def do_work(o):
+    try:
+        print "Started %d %s" % (os.getpid(), str(o))
+        time.sleep(5)
+        with open(str(o['o'])+'.txt', 'w') as f:
+            f.write('Success')
+        if o['o'] == 3:
+            raise ValueError("Value 3")
+        return 'Success'
+    except KeyboardInterrupt:
+        pass
+    except BaseException as e:
+        print "got an exception"
+        print type(e)
+        print e.__doc__
+        print e.message
+        pass
+
+
+def main():
+    pool = multiprocessing.Pool(4)
+    p = pool.map_async(do_work, [{'a': 1, 'o': i} for i in range(8)])
+    try:
+        results = p.get(0xFFFFF)
+    except KeyboardInterrupt:
+        print 'Parent got KeyboardInterrupt'
+        return
+
+    for i in results:
+        print i
+
+
+if __name__ == '__main__':
+    main()
