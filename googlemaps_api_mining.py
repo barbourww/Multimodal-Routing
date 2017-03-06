@@ -16,17 +16,19 @@ class GooglemapsAPIMiner:
     Full execution class to call Google Maps Python API (googlemaps) using an input query list and outputting results
         in the form of CSV and Python pickle objects.
     """
-    def __init__(self, api_key_file, queries_per_second=10):
+    def __init__(self, api_key_file, execute_in_time=False, queries_per_second=10):
         """
         Initialize API miner with API key to the Google Maps service. Create empty class variables for reading input
             and executing queries.
         :param api_key_file: absolute or relative path to the text file storing the Google Maps API key
+        :param execute_in_time: wait until the departure time indicated to execute the query as departure_time='now'
         :param queries_per_second: limit sent to googlemaps module (default = 10 q/s), can also be changed with delay
             parameter in run_queries() function
         :return: None
         """
-        mykey = open(api_key_file).read()
+        mykey = open(api_key_file, 'r').read()
         self.gmaps = googlemaps.Client(key=mykey, queries_per_second=queries_per_second)
+        self.execute_in_time = execute_in_time
         self.results = []
         self.queries = None
         self.input_header = None
@@ -55,13 +57,14 @@ class GooglemapsAPIMiner:
         :param verbose: T/F to print loaded queries
         :return: None
         """
+        # Valid range parameters
         date_rp = (['arrival_time', 'departure_time'], ['_min', '_max', '_delta'])
         loc_rp = (['origin', 'destination'], ['_min', '_max', '_count', '_arrange'])
 
         with open(input_filename, 'rU') as f:
             input_reader = csv.reader(f, delimiter=',', quotechar='"')
             self.input_header = input_reader.next()
-            valid_args = getargspec(directions)[0] \
+            valid_args = getargspec(googlemaps.directions.directions)[0] + ['timezone'] \
                          + [va[0] + va[1] for va in product(date_rp[0], date_rp[1])] \
                          + [va[0] + va[1] for va in product(loc_rp[0], loc_rp[1])]
             if not all([h in valid_args for h in self.input_header]):
@@ -74,10 +77,19 @@ class GooglemapsAPIMiner:
         assert all(['destination' in q or 'destination_min' in q for q in self.queries]), \
             "Destination point must be supplied for all queries."
         assert all(['mode' in q for q in self.queries]), "Mode must be supplied for all queries."
+        assert all(['timezone' in q for q in self.queries]), "Timezone must be supplied for all queries."
+
+        # Keep input filename in case output filename goes to default (input filename + '_output').
         self.saved_input_filename = input_filename
 
+        # Parse out '|'-delimited waypoints, if supplied.
+        for q in self.queries:
+            if 'waypoints' in q:
+                q['waypoints'] = q['waypoints'].split('|')
+
+        # Track the list indices of queries with range parameters for removal later.
         remove_indices = []
-        # change range parameters to direct parameters
+        # Change range parameters to direct parameters.
         for r in date_rp[0]:
             rs = [r + suf for suf in date_rp[1]]
             for q in self.queries:
@@ -87,8 +99,25 @@ class GooglemapsAPIMiner:
                         print q
                         remove_indices.append(self.queries.index(q))
                         continue
-                    rmin = dt.datetime.strptime(q[r + '_min'], '%m/%d/%Y %H:%M')
-                    rmax = dt.datetime.strptime(q[r + '_max'], '%m/%d/%Y %H:%M')
+
+                    try:
+                        rmin = dt.datetime.strptime(q[r + '_min'], '%m/%d/%Y %H:%M')
+                    except ValueError:
+                        print "Problem with query format on", r+'_min', "(couldn't convert to datetime)."
+                        print q
+                        remove_indices.append(self.queries.index(q))
+                        continue
+                    assert rmin > dt.datetime.now(), "Departure/Arrival times must be in future."
+
+                    try:
+                        rmax = dt.datetime.strptime(q[r + '_max'], '%m/%d/%Y %H:%M')
+                    except ValueError:
+                        print "Problem with query format on", r+'_max', "(couldn't convert to datetime)."
+                        print q
+                        remove_indices.append(self.queries.index(q))
+                        continue
+                    assert rmax > rmin, "Max time is not greater than min time."
+
                     rdel = dt.timedelta(minutes=int(q[r + '_delta']))
                     i = 0
                     while rmin + i * rdel <= rmax:
@@ -108,9 +137,17 @@ class GooglemapsAPIMiner:
                             print "Problem with query format on", r, "('now' not used and couldn't convert to datetime)"
                             print q
                             remove_indices.append(self.queries.index(q))
-
-        self.queries = [self.queries[j] for j in range(len(self.queries)) if j not in remove_indices]
+        # Remove queries that contained range parameters.
+        if remove_indices:
+            self.queries = [self.queries[j] for j in range(len(self.queries)) if j not in remove_indices]
         remove_indices = []
+
+        for q in self.queries:
+            qtz = q['timezone']
+            for r in date_rp[0] + [ri[0] + ri[1] for ri in product(date_rp[0], date_rp[1])]:
+                if r in q and q[r].lower() != 'now':
+                    q[r] = convert_to_my_timezone(localize_to_query_tz(time_in_query=q[r], timezone_in_query=qtz))
+            q.__delitem__('timezone')
 
         for r in loc_rp[0]:
             rs = [r + suf for suf in loc_rp[1]]
@@ -153,17 +190,27 @@ class GooglemapsAPIMiner:
                             print "Problem with query format on", r, "(';' included but couldn't convert to lat/long)"
                             print q
                             remove_indices.append(self.queries.index(q))
-        self.queries = [self.queries[j] for j in range(len(self.queries)) if j not in remove_indices]
+        # Remove queries that contained range parameters.
+        if remove_indices:
+            self.queries = [self.queries[j] for j in range(len(self.queries)) if j not in remove_indices]
+
         if verbose:
             for i in self.queries:
                 print i
+
+        # Redefine input header to remove columns that are unused or no longer needed (e.g., range parameters)
+        # This will be used later in output files.
         self.input_header = list(set(chain(*[tuple(q.keys()) for q in self.queries])))
+        # Sort queries for execution in order.
+        if self.execute_in_time:
+            self.queries.sort(key=lambda x: x['departure_time'])
         print "Loaded", len(self.queries), "API queries."
         return
 
-    def run_queries(self):
+    def run_queries(self, verbose=False):
         """
         Sequentially executes previously-loaded queries.
+        :param verbose: runs recursive print (for legible indention) on each query result
         :return: None
         """
         for q in self.queries:
@@ -184,14 +231,25 @@ class GooglemapsAPIMiner:
                 else:
                     raise ValueError("Invalid type for parameter 'arrival_time'.")
 
+            if self.execute_in_time:
+                # All queries were checked that they were in the future during ingestion, but if queries multiple
+                #   were given the same departure_time, then time.sleep() would be for negative number of seconds.
+                # Therefore, just skip sleeping.
+                if q['departure_time'] > dt.datetime.now():
+                    print "Waiting for next query at", q['departure_time'].strftime("%m/%d/%Y %H:%M")
+                    time.sleep((q['departure_time'] - dt.datetime.now()).total_seconds())
+                # Put in the exact current time for precision as indicated by googlemaps package documentation.
+                q['departure_time'] = dt.datetime.now()
+
             try:
                 q_result = self.gmaps.directions(**q)
             except (googlemaps.exceptions.ApiError, googlemaps.exceptions.HTTPError,
                     googlemaps.exceptions.Timeout, googlemaps.exceptions.TransportError):
                 traceback.print_exc()
                 continue
-
-            # recursive_print(q_result)
+            if verbose:
+                recursive_print(q_result)
+                print '\n\n'
             self.results.append(q_result)
         print "Executed", len(self.results), "queries successfully."
         return
@@ -232,7 +290,7 @@ class GooglemapsAPIMiner:
                     outputs = get_outputs
                 else:
                     outputs = {'distance': (0, 'legs', 0, 'distance', 'text'),
-                               'duration': (0, 'legs', 0, 'duration', 'text'),
+                               'duration': (0, 'legs', 0, 'duration_in_traffic', 'text'),
                                'start_x': (0, 'legs', 0, 'start_location', 'lng'),
                                'start_y': (0, 'legs', 0, 'start_location', 'lat'),
                                'end_x': (0, 'legs', 0, 'end_location', 'lng'),
@@ -257,33 +315,36 @@ class GooglemapsAPIMiner:
                         cPickle.dump(self.results, f)
         return
 
-    def run_pipeline(self, input_filename, output_filename=None, verbose=False, write_csv=True, write_pickle=True):
+    def run_pipeline(self, input_filename, output_filename=None, verbose_input=False, verbose_execute=False,
+                     write_csv=True, write_pickle=True):
         """
         Executes read_input_queries(...), run_queries(...), and output_results(...) with their relevant parameters
         :param input_filename: absolute or relative path for input file (will be saved for possible use in output)
         :param output_filename: (optional) override 'output_' + input_filename for output files
-        :param verbose: T/F to print loaded queries
+        :param verbose_input: T/F to print loaded queries
+        :param verbose_execute: T/F to print executed query results
         :param write_csv: write output as CSV file (distance, duration, start(x, y), end(x, y))
         :param write_pickle: write results to pickle file, full query returns in list
         :return: None
         """
-        self.read_input_queries(input_filename=input_filename, verbose=verbose)
-        self.run_queries()
+        self.read_input_queries(input_filename=input_filename, verbose=verbose_input)
+        self.run_queries(verbose=verbose_execute)
         self.output_results(output_filename=output_filename, write_csv=write_csv, write_pickle=write_pickle)
         return
 
 
 if __name__ == '__main__':
-    if False:
+    if True:
         key_file = './will_googlemaps_api_key.txt'
         input_file = './test_queries.csv'
         g = GooglemapsAPIMiner(api_key_file=key_file)
-        g.read_input_queries(input_filename=input_file, verbose=True)
-        raise KeyboardInterrupt
-        g.run_pipeline(input_filename=input_file, verbose=False)
+        #g.read_input_queries(input_filename=input_file, verbose=True)
+        #raise KeyboardInterrupt
+        g.run_pipeline(input_filename=input_file, verbose_input=True, verbose_execute=True)
+        sys.exit(0)
     usage = """
     usage: googlemaps_api_mining.py -k <api_key_file> -i <input_file>
-            --[queries_per_second, output_filename, write_csv, write_pickle]
+            --[execute_in_time, queries_per_second, output_filename, write_csv, write_pickle]
     ex: python googlemaps_api_mining.py -k "./api_key.txt" -i "./test_queries.csv" --output_file "./output_test.csv"
     """
     arg = sys.argv[1:]
@@ -310,6 +371,13 @@ if __name__ == '__main__':
             initspec['api_key_file'] = arg
         elif opt == "--queries_per_second":
             initspec['queries_per_second'] = int(arg)
+        elif opt == "--execute_in_time":
+            if arg.lower() == 'true':
+                initspec['execute_in_time'] = True
+            elif arg.lower() == 'false':
+                initspec['execute_in_time'] = False
+            else:
+                print "--execute_in_time should be [True/False/TRUE/FALSE/true/false]"
 
         elif opt in ("-i", "--input_filename"):
             rpspec['input_filename'] = arg

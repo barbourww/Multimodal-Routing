@@ -5,7 +5,7 @@ Date: 02/22/2017
 
 This document describes the process of mining the Google Maps Directions API using the Python API package, googlemaps.
 The documentation for the API package is here - https://googlemaps.github.io/google-maps-services-python/docs/2.4.5/
-Some sections of this README are taken from this documentation.
+Some sections of this README are taken from that documentation.
 Two Python files are used for mining: a class file and a utility function file.
 The overall process is as follows (3 component functions):
     - take input in the form of a CSV file, detailing the queries to be executed on the Google Maps Directions API
@@ -22,10 +22,13 @@ These three functions are wrapped into a pipeline function run_pipeline(...) wit
     write_pickle=True
 The pipeline function may also be executed from the command line with the following usage:
     usage: python googlemaps_api_mining.py -k <api_key_file> -i <input_file>
-            --[queries_per_second, output_filename, write_csv, write_pickle]
+            --[execute_in_time, queries_per_second, output_filename, write_csv, write_pickle]
     example: python googlemaps_api_mining.py -k "./api_key.txt" -i "./test_queries.csv"
                 --output_file "./output_test.csv" --write_csv True --write_pickle False
     note: it is advised that the query input filename be given as an absolute path
+This package also provides the ability to execute queries on the API at the time for which they are indicated in the
+    future. This functionality is useful in acquiring real time data, which is more accurate than the predicted values
+    that Google will provide. Use the execute_in_time option in the class __init__ or the command line call.
 
 
 INPUT:
@@ -45,9 +48,12 @@ The header (first) row of the file defines the parameters (columns) of the queri
     necessary; all parameters loaded as strings and converted as necessary.
 
     Direct parameters:
+    (required...)
     > origin (string, ;-separated floats) – address or lat/long value from which you wish to calculate directions
     > destination (string, ;-separated floats) – address or lat/long value to which you wish to calculate directions
     > mode (string) – mode of transport for calculating directions [driving, walking, bicycling, transit]
+    > timezone (string) - timezone corresponding to the departure or arrival time (e.g., pacific, eastern, etc.)
+    (optional...)
     > waypoints (string or ;-separated floats, |-delimited if multiple) –
         specifies an array of waypoints which alter a route by calculating it through the specified location(s)
     > alternatives (bool) – if True, more than one route may be returned in response [true, false, t, f, TRUE, FALSE]

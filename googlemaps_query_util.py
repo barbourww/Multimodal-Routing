@@ -1,7 +1,16 @@
-import csv
-from googlemaps.directions import directions
-import inspect
+import pytz
 import traceback
+import time
+
+tzmap = {'p': 'US/Pacific', 'pst': 'US/Pacific', 'pdt': 'US/Pacific',
+         'pacific': 'US/Pacific', 'us/pacific': 'US/Pacific',
+         'm': 'US/Mountain', 'mst': 'US/Mountain', 'mdt': 'US/Mountain',
+         'mountain': 'US/Mountain', 'us/mountain': 'US/Mountain',
+         'c': 'US/Central', 'cst': 'US/Central', 'cdt': 'US/Central',
+         'central': 'US/Central', 'us/central': 'US/Central',
+         'e': 'US/Eastern', 'est': 'US/Eastern', 'edt': 'US/Eastern',
+         'eastern': 'US/Eastern', 'us/eastern': 'US/Eastern'}
+mytz = pytz.timezone(tzmap[time.tzname[0].lower()])
 
 
 def recursive_print(obj, depth=0):
@@ -39,3 +48,12 @@ def recursive_get(obj, gets):
             traceback.print_exc()
     else:
         return obj.__getitem__(gets[0])
+
+
+def localize_to_query_tz(time_in_query, timezone_in_query):
+    query_tz = pytz.timezone(tzmap[timezone_in_query.lower()])
+    return query_tz.localize(time_in_query)
+
+
+def convert_to_my_timezone(local_time_from_query):
+    return local_time_from_query.astimezone(mytz)
