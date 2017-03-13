@@ -1,0 +1,1 @@
+python googlemaps_api_mining.py -k "./will_googlemaps_api_key.txt" -i "/Users/wbarbour1/Documents/Lab/multimodal_routing/multi1.csv" --parallel_input_files "/Users/wbarbour1/Documents/Lab/multimodal_routing/multi2.csv|/Users/wbarbour1/Documents/Lab/multimodal_routing/multi3.csv|/Users/wbarbour1/Documents/Lab/multimodal_routing/multi4.csv" --execute_in_time True
