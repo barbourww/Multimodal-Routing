@@ -216,32 +216,26 @@ class GooglemapsAPIMiner:
         :return: None
         """
         for q in self.queries:
-            if 'departure_time' in q:
-                # q['departure_time'] should have already been converted to dt.datetime unless it is 'now'
-                if type(q['departure_time']) is str and q['departure_time'].lower() == 'now':
-                    q['departure_time'] = dt.datetime.now()
-                elif type(q['departure_time']) is dt.datetime:
-                    pass
-                else:
-                    raise ValueError("Invalid type for parameter 'departure_time'.")
-            if 'arrival_time' in q:
-                # q['arrival_time'] should have already been converted to dt.datetime unless it is 'now'
-                if type(q['arrival_time']) is str and q['arrival_time'].lower() == 'now':
-                    q['arrival_time'] = dt.datetime.now()
-                elif type(q['arrival_time']) is dt.datetime:
-                    pass
-                else:
-                    raise ValueError("Invalid type for parameter 'arrival_time'.")
+            for tt in ('departure_time', 'arrival_time'):
+                if tt in q:
+                    # q[tt] should have already been converted to dt.datetime unless it is 'now'
+                    if type(q[tt]) is str and q[tt].lower() == 'now':
+                        q[tt] = dt.datetime.now()
+                    elif type(q[tt]) is dt.datetime:
+                        pass
+                    else:
+                        raise ValueError("Invalid type for parameter '%s'." % tt)
 
             if self.execute_in_time:
                 # All queries were checked that they were in the future during ingestion, but if queries multiple
                 #   were given the same departure_time, then time.sleep() would be for negative number of seconds.
-                # Therefore, just skip sleeping.
+                # Therefore, just skip sleeping and execute at 'now'.
                 if q['departure_time'] > dt.datetime.now():
                     print "Waiting for next query at", q['departure_time'].strftime("%m/%d/%Y %H:%M")
                     time.sleep((q['departure_time'] - dt.datetime.now()).total_seconds())
                 # Put in the exact current time for precision as indicated by googlemaps package documentation.
                 q['departure_time'] = dt.datetime.now()
+                print "Executing now (%s)." % q['departure_time'].strftime("%m/%d/%Y %H:%M")
 
             try:
                 q_result = self.gmaps.directions(**q)
