@@ -147,8 +147,8 @@ class GooglemapsAPIMiner:
         for q in self.queries:
             qtz = q['timezone']
             for r in date_rp[0] + [ri[0] + ri[1] for ri in product(date_rp[0], date_rp[1])]:
-                if r in q and q[r].lower() != 'now':
-                    q[r] = convert_to_my_timezone(localize_to_query_tz(time_in_query=q[r], timezone_in_query=qtz))
+                if r in q and type(q[r]) is dt.datetime:
+                    q[r] = convert_to_my_timezone(localize_to_query_timezone(time_in_query=q[r], timezone_in_query=qtz))
             q.__delitem__('timezone')
 
         for r in loc_rp[0]:
@@ -230,9 +230,13 @@ class GooglemapsAPIMiner:
                 # All queries were checked that they were in the future during ingestion, but if queries multiple
                 #   were given the same departure_time, then time.sleep() would be for negative number of seconds.
                 # Therefore, just skip sleeping and execute at 'now'.
-                if q['departure_time'] > dt.datetime.now():
+                print "Query departure_time:", q['departure_time']
+                print "Now:", localize_to_my_timezone(dt.datetime.now())
+                t = q['departure_time'] - localize_to_my_timezone(dt.datetime.now())
+                if t > dt.timedelta(0):
                     print "Waiting for next query at", q['departure_time'].strftime("%m/%d/%Y %H:%M")
-                    time.sleep((q['departure_time'] - dt.datetime.now()).total_seconds())
+                    print "Sleep for", str(t).split('.')[0]
+                    time.sleep(t.total_seconds())
                 # Put in the exact current time for precision as indicated by googlemaps package documentation.
                 q['departure_time'] = dt.datetime.now()
                 print "Executing now (%s)." % q['departure_time'].strftime("%m/%d/%Y %H:%M")
@@ -329,19 +333,20 @@ class GooglemapsAPIMiner:
         return
 
 
-def parallel_run_pipeline(self, all_args):
+def parallel_run_pipeline(all_args):
     """
 
-    :param self:
     :param all_args:
     :return:
     """
     try:
         pipeline_args = all_args['pipeline_args']
+        print "Process", os.getpid(), "pipeline_args:", pipeline_args
         init_args = all_args['init_args']
-        print "Beginning execution of input %s with PID %d." % (pipeline_args['input_file'], os.getpid())
+        print "Process", os.getpid(), "init_args:", init_args
+        print "Beginning execution of input %s with PID %d." % (pipeline_args['input_filename'], os.getpid())
         GooglemapsAPIMiner(**init_args).run_pipeline(**pipeline_args)
-        print "Execution of input %s with PID %d was successful." % (pipeline_args['input_file'], os.getpid())
+        print "Execution of input %s with PID %d was successful." % (pipeline_args['input_filename'], os.getpid())
         return "Success"
     except KeyboardInterrupt:
         pass
@@ -352,13 +357,13 @@ def parallel_run_pipeline(self, all_args):
 
 
 if __name__ == '__main__':
-    if True:
+    if False:
         key_file = './will_googlemaps_api_key.txt'
         input_file = './test_queries.csv'
-        g = GooglemapsAPIMiner(api_key_file=key_file)
-        #g.read_input_queries(input_filename=input_file, verbose=True)
-        #raise KeyboardInterrupt
-        g.run_pipeline(input_filename=input_file, verbose_input=True, verbose_execute=True)
+        g = GooglemapsAPIMiner(api_key_file=key_file, execute_in_time=True)
+        # g.read_input_queries(input_filename=input_file, verbose=True)
+        # raise KeyboardInterrupt
+        g.run_pipeline(input_filename=input_file, verbose_input=True, verbose_execute=False)
         sys.exit(0)
     usage = """
     usage: googlemaps_api_mining.py -k <api_key_file> -i <input_filename>
@@ -379,11 +384,12 @@ if __name__ == '__main__':
     add_inputs = []
 
     try:
-        opts, args = getopt.getopt(arg, "hck:i:", ["execute_in_time", "queries_per_second=", "output_filename=",
-                                                   "write_csv=", "write_pickle=", "parallel_input_files"])
+        opts, args = getopt.getopt(arg, "hck:i:", ["execute_in_time=", "queries_per_second=", "output_filename=",
+                                                   "write_csv=", "write_pickle=", "parallel_input_files="])
     except getopt.GetoptError:
         print usage
         sys.exit(2)
+
     for opt, arg in opts:
         if opt == "-h":
             print usage
@@ -439,13 +445,18 @@ if __name__ == '__main__':
     if add_inputs:
         # Assemble full list of inputs. Then 'input_filename' in rpspec can be overwritten.
         add_inputs.append(copy(rpspec['input_filename']))
+        print "Full filename list:"
+        for fn in add_inputs:
+            print '\t', fn
         # Need copies of pipeline argument spec with appropriate input filenames.
         pipes = []
         for ai in add_inputs:
             rpspec['input_filename'] = ai
             pipes.append(copy(rpspec))
+        print "Built list of", len(pipes), "argument specs for pipeline execution."
 
         pool = multiprocessing.Pool(multiprocessing.cpu_count())
+        print "Assembled pool of", multiprocessing.cpu_count(), "processes."
         p = pool.map_async(parallel_run_pipeline, [{'init_args': initspec, 'pipeline_args': p} for p in pipes])
         try:
             # Timeout set at approximately 12 days.

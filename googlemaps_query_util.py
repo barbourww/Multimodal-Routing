@@ -1,7 +1,8 @@
 import pytz
 import traceback
 import time
-import multiprocessing, os
+import multiprocessing
+import os
 
 tzmap = {'p': 'US/Pacific', 'pst': 'US/Pacific', 'pdt': 'US/Pacific',
          'pacific': 'US/Pacific', 'us/pacific': 'US/Pacific',
@@ -51,9 +52,13 @@ def recursive_get(obj, gets):
         return obj.__getitem__(gets[0])
 
 
-def localize_to_query_tz(time_in_query, timezone_in_query):
+def localize_to_query_timezone(time_in_query, timezone_in_query):
     query_tz = pytz.timezone(tzmap[timezone_in_query.lower()])
     return query_tz.localize(time_in_query)
+
+
+def localize_to_my_timezone(local_time):
+    return mytz.localize(local_time)
 
 
 def convert_to_my_timezone(local_time_from_query):

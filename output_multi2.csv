@@ -1,0 +1,4 @@
+origin|units|destination|mode|departure_time|distance|end_y|end_x|start_x|start_y|duration
+1 World Trade Center|imperial|LaGuardia Airport|driving|2017-03-20 23:11:59.997927|14.4 mi|40.7715416|-73.8717269|-74.0140115|40.7127102|22 mins
+1 World Trade Center|imperial|LaGuardia Airport|driving|2017-03-20 23:17:59.988219|14.4 mi|40.7715416|-73.8717269|-74.0140115|40.7127102|22 mins
+1 World Trade Center|imperial|LaGuardia Airport|driving|2017-03-20 23:23:59.989135|14.4 mi|40.7715416|-73.8717269|-74.0140115|40.7127102|22 mins
