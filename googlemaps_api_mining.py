@@ -300,9 +300,9 @@ class GooglemapsAPIMiner:
                     outputs_keys, outputs_values = zip(*outputs.items())
                     output_header = self.input_header + list(outputs_keys)
                     writer.writerow(output_header)
-                    for q, r in zip(self.queries, self.results):
+                    for q, res in zip(self.queries, self.results):
                         line = [q[ih] if ih in q else ''
-                                for ih in self.input_header] + [recursive_get(r, oh)
+                                for ih in self.input_header] + [recursive_get(res, oh)
                                                                 for oh in outputs_values]
                         writer.writerow(line)
             except:
