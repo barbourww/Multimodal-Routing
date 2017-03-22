@@ -357,6 +357,7 @@ def parallel_run_pipeline(all_args):
 
 
 if __name__ == '__main__':
+    # Set to True for running easily within IDE.
     if False:
         key_file = './will_googlemaps_api_key.txt'
         input_file = './test_queries.csv'
@@ -365,6 +366,7 @@ if __name__ == '__main__':
         # raise KeyboardInterrupt
         g.run_pipeline(input_filename=input_file, verbose_input=True, verbose_execute=False)
         sys.exit(0)
+
     usage = """
     usage: googlemaps_api_mining.py -k <api_key_file> -i <input_filename>
             --[execute_in_time, queries_per_second, output_filename, write_csv, write_pickle, parallel_input_files]
@@ -373,24 +375,30 @@ if __name__ == '__main__':
     note: using --parallel_input_files overrides output_filename and other parameters will be used for all tasks
     note: to check number of allowable parallel processes use... googlemaps_api_mining.py -c
     """
-    arg = sys.argv[1:]
+    # Collect command line arguments/options.
+    command_line_arguments = sys.argv[1:]
 
+    # Make default argument list for class initialization and pipeline execution.
     initargs = getargspec(GooglemapsAPIMiner.__init__)
     req = zip(initargs.args[1:-len(initargs.defaults)], [None]*len(initargs.args[1:-len(initargs.defaults)]))
     initspec = {k: v for k, v in req + zip(initargs.args[-len(initargs.defaults):], initargs.defaults)}
     rpargs = getargspec(GooglemapsAPIMiner.run_pipeline)
     req = zip(rpargs.args[1:-len(rpargs.defaults)], [None]*len(rpargs.args[1:-len(rpargs.defaults)]))
     rpspec = {k: v for k, v in req + zip(rpargs.args[-len(rpargs.defaults):], rpargs.defaults)}
+    # Make space for additional input file names and API key file names for parallel execution.
     add_inputs = []
+    add_keys = []
 
     try:
-        opts, args = getopt.getopt(arg, "hck:i:", ["execute_in_time=", "queries_per_second=", "output_filename=",
-                                                   "write_csv=", "write_pickle=", "parallel_input_files="])
+        opts, args = getopt.getopt(command_line_arguments, "hck:i:",
+                                   ["execute_in_time=", "queries_per_second=", "output_filename=", "write_csv=",
+                                    "write_pickle=", "parallel_input_files=", "parallel_api_key_files="])
     except getopt.GetoptError:
         print usage
         sys.exit(2)
 
     for opt, arg in opts:
+        # Information options.
         if opt == "-h":
             print usage
             sys.exit(0)
@@ -400,7 +408,7 @@ if __name__ == '__main__':
                   (multiprocessing.cpu_count() - 1)
             sys.exit(0)
 
-        # Initialization arguments
+        # Initialization arguments.
         elif opt == "-k":
             initspec['api_key_file'] = arg
         elif opt == "--queries_per_second":
@@ -414,7 +422,7 @@ if __name__ == '__main__':
                 print "--execute_in_time should be [True/False/TRUE/FALSE/true/false]"
                 sys.exit(2)
 
-        # Pipeline arguments
+        # Pipeline arguments.
         elif opt == "-i":
             rpspec['input_filename'] = arg
         elif opt == "--output_filename":
@@ -436,28 +444,41 @@ if __name__ == '__main__':
                 print "--write_pickle should be [True/False/TRUE/FALSE/true/false]"
                 sys.exit(2)
 
+        # Parallel execution arguments.
         elif opt == "--parallel_input_files":
             add_inputs = arg.split('|')
             # With the addition of the other input supplied by -i, the input file count must not exceed CPU cores.
             assert (len(add_inputs) + 1) <= multiprocessing.cpu_count(), \
                 "Exceeded number of allowable processes. Use -c for info on processor availability."
+        elif opt == "--parallel_api_key_files":
+            add_keys = arg.split('|')
 
     if add_inputs:
         # Assemble full list of inputs. Then 'input_filename' in rpspec can be overwritten.
         add_inputs.append(copy(rpspec['input_filename']))
+        # Assemble full list of API keys. Then 'api_key_file' in initspec can be overwritten.
+        # Primary API key provided in argument '-k', which will be the API key to be used more than once.
+        if add_keys:
+            add_keys.append(copy(initspec['api_key_file']))
         print "Full filename list:"
         for fn in add_inputs:
             print '\t', fn
-        # Need copies of pipeline argument spec with appropriate input filenames.
+        # Need copies of pipeline argument spec with appropriate input file names.
         pipes = []
-        for ai in add_inputs:
-            rpspec['input_filename'] = ai
+        inits = []
+        for ai_i in range(len(add_inputs)):
+            rpspec['input_filename'] = add_inputs[ai_i]
+            # The minimum function will use API keys in order they were provided in 'parallel_api_key_files' followed
+            #   by the primary API key in option '-k', the latter of which will be used multiple times if necessary.
+            initspec['api_key_file'] = add_keys[min(ai_i, len(add_keys))]
+            # Duplicate initspec filled with one of the input file names and API key file names.
             pipes.append(copy(rpspec))
+            inits.append(copy(initspec))
         print "Built list of", len(pipes), "argument specs for pipeline execution."
 
         pool = multiprocessing.Pool(multiprocessing.cpu_count())
         print "Assembled pool of", multiprocessing.cpu_count(), "processes."
-        p = pool.map_async(parallel_run_pipeline, [{'init_args': initspec, 'pipeline_args': p} for p in pipes])
+        p = pool.map_async(parallel_run_pipeline, [{'init_args': i, 'pipeline_args': p} for i, p in zip(inits, pipes)])
         try:
             # Timeout set at approximately 12 days.
             results = p.get(0xFFFFF)
