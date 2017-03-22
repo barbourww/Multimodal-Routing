@@ -26,7 +26,6 @@ The pipeline function may also be executed from the command line with the follow
             --[execute_in_time, queries_per_second, output_filename, write_csv, write_pickle, parallel_input_files]
     example: python googlemaps_api_mining.py -k "./api_key.txt" -i "./test_queries.csv"
                 --output_file "./output_test.csv" --write_csv True --write_pickle False
-    note: it is advised that the query input filenames be given as an absolute path
     note: using --parallel_input_files overrides output_filename and other parameters will be used for all tasks
     note: to check number of allowable parallel processes use... googlemaps_api_mining.py -c
 This package also provides the ability to execute queries on the API at the time for which they are indicated in the
