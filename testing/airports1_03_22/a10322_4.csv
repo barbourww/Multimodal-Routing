@@ -1,0 +1,2 @@
+origin,destination,mode,avoid,timezone,departure_time,departure_time_min,departure_time_max,departure_time_delta,unitsHarvard transit station,Airport station Boston MA,driving,tolls,eastern,03/22/2017 00:00,03/22/2017 23:55,5,imperial
+Harvard transit station,Airport station Boston MA,transit,,eastern,03/22/2017 00:00,03/22/2017 23:55,5,imperial

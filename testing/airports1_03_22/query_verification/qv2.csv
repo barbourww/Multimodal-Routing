@@ -1,1 +1,2 @@
-origin,destination,mode,departure_time,timezone,departure_time_min,departure_time_max,departure_time_delta,units1 World Trade Center,LaGuardia Airport,driving,,eastern,03/21/2017 00:12,03/21/2017 00:24,6,imperial
+origin,destination,mode,avoid,timezone,departure_time,departure_time_min,departure_time_max,departure_time_delta,unitsWashington Park Chicago IL,Ohare Airport,driving,tolls,central,03/22/2017 00:00,03/22/2017 23:55,120,imperial
+Washington Park Chicago IL,Ohare Airport,transit,,central,03/22/2017 00:00,03/22/2017 23:55,120,imperial

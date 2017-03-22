@@ -1,1 +1,2 @@
-origin,destination,mode,departure_time,timezone,departure_time_min,departure_time_max,departure_time_delta,units1 World Trade Center,JFK Airport,driving,,eastern,03/21/2017 00:20,03/21/2017 00:28,2,imperial
+origin,destination,mode,avoid,timezone,departure_time,departure_time_min,departure_time_max,departure_time_delta,unitsTarget Field Minneapolis MN,Minneapolis-Saint Paul International Airport,driving,tolls,central,03/22/2017 00:00,03/22/2017 23:55,120,imperial
+Target Field Minneapolis MN,Minneapolis-Saint Paul International Airport,transit,,central,03/22/2017 00:00,03/22/2017 23:55,120,imperial

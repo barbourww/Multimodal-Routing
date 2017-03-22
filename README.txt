@@ -64,6 +64,7 @@ The header (first) row of the file defines the parameters (columns) of the queri
     > destination (string, ;-separated floats) – address or lat/long value to which you wish to calculate directions
     > mode (string) – mode of transport for calculating directions [driving, walking, bicycling, transit]
     > timezone (string) - timezone corresponding to the departure or arrival time (e.g., pacific, eastern, etc.)
+        for timezones outside of continental US, refer to pytz.common_timezones for list of values
     (optional...)
     > waypoints (string or ;-separated floats, |-delimited if multiple) –
         specifies an array of waypoints which alter a route by calculating it through the specified location(s)

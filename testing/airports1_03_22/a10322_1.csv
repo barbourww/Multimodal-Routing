@@ -1,0 +1,2 @@
+origin,destination,mode,avoid,timezone,departure_time,departure_time_min,departure_time_max,departure_time_delta,unitsNew York University,LaGuardia Airport,driving,tolls,eastern,03/22/2017 00:00,03/22/2017 23:55,5,imperial
+New York University,LaGuardia Airport,transit,,eastern,03/22/2017 00:00,03/22/2017 23:55,5,imperial
