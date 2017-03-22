@@ -53,7 +53,13 @@ def recursive_get(obj, gets):
 
 
 def localize_to_query_timezone(time_in_query, timezone_in_query):
-    query_tz = pytz.timezone(tzmap[timezone_in_query.lower()])
+    if timezone_in_query.lower() in tzmap:
+        query_tz = pytz.timezone(tzmap[timezone_in_query.lower()])
+    elif timezone_in_query in pytz.common_timezones:
+        query_tz = timezone_in_query
+    else:
+        print "Could not find appropriate timezone. Using local timezone."
+        query_tz = mytz
     return query_tz.localize(time_in_query)
 
 

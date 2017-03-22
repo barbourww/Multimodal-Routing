@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1abd0deb-6026-4be8-86a1-1adbd7f936e0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.txt" afterPath="$PROJECT_DIR$/README.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/googlemaps_query_util.py" afterPath="$PROJECT_DIR$/googlemaps_query_util.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testing/airports1_03_22/query_verification/qv1.csv" afterPath="$PROJECT_DIR$/testing/airports1_03_22/query_verification/qv1.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testing/airports1_03_22/query_verification/qv2.csv" afterPath="$PROJECT_DIR$/testing/airports1_03_22/query_verification/qv2.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testing/airports1_03_22/query_verification/qv3.csv" afterPath="$PROJECT_DIR$/testing/airports1_03_22/query_verification/qv3.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testing/airports1_03_22/query_verification/qv_cmd.txt" afterPath="$PROJECT_DIR$/testing/airports1_03_22/query_verification/qv_cmd.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
