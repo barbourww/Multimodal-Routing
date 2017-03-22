@@ -23,7 +23,8 @@ These three functions are wrapped into a pipeline function run_pipeline(...) wit
     write_pickle=True
 The pipeline function may also be executed from the command line with the following usage:
     usage: python googlemaps_api_mining.py -k <api_key_file> -i <input_file>
-            --[execute_in_time, queries_per_second, output_filename, write_csv, write_pickle, parallel_input_files]
+            --[execute_in_time, queries_per_second, output_filename, write_csv, write_pickle,
+                parallel_input_files, parallel_api_key_files]
     example: python googlemaps_api_mining.py -k "./api_key.txt" -i "./test_queries.csv"
                 --output_file "./output_test.csv" --write_csv True --write_pickle False
     note: using --parallel_input_files overrides output_filename and other parameters will be used for all tasks
@@ -34,9 +35,11 @@ This package also provides the ability to execute queries on the API at the time
 After the implementation of execute_in_time option, it was observed that a method was needed to run multiple of these
     query batches simultaneously. Since the process relies heavily on waiting appropriate amounts of time, the processes
     needed to be spread across functional CPU cores and not pooled as threads (see Global Interpreter Lock). This mining
-     program uses Python's Multiprocessing library and asynchronous pooling to achieve this. To use, perform a command
-     line call with one input via -i and additional inputs via --parallel_input_files ("-enclosed string of |-delimited
-     filenames). Also use the -c option (with no others) for information of the current systems parallel capabilities.
+    program uses Python's Multiprocessing library and asynchronous pooling to achieve this. To use, perform a command
+    line call with one input via -i and additional inputs via --parallel_input_files ("-enclosed string of |-delimited
+    file names). Also use the -c option (with no others) for information of the current systems parallel capabilities.
+Numerous API keys may be used by providing the file paths to each key (one per file) in the --parallel_api_key_files
+    option ("-enclosed string of |-delimited file names).
 
 
 INPUT:

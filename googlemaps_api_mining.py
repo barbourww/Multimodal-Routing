@@ -375,7 +375,8 @@ if __name__ == '__main__':
 
     usage = """
     usage: googlemaps_api_mining.py -k <api_key_file> -i <input_filename>
-            --[execute_in_time, queries_per_second, output_filename, write_csv, write_pickle, parallel_input_files]
+            --[execute_in_time, queries_per_second, output_filename, write_csv, write_pickle,
+                parallel_input_files, parallel_api_key_files]
     ex: python googlemaps_api_mining.py -k "./api_key.txt" -i "./test_queries.csv" --output_file "./output_test.csv"
     note: it is advised that the query input filenames be given as an absolute path
     note: using --parallel_input_files overrides output_filename and other parameters will be used for all tasks
@@ -466,6 +467,9 @@ if __name__ == '__main__':
         # Primary API key provided in argument '-k', which will be the API key to be used more than once.
         if add_keys:
             add_keys.append(copy(initspec['api_key_file']))
+            print "Loaded additional API keys for a total of", len(add_keys), "keys."
+            if len(add_keys) < len(add_inputs):
+                print "Fewer keys than input files. Primary will be used", len(add_inputs) - len(add_keys) + 1, "times."
         print "Full filename list:"
         for fn in add_inputs:
             print '\t', fn
