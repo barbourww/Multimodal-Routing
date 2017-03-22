@@ -1,0 +1,25 @@
+origin|avoid|destination|mode|units|departure_time|distance|end_y|start_y|duration-sec|start_x|duration_in_traffic-sec|duration|end_x|duration_in_traffic
+Harvard transit station|tolls|Airport station Boston MA|driving|imperial|2017-03-21 23:00:00-05:00|1,120 mi|42.3747715|42.4199679|69330|-88.61736150000002|69316|19 hours 16 mins|-71.0290294|19 hours 15 mins
+Harvard transit station|tolls|Airport station Boston MA|driving|imperial|2017-03-22 01:00:00-05:00|1,120 mi|42.3747715|42.4199679|69330|-88.61736150000002|69323|19 hours 16 mins|-71.0290294|19 hours 15 mins
+Harvard transit station|tolls|Airport station Boston MA|driving|imperial|2017-03-22 03:00:00-05:00|1,120 mi|42.3747715|42.4199679|69330|-88.61736150000002|68691|19 hours 16 mins|-71.0290294|19 hours 5 mins
+Harvard transit station|tolls|Airport station Boston MA|driving|imperial|2017-03-22 05:00:00-05:00|1,120 mi|42.3747715|42.4199679|69330|-88.61736150000002|69961|19 hours 16 mins|-71.0290294|19 hours 26 mins
+Harvard transit station|tolls|Airport station Boston MA|driving|imperial|2017-03-22 07:00:00-05:00|1,120 mi|42.3747715|42.4199679|69330|-88.61736150000002|71550|19 hours 16 mins|-71.0290294|19 hours 53 mins
+Harvard transit station|tolls|Airport station Boston MA|driving|imperial|2017-03-22 09:00:00-05:00|1,120 mi|42.3747715|42.4199679|69330|-88.61736150000002|69828|19 hours 16 mins|-71.0290294|19 hours 24 mins
+Harvard transit station|tolls|Airport station Boston MA|driving|imperial|2017-03-22 11:00:00-05:00|1,120 mi|42.3747715|42.4199679|69330|-88.61736150000002|72197|19 hours 16 mins|-71.0290294|20 hours 3 mins
+Harvard transit station|tolls|Airport station Boston MA|driving|imperial|2017-03-22 13:00:00-05:00|1,120 mi|42.3747715|42.4199679|69330|-88.61736150000002|72004|19 hours 16 mins|-71.0290294|20 hours 0 mins
+Harvard transit station|tolls|Airport station Boston MA|driving|imperial|2017-03-22 15:00:00-05:00|1,120 mi|42.3747715|42.4199679|69330|-88.61736150000002|74314|19 hours 16 mins|-71.0290294|20 hours 39 mins
+Harvard transit station|tolls|Airport station Boston MA|driving|imperial|2017-03-22 17:00:00-05:00|1,120 mi|42.3747715|42.4199679|69330|-88.61736150000002|71809|19 hours 16 mins|-71.0290294|19 hours 57 mins
+Harvard transit station|tolls|Airport station Boston MA|driving|imperial|2017-03-22 19:00:00-05:00|1,120 mi|42.3747715|42.4199679|69330|-88.61736150000002|70549|19 hours 16 mins|-71.0290294|19 hours 36 mins
+Harvard transit station|tolls|Airport station Boston MA|driving|imperial|2017-03-22 21:00:00-05:00|1,120 mi|42.3747715|42.4199679|69330|-88.61736150000002|70118|19 hours 16 mins|-71.0290294|19 hours 29 mins
+Harvard transit station||Airport station Boston MA|transit|imperial|2017-03-21 23:00:00-05:00|1,082 mi|42.37426199999999|42.4197222|93120|-88.61749999999999|n/a|1 day 2 hours|-71.03039500000001|n/a
+Harvard transit station||Airport station Boston MA|transit|imperial|2017-03-22 01:00:00-05:00|1,082 mi|42.37426199999999|42.4197222|93120|-88.61749999999999|n/a|1 day 2 hours|-71.03039500000001|n/a
+Harvard transit station||Airport station Boston MA|transit|imperial|2017-03-22 03:00:00-05:00|1,082 mi|42.37426199999999|42.4197222|93120|-88.61749999999999|n/a|1 day 2 hours|-71.03039500000001|n/a
+Harvard transit station||Airport station Boston MA|transit|imperial|2017-03-22 05:00:00-05:00|1,082 mi|42.37426199999999|42.4197222|93120|-88.61749999999999|n/a|1 day 2 hours|-71.03039500000001|n/a
+Harvard transit station||Airport station Boston MA|transit|imperial|2017-03-22 07:00:00-05:00|1,082 mi|42.37426199999999|42.4197222|93120|-88.61749999999999|n/a|1 day 2 hours|-71.03039500000001|n/a
+Harvard transit station||Airport station Boston MA|transit|imperial|2017-03-22 09:00:00-05:00|1,082 mi|42.37426199999999|42.4197222|93120|-88.61749999999999|n/a|1 day 2 hours|-71.03039500000001|n/a
+Harvard transit station||Airport station Boston MA|transit|imperial|2017-03-22 11:00:00-05:00|1,082 mi|42.37426199999999|42.4197222|93120|-88.61749999999999|n/a|1 day 2 hours|-71.03039500000001|n/a
+Harvard transit station||Airport station Boston MA|transit|imperial|2017-03-22 13:00:00-05:00|1,082 mi|42.37426199999999|42.4197222|93120|-88.61749999999999|n/a|1 day 2 hours|-71.03039500000001|n/a
+Harvard transit station||Airport station Boston MA|transit|imperial|2017-03-22 15:00:00-05:00|1,082 mi|42.37426199999999|42.4197222|93120|-88.61749999999999|n/a|1 day 2 hours|-71.03039500000001|n/a
+Harvard transit station||Airport station Boston MA|transit|imperial|2017-03-22 17:00:00-05:00|1,082 mi|42.37426199999999|42.4197222|93120|-88.61749999999999|n/a|1 day 2 hours|-71.03039500000001|n/a
+Harvard transit station||Airport station Boston MA|transit|imperial|2017-03-22 19:00:00-05:00|n/a|n/a|n/a|n/a|n/a|n/a|n/a|n/a|n/a
+Harvard transit station||Airport station Boston MA|transit|imperial|2017-03-22 21:00:00-05:00|1,082 mi|42.37426199999999|42.4197222|93120|-88.61749999999999|n/a|1 day 2 hours|-71.03039500000001|n/a

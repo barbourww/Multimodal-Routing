@@ -1,0 +1,25 @@
+origin|avoid|destination|mode|units|departure_time|distance|end_y|start_y|duration-sec|start_x|duration_in_traffic-sec|duration|end_x|duration_in_traffic
+Washington Park Chicago IL|tolls|Ohare Airport|driving|imperial|2017-03-22 00:00:00-05:00|22.8 mi|41.9797233|41.7929603|1881|-87.61759029999999|1549|31 mins|-87.88225249999999|26 mins
+Washington Park Chicago IL|tolls|Ohare Airport|driving|imperial|2017-03-22 02:00:00-05:00|22.8 mi|41.9797233|41.7929603|1881|-87.61759029999999|1575|31 mins|-87.88225249999999|26 mins
+Washington Park Chicago IL|tolls|Ohare Airport|driving|imperial|2017-03-22 04:00:00-05:00|22.8 mi|41.9797233|41.7929603|1881|-87.61759029999999|1532|31 mins|-87.88225249999999|26 mins
+Washington Park Chicago IL|tolls|Ohare Airport|driving|imperial|2017-03-22 06:00:00-05:00|22.8 mi|41.9797233|41.7929603|1881|-87.61759029999999|2538|31 mins|-87.88225249999999|42 mins
+Washington Park Chicago IL|tolls|Ohare Airport|driving|imperial|2017-03-22 08:00:00-05:00|22.8 mi|41.9797233|41.7929603|1881|-87.61759029999999|3150|31 mins|-87.88225249999999|53 mins
+Washington Park Chicago IL|tolls|Ohare Airport|driving|imperial|2017-03-22 10:00:00-05:00|22.8 mi|41.9797233|41.7929603|1881|-87.61759029999999|1942|31 mins|-87.88225249999999|32 mins
+Washington Park Chicago IL|tolls|Ohare Airport|driving|imperial|2017-03-22 12:00:00-05:00|22.8 mi|41.9797233|41.7929603|1881|-87.61759029999999|2130|31 mins|-87.88225249999999|36 mins
+Washington Park Chicago IL|tolls|Ohare Airport|driving|imperial|2017-03-22 14:00:00-05:00|22.8 mi|41.9797233|41.7929603|1881|-87.61759029999999|2496|31 mins|-87.88225249999999|42 mins
+Washington Park Chicago IL|tolls|Ohare Airport|driving|imperial|2017-03-22 16:00:00-05:00|22.8 mi|41.9797233|41.7929603|1881|-87.61759029999999|3502|31 mins|-87.88225249999999|58 mins
+Washington Park Chicago IL|tolls|Ohare Airport|driving|imperial|2017-03-22 18:00:00-05:00|22.8 mi|41.9797233|41.7929603|1881|-87.61759029999999|2887|31 mins|-87.88225249999999|48 mins
+Washington Park Chicago IL|tolls|Ohare Airport|driving|imperial|2017-03-22 20:00:00-05:00|22.8 mi|41.9797233|41.7929603|1881|-87.61759029999999|1719|31 mins|-87.88225249999999|29 mins
+Washington Park Chicago IL|tolls|Ohare Airport|driving|imperial|2017-03-22 22:00:00-05:00|22.8 mi|41.9797233|41.7929603|1881|-87.61759029999999|1649|31 mins|-87.88225249999999|27 mins
+Washington Park Chicago IL||Ohare Airport|transit|imperial|2017-03-22 00:00:00-05:00|24.3 mi|41.97766499999999|41.7929603|5085|-87.61759029999999|n/a|1 hour 25 mins|-87.90422099999999|n/a
+Washington Park Chicago IL||Ohare Airport|transit|imperial|2017-03-22 02:00:00-05:00|24.8 mi|41.97766499999999|41.7929609|5269|-87.61755509999999|n/a|1 hour 28 mins|-87.90422099999999|n/a
+Washington Park Chicago IL||Ohare Airport|transit|imperial|2017-03-22 04:00:00-05:00|24.3 mi|41.97766499999999|41.7929603|4245|-87.61759029999999|n/a|1 hour 11 mins|-87.90422099999999|n/a
+Washington Park Chicago IL||Ohare Airport|transit|imperial|2017-03-22 06:00:00-05:00|24.3 mi|41.97766499999999|41.7929603|4665|-87.61759029999999|n/a|1 hour 18 mins|-87.90422099999999|n/a
+Washington Park Chicago IL||Ohare Airport|transit|imperial|2017-03-22 08:00:00-05:00|24.3 mi|41.97766499999999|41.7929603|4395|-87.61759029999999|n/a|1 hour 13 mins|-87.90422099999999|n/a
+Washington Park Chicago IL||Ohare Airport|transit|imperial|2017-03-22 10:00:00-05:00|24.3 mi|41.97766499999999|41.7929603|4605|-87.61759029999999|n/a|1 hour 17 mins|-87.90422099999999|n/a
+Washington Park Chicago IL||Ohare Airport|transit|imperial|2017-03-22 12:00:00-05:00|24.3 mi|41.97766499999999|41.7929603|4605|-87.61759029999999|n/a|1 hour 17 mins|-87.90422099999999|n/a
+Washington Park Chicago IL||Ohare Airport|transit|imperial|2017-03-22 14:00:00-05:00|24.3 mi|41.97766499999999|41.7929603|4455|-87.61759029999999|n/a|1 hour 14 mins|-87.90422099999999|n/a
+Washington Park Chicago IL||Ohare Airport|transit|imperial|2017-03-22 16:00:00-05:00|24.3 mi|41.97766499999999|41.7929603|4575|-87.61759029999999|n/a|1 hour 16 mins|-87.90422099999999|n/a
+Washington Park Chicago IL||Ohare Airport|transit|imperial|2017-03-22 18:00:00-05:00|24.3 mi|41.97766499999999|41.7929603|4605|-87.61759029999999|n/a|1 hour 17 mins|-87.90422099999999|n/a
+Washington Park Chicago IL||Ohare Airport|transit|imperial|2017-03-22 20:00:00-05:00|24.3 mi|41.97766499999999|41.7929603|4665|-87.61759029999999|n/a|1 hour 18 mins|-87.90422099999999|n/a
+Washington Park Chicago IL||Ohare Airport|transit|imperial|2017-03-22 22:00:00-05:00|24.3 mi|41.97766499999999|41.7929603|4245|-87.61759029999999|n/a|1 hour 11 mins|-87.90422099999999|n/a

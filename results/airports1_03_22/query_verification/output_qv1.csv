@@ -1,0 +1,25 @@
+origin|avoid|destination|mode|units|departure_time|distance|end_y|start_y|duration-sec|start_x|duration_in_traffic-sec|duration|end_x|duration_in_traffic
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-21 23:00:00-05:00|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1166|26 mins|-73.8717269|19 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 01:00:00-05:00|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1165|26 mins|-73.8717269|19 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 03:00:00-05:00|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1131|26 mins|-73.8717269|19 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 05:00:00-05:00|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1257|26 mins|-73.8717269|21 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 07:00:00-05:00|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1406|26 mins|-73.8717269|23 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 09:00:00-05:00|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1513|26 mins|-73.8717269|25 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 11:00:00-05:00|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1801|26 mins|-73.8717269|30 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 13:00:00-05:00|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1918|26 mins|-73.8717269|32 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 15:00:00-05:00|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2525|26 mins|-73.8717269|42 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 17:00:00-05:00|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2310|26 mins|-73.8717269|39 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 19:00:00-05:00|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1654|26 mins|-73.8717269|28 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 21:00:00-05:00|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1446|26 mins|-73.8717269|24 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-21 23:00:00-05:00|11.9 mi|40.7718585|40.7285304|2941|-73.99433259999999|n/a|49 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 01:00:00-05:00|9.9 mi|40.7718585|40.7284833|3571|-73.99437209999999|n/a|1 hour 0 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 03:00:00-05:00|12.1 mi|40.7718585|40.7284833|3596|-73.99437209999999|n/a|1 hour 0 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 05:00:00-05:00|11.6 mi|40.7718585|40.7285304|3561|-73.99433259999999|n/a|59 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 07:00:00-05:00|9.7 mi|40.7718585|40.7284833|3511|-73.99437209999999|n/a|59 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 09:00:00-05:00|11.9 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 11:00:00-05:00|12.2 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 13:00:00-05:00|12.2 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 15:00:00-05:00|11.9 mi|40.7718585|40.7285304|3301|-73.99433259999999|n/a|55 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 17:00:00-05:00|12.2 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 19:00:00-05:00|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 21:00:00-05:00|11.9 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
