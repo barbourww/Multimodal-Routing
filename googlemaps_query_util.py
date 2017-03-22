@@ -40,16 +40,25 @@ def recursive_print(obj, depth=0):
 
 
 def recursive_get(obj, gets):
-    if len(gets) > 1:
-        try:
-            return recursive_get(obj.__getitem__(gets[0]), gets[1:])
-        except TypeError:
-            print type(obj)
-            for o in obj:
-                print o
-            traceback.print_exc()
-    else:
-        return obj.__getitem__(gets[0])
+    """
+    Will attempt to reach down each level provided in gets. Upon Key or Index exception, returns 'n/a'.
+    :param obj: Nested list/dictionary structure.
+    :param gets: Tuple of successive depths to reach into nested structure.
+    :return: Value if valid, otherwise 'n/a' on Key or Index exception.
+    """
+    try:
+        if len(gets) > 1:
+            try:
+                return recursive_get(obj.__getitem__(gets[0]), gets[1:])
+            except TypeError:
+                print type(obj)
+                for o in obj:
+                    print o
+                traceback.print_exc()
+        else:
+            return obj.__getitem__(gets[0])
+    except (KeyError, IndexError):
+        return 'n/a'
 
 
 def localize_to_query_timezone(time_in_query, timezone_in_query):

@@ -296,7 +296,10 @@ class GooglemapsAPIMiner:
                     outputs = get_outputs
                 else:
                     outputs = {'distance': (0, 'legs', 0, 'distance', 'text'),
-                               'duration': (0, 'legs', 0, 'duration_in_traffic', 'text'),
+                               'duration': (0, 'legs', 0, 'duration', 'text'),
+                               'duration-sec': (0, 'legs', 0, 'duration', 'value'),
+                               'duration_in_traffic': (0, 'legs', 0, 'duration_in_traffic', 'text'),
+                               'duration_in_traffic-sec': (0, 'legs', 0, 'duration_in_traffic', 'value'),
                                'start_x': (0, 'legs', 0, 'start_location', 'lng'),
                                'start_y': (0, 'legs', 0, 'start_location', 'lat'),
                                'end_x': (0, 'legs', 0, 'end_location', 'lng'),
@@ -480,7 +483,7 @@ if __name__ == '__main__':
             rpspec['input_filename'] = add_inputs[ai_i]
             # The minimum function will use API keys in order they were provided in 'parallel_api_key_files' followed
             #   by the primary API key in option '-k', the latter of which will be used multiple times if necessary.
-            initspec['api_key_file'] = add_keys[min(ai_i, len(add_keys))]
+            initspec['api_key_file'] = add_keys[min(ai_i, len(add_keys) - 1)]
             # Duplicate initspec filled with one of the input file names and API key file names.
             pipes.append(copy(rpspec))
             inits.append(copy(initspec))
