@@ -81,8 +81,11 @@ class GooglemapsAPIMiner:
         assert all(['mode' in q for q in self.queries]), "Mode must be supplied for all queries."
         assert all(['timezone' in q for q in self.queries]), "Timezone must be supplied for all queries."
 
-        # Keep input filename in case output filename goes to default (input filename + '_output').
-        self.saved_input_filename = input_filename
+        # Keep input filename in case output filename goes to default ('output_' + input filename).
+        if os.path.split(input_filename)[0] == '':
+            self.saved_input_filename = './' + input_filename
+        else:
+            self.saved_input_filename = input_filename
 
         # Parse out '|'-delimited waypoints, if supplied.
         for q in self.queries:
@@ -270,7 +273,10 @@ class GooglemapsAPIMiner:
             output_stub = os.path.split(self.saved_input_filename)[0]
             output_fn = 'output_' + os.path.splitext(os.path.split(self.saved_input_filename)[-1])[0]
         else:
-            output_stub = os.path.split(output_filename)[0]
+            if os.path.split(output_filename)[0] == '':
+                output_stub = './'
+            else:
+                output_stub = os.path.split(output_filename)[0]
             output_fn = os.path.splitext(os.path.split(output_filename)[-1])[0]
         if write_pickle:
             try:
