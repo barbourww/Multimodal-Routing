@@ -1,0 +1,552 @@
+origin|avoid|destination|mode|units|departure_time|distance|end_y|start_y|duration-sec|start_x|duration_in_traffic-sec|duration|end_x|duration_in_traffic
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 00:00:00.030088|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1155|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 00:00:01.142666|9.9 mi|40.7718585|40.7284833|3571|-73.99437209999999|n/a|1 hour 0 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 00:05:00.125248|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1142|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 00:05:00.931783|9.9 mi|40.7718585|40.7284833|3571|-73.99437209999999|n/a|1 hour 0 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 00:10:00.038075|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1130|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 00:10:00.470073|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 00:15:00.116047|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1116|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 00:15:00.735721|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 00:20:00.037383|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1098|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 00:20:00.908660|11.7 mi|40.7718585|40.7285304|3361|-73.99433259999999|n/a|56 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 00:25:00.065083|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1097|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 00:25:00.491128|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 00:30:00.094840|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1112|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 00:30:00.497908|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 00:35:00.031302|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1135|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 00:35:00.867848|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 00:40:00.066192|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1143|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 00:40:00.507711|12.0 mi|40.7718585|40.7285304|3621|-73.99433259999999|n/a|1 hour 0 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 00:45:00.045075|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1118|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 00:45:00.478898|12.0 mi|40.7718585|40.7285304|3621|-73.99433259999999|n/a|1 hour 0 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 00:50:00.109337|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1137|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 00:50:00.886376|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 00:55:00.101055|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1121|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 00:55:00.523477|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 01:00:00.109447|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1112|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 01:00:00.489413|9.9 mi|40.7718585|40.7284833|3571|-73.99437209999999|n/a|1 hour 0 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 01:05:00.084070|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1110|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 01:05:00.887964|9.9 mi|40.7718585|40.7284833|3571|-73.99437209999999|n/a|1 hour 0 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 01:10:00.109452|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1104|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 01:10:00.885434|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 01:15:00.109407|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1107|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 01:15:00.519122|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 01:20:00.103987|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1135|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 01:20:00.919752|9.9 mi|40.7718585|40.7284833|3571|-73.99437209999999|n/a|1 hour 0 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 01:25:00.108976|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1085|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 01:25:00.461869|9.9 mi|40.7718585|40.7284833|3571|-73.99437209999999|n/a|1 hour 0 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 01:30:00.109085|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1104|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 01:30:00.486016|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 01:35:00.113507|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1126|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 01:35:00.900007|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 01:40:00.109229|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1110|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 01:40:01.111860|9.9 mi|40.7718585|40.7284833|3571|-73.99437209999999|n/a|1 hour 0 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 01:45:00.108684|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1102|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 01:45:00.534656|9.9 mi|40.7718585|40.7284833|3571|-73.99437209999999|n/a|1 hour 0 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 01:50:00.109306|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1093|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 01:50:00.551495|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 01:55:00.109059|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1088|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 01:55:00.914298|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 02:00:00.116348|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1085|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 02:00:00.517417|9.9 mi|40.7718585|40.7284833|3571|-73.99437209999999|n/a|1 hour 0 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 02:05:00.110190|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1083|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 02:05:00.885575|9.9 mi|40.7718585|40.7284833|3571|-73.99437209999999|n/a|1 hour 0 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 02:10:00.114024|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1078|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 02:10:00.962801|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 02:15:00.091096|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1082|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 02:15:00.488436|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 02:20:00.086536|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1094|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 02:20:00.499138|9.9 mi|40.7718585|40.7284833|3511|-73.99437209999999|n/a|59 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 02:25:00.081052|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1112|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 02:25:00.830387|9.9 mi|40.7718585|40.7284833|3511|-73.99437209999999|n/a|59 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 02:30:00.095280|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1140|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 02:30:00.492416|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 02:35:00.072542|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1146|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 02:35:01.126406|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 02:40:00.066657|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1142|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 02:40:00.923213|9.9 mi|40.7718585|40.7284833|3271|-73.99437209999999|n/a|55 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 02:45:00.109282|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1102|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 02:45:00.562043|9.9 mi|40.7718585|40.7284833|3271|-73.99437209999999|n/a|55 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 02:50:00.108358|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1092|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 02:50:00.969650|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 02:55:00.103267|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1090|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 02:55:00.889450|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 03:00:00.097591|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1103|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 03:00:00.521354|12.1 mi|40.7718585|40.7284833|3536|-73.99437209999999|n/a|59 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 03:05:00.099056|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1103|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 03:05:00.569027|12.1 mi|40.7718585|40.7284833|3536|-73.99437209999999|n/a|59 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 03:10:00.084449|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1098|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 03:10:00.939012|12.1 mi|40.7718585|40.7284833|3536|-73.99437209999999|n/a|59 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 03:15:00.087917|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1101|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 03:15:00.527220|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 03:20:00.082235|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1099|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 03:20:00.502282|12.4 mi|40.7718585|40.7284833|3318|-73.99437209999999|n/a|55 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 03:25:00.076299|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1104|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 03:25:00.921052|12.4 mi|40.7718585|40.7284833|3318|-73.99437209999999|n/a|55 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 03:30:00.083105|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1088|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 03:30:00.904306|12.4 mi|40.7718585|40.7284833|3318|-73.99437209999999|n/a|55 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 03:35:00.105292|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1095|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 03:35:00.517713|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 03:40:00.111045|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1092|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 03:40:01.002203|9.9 mi|40.7718585|40.7284833|3391|-73.99437209999999|n/a|57 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 03:45:00.108776|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1085|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 03:45:00.785494|9.9 mi|40.7718585|40.7284833|3391|-73.99437209999999|n/a|57 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 03:50:00.053907|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1106|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 03:50:00.452217|12.4 mi|40.7718585|40.7284833|3258|-73.99437209999999|n/a|54 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 03:55:00.053963|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1075|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 03:55:00.446467|12.4 mi|40.7718585|40.7284833|3258|-73.99437209999999|n/a|54 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 04:00:00.054013|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1083|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 04:00:00.840358|12.4 mi|40.7718585|40.7284833|3138|-73.99437209999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 04:05:00.082956|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1101|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 04:05:00.489068|12.3 mi|40.7718585|40.7284833|3069|-73.99437209999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 04:10:00.087034|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1122|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 04:10:00.503149|11.3 mi|40.7718585|40.7285304|3501|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 04:15:00.098133|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1108|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 04:15:01.229895|11.3 mi|40.7718585|40.7285304|3501|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 04:20:00.098408|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1104|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 04:20:01.048996|12.5 mi|40.7718585|40.7285304|3301|-73.99433259999999|n/a|55 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 04:25:00.092926|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1085|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 04:25:00.514670|12.4 mi|40.7718585|40.7284833|3018|-73.99437209999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 04:30:00.087886|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1120|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 04:30:00.499621|12.4 mi|40.7718585|40.7284833|3018|-73.99437209999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 04:35:00.092218|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1119|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 04:35:00.996332|12.4 mi|40.7718585|40.7284833|3018|-73.99437209999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 04:40:00.076985|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1107|26 mins|-73.8717269|18 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 04:40:01.042958|11.9 mi|40.7718585|40.7285304|2821|-73.99433259999999|n/a|47 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 04:45:00.087773|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1141|26 mins|-73.8717269|19 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 04:45:00.510793|11.9 mi|40.7718585|40.7285304|2821|-73.99433259999999|n/a|47 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 04:50:00.098261|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1181|26 mins|-73.8717269|20 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 04:50:00.562790|11.9 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 04:55:00.096796|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1176|26 mins|-73.8717269|20 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 04:55:01.001879|11.9 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 05:00:00.090766|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1190|26 mins|-73.8717269|20 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 05:00:00.831411|11.6 mi|40.7718585|40.7285304|3561|-73.99433259999999|n/a|59 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 05:05:00.079606|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1223|26 mins|-73.8717269|20 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 05:05:00.513516|11.6 mi|40.7718585|40.7285304|3561|-73.99433259999999|n/a|59 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 05:10:00.082717|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1261|26 mins|-73.8717269|21 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 05:10:00.879553|12.2 mi|40.7718585|40.7285304|2881|-73.99433259999999|n/a|48 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 05:15:00.106089|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1287|26 mins|-73.8717269|21 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 05:15:01.159002|12.2 mi|40.7718585|40.7285304|2881|-73.99433259999999|n/a|48 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 05:20:00.052613|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1286|26 mins|-73.8717269|21 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 05:20:00.471800|12.2 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 05:25:00.115702|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1284|26 mins|-73.8717269|21 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 05:25:00.517896|12.2 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 05:30:00.084175|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1299|26 mins|-73.8717269|22 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 05:30:01.013123|11.9 mi|40.7718585|40.7285304|2881|-73.99433259999999|n/a|48 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 05:35:00.038885|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1288|26 mins|-73.8717269|21 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 05:35:00.473950|11.9 mi|40.7718585|40.7285304|2881|-73.99433259999999|n/a|48 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 05:40:00.065797|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1279|26 mins|-73.8717269|21 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 05:40:00.473003|11.9 mi|40.7718585|40.7285304|2881|-73.99433259999999|n/a|48 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 05:45:00.045225|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1315|26 mins|-73.8717269|22 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 05:45:00.901647|12.2 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 05:50:00.022019|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1273|26 mins|-73.8717269|21 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 05:50:00.804385|12.2 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 05:55:00.049641|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1304|26 mins|-73.8717269|22 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 05:55:00.491566|12.0 mi|40.7718585|40.7285304|3241|-73.99433259999999|n/a|54 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 06:00:00.114022|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1290|26 mins|-73.8717269|22 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 06:00:00.517741|12.0 mi|40.7718585|40.7285304|3241|-73.99433259999999|n/a|54 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 06:05:00.103909|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1312|26 mins|-73.8717269|22 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 06:05:00.935037|12.2 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 06:10:00.103976|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1363|26 mins|-73.8717269|23 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 06:10:00.863357|12.2 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 06:15:00.103956|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1344|26 mins|-73.8717269|22 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 06:15:00.496022|12.2 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 06:20:00.108631|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1362|26 mins|-73.8717269|23 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 06:20:01.148564|12.2 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 06:25:00.108974|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1416|26 mins|-73.8717269|24 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 06:25:01.101854|12.2 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 06:30:00.113917|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1353|26 mins|-73.8717269|23 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 06:30:00.522364|9.7 mi|40.7718585|40.7284833|3151|-73.99437209999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 06:35:00.104030|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1347|26 mins|-73.8717269|22 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 06:35:00.940760|12.2 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 06:40:00.103963|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1359|26 mins|-73.8717269|23 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 06:40:00.487394|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 06:45:00.103963|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1394|26 mins|-73.8717269|23 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 06:45:00.913564|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 06:50:00.108840|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1398|26 mins|-73.8717269|23 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 06:50:01.000497|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 06:55:00.108551|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1436|26 mins|-73.8717269|24 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 06:55:00.496373|11.9 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 07:00:00.108448|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1409|26 mins|-73.8717269|23 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 07:00:00.519139|9.7 mi|40.7718585|40.7284833|3511|-73.99437209999999|n/a|59 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 07:05:00.108583|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1426|26 mins|-73.8717269|24 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 07:05:00.954735|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 07:10:00.109348|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1405|26 mins|-73.8717269|23 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 07:10:00.468824|11.9 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 07:15:00.108604|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1530|26 mins|-73.8717269|26 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 07:15:00.480385|11.9 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 07:20:00.103984|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1421|26 mins|-73.8717269|24 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 07:20:00.939348|11.5 mi|40.7718585|40.7285304|3241|-73.99433259999999|n/a|54 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 07:25:00.112341|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1463|26 mins|-73.8717269|24 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 07:25:00.526319|11.5 mi|40.7718585|40.7285304|3241|-73.99433259999999|n/a|54 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 07:30:00.108433|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1433|26 mins|-73.8717269|24 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 07:30:00.510863|9.7 mi|40.7718585|40.7284833|3571|-73.99437209999999|n/a|1 hour 0 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 07:35:00.108503|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1415|26 mins|-73.8717269|24 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 07:35:01.117709|12.2 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 07:40:00.053894|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1445|26 mins|-73.8717269|24 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 07:40:00.917487|9.7 mi|40.7718585|40.7284833|3391|-73.99437209999999|n/a|57 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 07:45:00.054011|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1494|26 mins|-73.8717269|25 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 07:45:00.514271|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 07:50:00.053902|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1549|26 mins|-73.8717269|26 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 07:50:00.465030|11.9 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 07:55:00.053995|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1536|26 mins|-73.8717269|26 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 07:55:00.918331|11.9 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 08:00:00.053900|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1601|26 mins|-73.8717269|27 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 08:00:00.551648|9.7 mi|40.7718585|40.7284833|3511|-73.99437209999999|n/a|59 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 08:05:00.053996|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1705|26 mins|-73.8717269|28 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 08:05:00.479276|11.9 mi|40.7718585|40.7285304|3241|-73.99433259999999|n/a|54 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 08:10:00.053898|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1721|26 mins|-73.8717269|29 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 08:10:00.918129|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 08:15:00.053935|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1671|26 mins|-73.8717269|28 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 08:15:00.872868|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 08:20:00.054022|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1558|26 mins|-73.8717269|26 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 08:20:00.475166|11.9 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 08:25:00.053903|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1599|26 mins|-73.8717269|27 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 08:25:00.472209|11.9 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 08:30:00.054003|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1527|26 mins|-73.8717269|25 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 08:30:00.848847|12.2 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 08:35:00.053901|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1579|26 mins|-73.8717269|26 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 08:35:00.546059|12.2 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 08:40:00.053897|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1540|26 mins|-73.8717269|26 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 08:40:01.060252|11.9 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 08:45:00.053958|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1594|26 mins|-73.8717269|27 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 08:45:01.120713|11.9 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 08:50:00.053900|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1639|26 mins|-73.8717269|27 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 08:50:00.494606|9.7 mi|40.7718585|40.7284833|3511|-73.99437209999999|n/a|59 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 08:55:00.053905|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1606|26 mins|-73.8717269|27 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 08:55:00.447138|11.9 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 09:00:00.053900|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1627|26 mins|-73.8717269|27 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 09:00:01.137467|11.9 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 09:05:00.053901|10.0 mi|40.7715416|40.7295629|1542|-73.9932975|1475|26 mins|-73.8717269|25 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 09:05:00.496433|11.9 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 09:10:00.053899|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1559|26 mins|-73.8717269|26 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 09:10:00.488096|9.7 mi|40.7718585|40.7284833|3451|-73.99437209999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 09:15:00.053896|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1557|26 mins|-73.8717269|26 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 09:15:01.491343|12.2 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 09:20:00.053906|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1575|26 mins|-73.8717269|26 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 09:20:00.454217|9.7 mi|40.7718585|40.7284833|3451|-73.99437209999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 09:25:00.053902|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1659|26 mins|-73.8717269|28 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 09:25:00.466396|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 09:30:00.053952|10.0 mi|40.7715416|40.7295629|1554|-73.9932975|1670|26 mins|-73.8717269|28 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 09:30:01.136155|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 09:35:00.053901|10.0 mi|40.7715416|40.7295629|1542|-73.9932975|1912|26 mins|-73.8717269|32 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 09:35:01.106604|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 09:40:00.108392|10.0 mi|40.7715416|40.7295629|1542|-73.9932975|1859|26 mins|-73.8717269|31 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 09:40:00.546511|9.7 mi|40.7718585|40.7284833|3451|-73.99437209999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 09:45:00.108287|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1880|26 mins|-73.8717269|31 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 09:45:00.590521|12.2 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 09:50:00.108324|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1804|26 mins|-73.8717269|30 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 09:50:01.184539|9.7 mi|40.7718585|40.7284833|3451|-73.99437209999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 09:55:00.108530|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1715|26 mins|-73.8717269|29 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 09:55:01.113027|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 10:00:00.108128|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1806|26 mins|-73.8717269|30 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 10:00:00.488248|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 10:05:00.108655|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1838|26 mins|-73.8717269|31 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 10:05:01.310922|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 10:10:00.109842|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1764|26 mins|-73.8717269|29 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 10:10:01.171103|9.7 mi|40.7718585|40.7284833|3451|-73.99437209999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 10:15:00.113154|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1695|26 mins|-73.8717269|28 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 10:15:00.512794|12.2 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 10:20:00.115848|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1723|26 mins|-73.8717269|29 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 10:20:01.137786|9.7 mi|40.7718585|40.7284833|3451|-73.99437209999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 10:25:00.053904|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1714|26 mins|-73.8717269|29 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 10:25:00.484309|11.9 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 10:30:00.053979|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1742|26 mins|-73.8717269|29 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 10:30:01.001748|9.7 mi|40.7718585|40.7284833|3451|-73.99437209999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 10:35:00.053904|9.9 mi|40.7715416|40.7295629|1612|-73.9932975|1809|27 mins|-73.8717269|30 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 10:35:00.937193|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 10:40:00.053936|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1940|26 mins|-73.8717269|32 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 10:40:00.481243|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 10:45:00.053926|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1850|26 mins|-73.8717269|31 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 10:45:01.107198|12.2 mi|40.7718585|40.7285304|2941|-73.99433259999999|n/a|49 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 10:50:00.053901|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1792|26 mins|-73.8717269|30 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 10:50:00.972943|12.2 mi|40.7718585|40.7285304|2941|-73.99433259999999|n/a|49 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 10:55:00.054003|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1578|26 mins|-73.8717269|26 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 10:55:00.452407|12.2 mi|40.7718585|40.7285304|2941|-73.99433259999999|n/a|49 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 11:00:00.053899|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1579|26 mins|-73.8717269|26 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 11:00:00.486350|12.2 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 11:05:00.053990|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1570|26 mins|-73.8717269|26 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 11:05:00.458526|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 11:10:00.053975|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1618|26 mins|-73.8717269|27 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 11:10:00.460762|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 11:15:00.053909|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1666|26 mins|-73.8717269|28 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 11:15:01.136705|12.2 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 11:20:00.054018|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1702|26 mins|-73.8717269|28 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 11:20:01.112951|12.2 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 11:25:00.053892|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1825|26 mins|-73.8717269|30 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 11:25:00.513848|12.2 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 11:30:00.053914|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1691|26 mins|-73.8717269|28 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 11:30:00.473023|12.2 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 11:35:00.053897|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1645|26 mins|-73.8717269|27 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 11:35:00.992936|12.2 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 11:40:00.053894|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1653|26 mins|-73.8717269|28 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 11:40:01.012040|12.2 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 11:45:00.053913|9.9 mi|40.7715416|40.7271183|1549|-73.99977539999999|1613|26 mins|-73.8717269|27 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 11:45:00.512760|12.2 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 11:50:00.053896|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1669|26 mins|-73.8717269|28 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 11:50:00.523705|9.7 mi|40.7718585|40.7284833|3451|-73.99437209999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 11:55:00.053896|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1781|26 mins|-73.8717269|30 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 11:55:00.989337|11.9 mi|40.7718585|40.7285304|2941|-73.99433259999999|n/a|49 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 12:00:00.053897|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1745|26 mins|-73.8717269|29 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 12:00:00.497469|11.9 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 12:05:00.053998|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1865|26 mins|-73.8717269|31 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 12:05:00.510070|11.9 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 12:10:00.053895|10.0 mi|40.7715416|40.7295629|1569|-73.9932975|1786|26 mins|-73.8717269|30 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 12:10:01.072541|11.9 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 12:15:00.053892|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1876|26 mins|-73.8717269|31 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 12:15:01.340647|11.9 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 12:20:00.053895|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1933|26 mins|-73.8717269|32 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 12:20:00.527816|11.9 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 12:25:00.108913|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1944|26 mins|-73.8717269|32 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 12:25:01.152207|11.9 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 12:30:00.108812|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1828|26 mins|-73.8717269|30 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 12:30:00.496321|11.9 mi|40.7718585|40.7285304|3241|-73.99433259999999|n/a|54 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 12:35:00.108816|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2050|26 mins|-73.8717269|34 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 12:35:00.534735|11.9 mi|40.7718585|40.7285304|3241|-73.99433259999999|n/a|54 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 12:40:00.103936|10.0 mi|40.7715416|40.7295629|1673|-73.9932975|1869|28 mins|-73.8717269|31 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 12:40:01.225493|11.9 mi|40.7718585|40.7285304|3241|-73.99433259999999|n/a|54 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 12:45:00.084101|9.9 mi|40.7715416|40.7295629|1608|-73.9932975|1954|27 mins|-73.8717269|33 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 12:45:00.530099|12.2 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 12:50:00.108898|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2027|26 mins|-73.8717269|34 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 12:50:00.540516|12.2 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 12:55:00.094073|10.0 mi|40.7715416|40.7295629|1569|-73.9932975|1876|26 mins|-73.8717269|31 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 12:55:01.195887|12.2 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 13:00:00.115945|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1989|26 mins|-73.8717269|33 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 13:00:01.112727|12.2 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 13:05:00.108343|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1893|26 mins|-73.8717269|32 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 13:05:00.525845|12.2 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 13:10:00.108918|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1930|26 mins|-73.8717269|32 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 13:10:00.567128|12.2 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 13:15:00.113147|10.0 mi|40.7715416|40.7295629|1554|-73.9932975|1847|26 mins|-73.8717269|31 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 13:15:01.455710|12.2 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 13:20:00.108723|9.9 mi|40.7715416|40.7271183|1549|-73.99977539999999|1956|26 mins|-73.8717269|33 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 13:20:01.056325|12.2 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 13:25:00.108395|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2018|26 mins|-73.8717269|34 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 13:25:00.552119|12.2 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 13:30:00.108463|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2086|26 mins|-73.8717269|35 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 13:30:01.096047|11.9 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 13:35:00.109131|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2103|26 mins|-73.8717269|35 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 13:35:00.991310|11.9 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 13:40:00.109378|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2146|26 mins|-73.8717269|36 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 13:40:00.500573|11.9 mi|40.7718585|40.7285304|3241|-73.99433259999999|n/a|54 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 13:45:00.108443|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2160|26 mins|-73.8717269|36 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 13:45:01.304791|12.2 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 13:50:00.108781|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2129|26 mins|-73.8717269|35 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 13:50:01.024849|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 13:55:00.108478|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2292|26 mins|-73.8717269|38 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 13:55:00.515574|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 14:00:00.108552|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2177|26 mins|-73.8717269|36 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 14:00:01.093149|11.9 mi|40.7718585|40.7285304|3301|-73.99433259999999|n/a|55 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 14:05:00.113123|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2209|26 mins|-73.8717269|37 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 14:05:00.517647|12.2 mi|40.7718585|40.7285304|3301|-73.99433259999999|n/a|55 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 14:10:00.108706|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2172|26 mins|-73.8717269|36 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 14:10:00.526757|12.2 mi|40.7718585|40.7285304|3301|-73.99433259999999|n/a|55 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 14:15:00.108973|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2299|26 mins|-73.8717269|38 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 14:15:01.171866|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 14:20:00.108725|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2368|26 mins|-73.8717269|39 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 14:20:01.179054|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 14:25:00.108369|9.9 mi|40.7715416|40.7271183|1549|-73.99977539999999|2402|26 mins|-73.8717269|40 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 14:25:00.587925|11.9 mi|40.7718585|40.7285304|3241|-73.99433259999999|n/a|54 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 14:30:00.108359|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2524|26 mins|-73.8717269|42 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 14:30:01.064873|9.7 mi|40.7718585|40.7284833|3391|-73.99437209999999|n/a|57 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 14:35:00.108234|9.9 mi|40.7715416|40.7271183|1584|-73.99977539999999|2425|26 mins|-73.8717269|40 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 14:35:01.078945|12.2 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 14:40:00.108554|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2446|26 mins|-73.8717269|41 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 14:40:00.504106|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 14:45:00.111807|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2532|26 mins|-73.8717269|42 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 14:45:01.329915|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 14:50:00.053900|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2641|26 mins|-73.8717269|44 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 14:50:01.700791|11.9 mi|40.7718585|40.7285304|3361|-73.99433259999999|n/a|56 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 14:55:00.053898|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2521|26 mins|-73.8717269|42 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 14:55:00.502264|12.2 mi|40.7718585|40.7285304|3301|-73.99433259999999|n/a|55 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 15:00:00.053899|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2652|26 mins|-73.8717269|44 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 15:00:00.564497|11.9 mi|40.7718585|40.7285304|3301|-73.99433259999999|n/a|55 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 15:05:00.053900|10.0 mi|40.7714726|40.7295629|1582|-73.9932975|2697|26 mins|-73.87172249999999|45 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 15:05:01.043731|11.9 mi|40.7718585|40.7285304|3301|-73.99433259999999|n/a|55 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 15:10:00.053893|10.0 mi|40.7715416|40.7295629|1554|-73.9932975|2604|26 mins|-73.8717269|43 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 15:10:00.503054|12.2 mi|40.7718585|40.7285304|3361|-73.99433259999999|n/a|56 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 15:15:00.053892|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2767|26 mins|-73.8717269|46 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 15:15:00.575104|9.7 mi|40.7718585|40.7284833|3391|-73.99437209999999|n/a|57 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 15:20:00.053899|10.0 mi|40.7715416|40.7271183|1638|-73.99977539999999|2859|27 mins|-73.8717269|48 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 15:20:01.391547|11.9 mi|40.7718585|40.7285304|3541|-73.99433259999999|n/a|59 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 15:25:00.053897|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2769|26 mins|-73.8717269|46 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 15:25:00.552065|11.9 mi|40.7718585|40.7285304|3421|-73.99433259999999|n/a|57 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 15:30:00.053893|10.0 mi|40.7715416|40.7295629|1608|-73.9932975|2829|27 mins|-73.8717269|47 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 15:30:01.020215|11.9 mi|40.7718585|40.7285304|3421|-73.99433259999999|n/a|57 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 15:35:00.053899|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2834|26 mins|-73.8717269|47 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 15:35:01.076288|11.9 mi|40.7718585|40.7285304|3421|-73.99433259999999|n/a|57 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 15:40:00.053894|10.0 mi|40.7715416|40.7295629|1655|-73.9932975|2776|28 mins|-73.8717269|46 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 15:40:00.865816|11.9 mi|40.7718585|40.7285304|3421|-73.99433259999999|n/a|57 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 15:45:00.053889|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2914|26 mins|-73.8717269|49 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 15:45:00.569856|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 15:50:00.053984|9.9 mi|40.7715416|40.7271183|1614|-73.99977539999999|2766|27 mins|-73.8717269|46 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 15:50:01.058226|11.9 mi|40.7718585|40.7285304|3421|-73.99433259999999|n/a|57 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 15:55:00.054009|9.9 mi|40.7715416|40.7271183|1614|-73.99977539999999|2895|27 mins|-73.8717269|48 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 15:55:01.207685|11.9 mi|40.7718585|40.7285304|3421|-73.99433259999999|n/a|57 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 16:00:00.053976|9.9 mi|40.7715416|40.7295629|1608|-73.9932975|2833|27 mins|-73.8717269|47 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 16:00:00.529461|11.9 mi|40.7718585|40.7285304|3421|-73.99433259999999|n/a|57 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 16:05:00.054007|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2865|26 mins|-73.8717269|48 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 16:05:01.029250|9.7 mi|40.7718585|40.7284833|3331|-73.99437209999999|n/a|56 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 16:10:00.053998|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2908|26 mins|-73.8717269|48 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 16:10:00.533297|11.9 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 16:15:00.053964|9.7 mi|40.7715416|40.7295629|2408|-73.9932975|2978|40 mins|-73.8717269|50 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 16:15:00.566715|11.9 mi|40.7718585|40.7285304|3541|-73.99433259999999|n/a|59 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 16:20:00.054004|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2868|26 mins|-73.8717269|48 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 16:20:01.888110|11.9 mi|40.7718585|40.7285304|3421|-73.99433259999999|n/a|57 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 16:25:00.054005|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2847|26 mins|-73.8717269|47 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 16:25:00.513331|11.9 mi|40.7718585|40.7285304|3421|-73.99433259999999|n/a|57 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 16:30:00.054012|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2794|26 mins|-73.8717269|47 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 16:30:01.139477|11.9 mi|40.7718585|40.7285304|3421|-73.99433259999999|n/a|57 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 16:35:00.108659|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2637|26 mins|-73.8717269|44 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 16:35:01.453214|11.9 mi|40.7718585|40.7285304|3421|-73.99433259999999|n/a|57 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 16:40:00.109037|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2679|26 mins|-73.8717269|45 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 16:40:00.514221|12.2 mi|40.7718585|40.7285304|3481|-73.99433259999999|n/a|58 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 16:45:00.108812|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2746|26 mins|-73.8717269|46 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 16:45:01.133271|12.2 mi|40.7718585|40.7285304|3361|-73.99433259999999|n/a|56 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 16:50:00.109144|9.9 mi|40.7715416|40.7271183|1549|-73.99977539999999|2543|26 mins|-73.8717269|42 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 16:50:01.159510|12.2 mi|40.7718585|40.7285304|3361|-73.99433259999999|n/a|56 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 16:55:00.108993|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2606|26 mins|-73.8717269|43 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 16:55:00.512112|12.2 mi|40.7718585|40.7285304|3361|-73.99433259999999|n/a|56 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 17:00:00.108687|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2467|26 mins|-73.8717269|41 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 17:00:00.499531|12.2 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 17:05:00.104164|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2382|26 mins|-73.8717269|40 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 17:05:01.123496|12.2 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 17:10:00.109100|9.9 mi|40.7714726|40.7271183|1562|-73.99977539999999|2221|26 mins|-73.87172249999999|37 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 17:10:00.579246|11.9 mi|40.7718585|40.7285304|3241|-73.99433259999999|n/a|54 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 17:15:00.064655|9.9 mi|40.7714726|40.7271183|1562|-73.99977539999999|2108|26 mins|-73.87172249999999|35 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 17:15:00.499517|11.9 mi|40.7718585|40.7285304|3241|-73.99433259999999|n/a|54 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 17:20:00.108493|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2176|26 mins|-73.8717269|36 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 17:20:01.085520|12.2 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 17:25:00.108712|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2065|26 mins|-73.8717269|34 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 17:25:01.021751|12.2 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 17:30:00.108443|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1986|26 mins|-73.8717269|33 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 17:30:00.478878|11.9 mi|40.7718585|40.7285304|3301|-73.99433259999999|n/a|55 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 17:35:00.108285|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1805|26 mins|-73.8717269|30 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 17:35:01.561564|12.2 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 17:40:00.109168|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2084|26 mins|-73.8717269|35 mins
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 17:40:00.558522|12.2 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 17:45:00.116568|9.7 mi|40.7718585|40.7284833|3271|-73.99437209999999|n/a|55 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 17:45:00.209596|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2059|26 mins|-73.8717269|34 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 17:50:00.109338|12.2 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 17:50:01.130413|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|2054|26 mins|-73.8717269|34 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 17:55:00.109258|11.9 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 17:55:01.142364|10.0 mi|40.7714726|40.7295629|1555|-73.9932975|1890|26 mins|-73.87172249999999|32 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 18:00:00.109017|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 18:00:00.573634|10.0 mi|40.7714726|40.7295629|1555|-73.9932975|1847|26 mins|-73.87172249999999|31 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 18:05:00.108946|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 18:05:00.994688|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1813|26 mins|-73.8717269|30 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 18:10:00.108948|11.9 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 18:10:00.622294|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1773|26 mins|-73.8717269|30 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 18:15:00.108863|12.2 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 18:15:01.466715|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1777|26 mins|-73.8717269|30 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 18:20:00.103974|12.2 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 18:20:01.079726|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1720|26 mins|-73.8717269|29 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 18:25:00.109237|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 18:25:00.514491|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1620|26 mins|-73.8717269|27 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 18:30:00.108440|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 18:30:00.655442|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1644|26 mins|-73.8717269|27 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 18:35:00.053892|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 18:35:01.402891|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1625|26 mins|-73.8717269|27 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 18:40:00.054009|11.9 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 18:40:01.115973|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1574|26 mins|-73.8717269|26 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 18:45:00.053893|11.9 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 18:45:00.488718|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1575|26 mins|-73.8717269|26 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 18:50:00.053894|11.9 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 18:50:00.463952|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1569|26 mins|-73.8717269|26 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 18:55:00.053995|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 18:55:01.014416|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1696|26 mins|-73.8717269|28 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 19:00:00.053895|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 19:00:00.457684|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1463|26 mins|-73.8717269|24 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 19:05:00.053988|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 19:05:00.498074|9.9 mi|40.7715416|40.7271183|1549|-73.99977539999999|1491|26 mins|-73.8717269|25 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 19:10:00.104035|11.9 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 19:10:01.143057|9.9 mi|40.7715416|40.7271183|1549|-73.99977539999999|1587|26 mins|-73.8717269|26 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 19:15:00.107772|11.9 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 19:15:01.339414|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1537|26 mins|-73.8717269|26 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 19:20:00.108253|12.2 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 19:20:00.483530|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1570|26 mins|-73.8717269|26 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 19:25:00.108329|12.2 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 19:25:00.512830|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1515|26 mins|-73.8717269|25 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 19:30:00.112685|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 19:30:01.195729|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1491|26 mins|-73.8717269|25 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 19:35:00.109000|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 19:35:01.256411|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1605|26 mins|-73.8717269|27 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 19:40:00.108941|11.6 mi|40.7718585|40.7285304|3561|-73.99433259999999|n/a|59 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 19:40:00.495347|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1728|26 mins|-73.8717269|29 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 19:45:00.108518|11.9 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 19:45:01.080920|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1671|26 mins|-73.8717269|28 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 19:50:00.108745|11.9 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 19:50:00.527571|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1841|26 mins|-73.8717269|31 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 19:55:00.116042|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 19:55:00.516782|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1806|26 mins|-73.8717269|30 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 20:00:00.108430|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 20:00:01.031003|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1930|26 mins|-73.8717269|32 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 20:05:00.109008|11.9 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 20:05:00.539390|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1972|26 mins|-73.8717269|33 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 20:10:00.108294|11.9 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 20:10:00.510678|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1951|26 mins|-73.8717269|33 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 20:15:00.108097|11.9 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 20:15:01.165264|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1938|26 mins|-73.8717269|32 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 20:20:00.109103|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 20:20:00.537982|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1951|26 mins|-73.8717269|33 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 20:25:00.116476|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 20:25:00.528437|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1964|26 mins|-73.8717269|33 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 20:30:00.067446|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 20:30:01.320446|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1592|26 mins|-73.8717269|27 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 20:35:00.109406|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 20:35:00.530045|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1472|26 mins|-73.8717269|25 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 20:40:00.118096|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 20:40:00.544894|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1419|26 mins|-73.8717269|24 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 20:45:00.108873|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 20:45:01.281966|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1419|26 mins|-73.8717269|24 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 20:50:00.108735|11.9 mi|40.7718585|40.7285304|3121|-73.99433259999999|n/a|52 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 20:50:00.553000|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1375|26 mins|-73.8717269|23 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 20:55:00.115035|11.9 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 20:55:00.472571|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1359|26 mins|-73.8717269|23 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 21:00:00.107588|11.9 mi|40.7718585|40.7285304|3061|-73.99433259999999|n/a|51 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 21:00:01.153246|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1407|26 mins|-73.8717269|23 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 21:05:00.108770|11.9 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 21:05:01.110718|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1472|26 mins|-73.8717269|25 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 21:10:00.108862|11.9 mi|40.7718585|40.7285304|3181|-73.99433259999999|n/a|53 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 21:10:00.501184|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1643|26 mins|-73.8717269|27 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 21:15:00.108997|12.2 mi|40.7718585|40.7285304|2941|-73.99433259999999|n/a|49 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 21:15:00.566825|12.1 mi|40.7715416|40.7295629|1771|-73.9932975|1573|30 mins|-73.8717269|26 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 21:20:00.109045|12.2 mi|40.7718585|40.7285304|2941|-73.99433259999999|n/a|49 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 21:20:01.236513|10.1 mi|40.7715416|40.7295629|1676|-73.9932975|1594|28 mins|-73.8717269|27 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 21:25:00.033915|12.2 mi|40.7718585|40.7285304|2941|-73.99433259999999|n/a|49 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 21:25:00.479860|10.0 mi|40.7715416|40.7271183|1679|-73.99977539999999|1623|28 mins|-73.8717269|27 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 21:30:00.053920|9.7 mi|40.7718585|40.7284833|3511|-73.99437209999999|n/a|59 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 21:30:00.515393|9.9 mi|40.7715416|40.7271183|1657|-73.99977539999999|1572|28 mins|-73.8717269|26 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 21:35:00.109020|12.2 mi|40.7718585|40.7285304|3241|-73.99433259999999|n/a|54 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 21:35:01.120624|10.1 mi|40.7715416|40.7295629|1676|-73.9932975|1477|28 mins|-73.8717269|25 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 21:40:00.083899|9.7 mi|40.7718585|40.7284833|3391|-73.99437209999999|n/a|57 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 21:40:01.227552|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1523|26 mins|-73.8717269|25 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 21:45:00.070254|9.7 mi|40.7718585|40.7284833|3391|-73.99437209999999|n/a|57 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 21:45:00.517669|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1470|26 mins|-73.8717269|25 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 21:50:00.049042|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 21:50:01.098776|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1471|26 mins|-73.8717269|25 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 21:55:00.081511|12.2 mi|40.7718585|40.7285304|3001|-73.99433259999999|n/a|50 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 21:55:01.034133|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1420|26 mins|-73.8717269|24 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 22:00:00.060044|11.9 mi|40.7718585|40.7285304|3241|-73.99433259999999|n/a|54 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 22:00:00.485018|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1372|26 mins|-73.8717269|23 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 22:05:00.103987|11.9 mi|40.7718585|40.7285304|3241|-73.99433259999999|n/a|54 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 22:05:00.492569|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1535|26 mins|-73.8717269|26 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 22:10:00.017450|12.2 mi|40.7718585|40.7285304|2941|-73.99433259999999|n/a|49 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 22:10:01.238442|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1454|26 mins|-73.8717269|24 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 22:15:00.104079|12.2 mi|40.7718585|40.7285304|2941|-73.99433259999999|n/a|49 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 22:15:00.495404|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1463|26 mins|-73.8717269|24 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 22:20:00.098424|12.2 mi|40.7718585|40.7285304|2941|-73.99433259999999|n/a|49 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 22:20:00.490570|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1411|26 mins|-73.8717269|24 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 22:25:00.108792|12.2 mi|40.7718585|40.7285304|2941|-73.99433259999999|n/a|49 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 22:25:00.937023|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1351|26 mins|-73.8717269|23 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 22:30:00.113240|9.9 mi|40.7718585|40.7284833|3511|-73.99437209999999|n/a|59 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 22:30:01.212457|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1288|26 mins|-73.8717269|21 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 22:35:00.108633|11.9 mi|40.7718585|40.7285304|3241|-73.99433259999999|n/a|54 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 22:35:00.477792|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1297|26 mins|-73.8717269|22 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 22:40:00.108164|11.9 mi|40.7718585|40.7285304|3241|-73.99433259999999|n/a|54 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 22:40:00.920498|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1411|26 mins|-73.8717269|24 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 22:45:00.108650|9.9 mi|40.7718585|40.7284833|3511|-73.99437209999999|n/a|59 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 22:45:00.474874|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1363|26 mins|-73.8717269|23 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 22:50:00.119692|11.3 mi|40.7718585|40.7285304|3321|-73.99433259999999|n/a|55 mins|-73.8716326|n/a
+New York University||LaGuardia Airport|transit|imperial|2017-03-22 22:50:00.519722|10.0 mi|40.7715416|40.7295629|1546|-73.9932975|1254|26 mins|-73.8717269|21 mins
+New York University|tolls|LaGuardia Airport|driving|imperial|2017-03-22 22:55:00.108163|11.3 mi|40.7718585|40.7285304|3321|-73.99433259999999|n/a|55 mins|-73.8716326|n/a
