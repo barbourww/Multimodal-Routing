@@ -244,17 +244,19 @@ class GooglemapsAPIMiner:
                 q['departure_time'] = dt.datetime.now()
                 print "Executing now (%s)." % q['departure_time'].strftime("%m/%d/%Y %H:%M")
 
+            successes = 0
             try:
                 q_result = self.gmaps.directions(**q)
+                successes += 1
             except (googlemaps.exceptions.ApiError, googlemaps.exceptions.HTTPError,
                     googlemaps.exceptions.Timeout, googlemaps.exceptions.TransportError):
                 traceback.print_exc()
-                continue
+                q_result = []
             if verbose:
                 recursive_print(q_result)
                 print '\n\n'
             self.results.append(q_result)
-        print "Executed", len(self.results), "queries successfully."
+        print "Executed", successes, "queries successfully."
         return
 
     def output_results(self, output_filename=None, write_csv=True, write_pickle=True, get_outputs=None):
