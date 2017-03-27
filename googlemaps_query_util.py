@@ -3,6 +3,7 @@ import traceback
 import time
 import multiprocessing
 import os
+from math import radians, cos, sin, sqrt, asin
 
 tzmap = {'p': 'US/Pacific', 'pst': 'US/Pacific', 'pdt': 'US/Pacific',
          'pacific': 'US/Pacific', 'us/pacific': 'US/Pacific',
@@ -78,6 +79,73 @@ def localize_to_my_timezone(local_time):
 
 def convert_to_my_timezone(local_time_from_query):
     return local_time_from_query.astimezone(mytz)
+
+
+def decode_polyline(polyline_str):
+    index, lat, lng = 0, 0, 0
+    coordinates = []
+    changes = {'latitude': 0, 'longitude': 0}
+
+    # Coordinates have variable length when encoded, so just keep
+    # track of whether we've hit the end of the string. In each
+    # while loop iteration, a single coordinate is decoded.
+    while index < len(polyline_str):
+        # Gather lat/lon changes, store them in a dictionary to apply them later
+        for unit in ['latitude', 'longitude']:
+            shift, result = 0, 0
+            while True:
+                byte = ord(polyline_str[index]) - 63
+                index += 1
+                result |= (byte & 0x1f) << shift
+                shift += 5
+                if not byte >= 0x20:
+                    break
+            if (result & 1):
+                changes[unit] = ~(result >> 1)
+            else:
+                changes[unit] = (result >> 1)
+        lat += changes['latitude']
+        lng += changes['longitude']
+        coordinates.append((lat / 100000.0, lng / 100000.0))
+    return coordinates
+
+
+def haversine(lon1, lat1, lon2, lat2):
+    """
+    Calculate the great circle distance between two points
+    on the earth (specified in decimal degrees)
+    """
+    # convert decimal degrees to radians
+    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+    # Haversine formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a))
+    # radius of earth in miles.
+    r = 3956
+    return c * r
+
+
+def line_interpolate_points(points, fracs):
+    dist = [haversine(p1[0], p1[1], p2[0], p2[1]) for p1, p2 in zip(points[:-1], points[1:])]
+    dist_sum = sum(dist)
+    assert all([fr <= 1. for fr in fracs]), "Can only interpolate up to 100% of length (fracs = 1.0)."
+    interp = []
+    for fr in fracs:
+        frd = dist_sum * fr
+        dist_cumul = 0.
+        for i in range(len(dist)):
+            if dist_cumul + dist[i] > frd:
+                p1 = points[i]
+                p2 = points[i+1]
+                break
+            else:
+                dist_cumul += dist[i]
+        fp = 1. - ((frd - dist_cumul) / dist[i])
+        pi = (p1[0] + (p2[0] - p1[0]) * fp, p1[1] + (p2[1] - p1[1]) * fp)
+        interp.append(pi)
+    return interp
 
 
 # Multiprocessing testing
