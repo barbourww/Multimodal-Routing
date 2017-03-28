@@ -66,15 +66,17 @@ The header (first) row of the file defines the parameters (columns) of the queri
     > timezone (string) - timezone corresponding to the departure or arrival time (e.g., pacific, eastern, etc.)
         for timezones outside of continental US, refer to pytz.common_timezones for list of values
     (optional...)
+    > departure_time (string format "MM/DD/YYYY hh:mm" or "now") – desired time of departure (must be now or in future)
+    > arrival_time (string format "MM/DD/YYYY hh:mm" or "now") – desired time of arrival (must be now or in future)
+        Note: may not specify both departure_time and arrival_time
+    > split_on_leg (string, [begin, end] accepted) - specifies whether to split (if indicated) transit trip such that
+        the driving option is explored on the first transit leg or the final transit leg of the route
     > waypoints (string or ;-separated floats, |-delimited if multiple) –
         specifies an array of waypoints which alter a route by calculating it through the specified location(s)
     > alternatives (bool) – if True, more than one route may be returned in response [true, false, t, f, TRUE, FALSE]
     > avoid (list or string) – indicates that the calculated route(s) should avoid the indicated features
         [tolls, highways, ferries, indoor]
     > units (string) – Specifies the unit system to use when displaying results [metric, imperial]
-    > departure_time (string format "MM/DD/YYYY hh:mm" or "now") – desired time of departure (must be now or in future)
-    > arrival_time (string format "MM/DD/YYYY hh:mm" or "now") – desired time of arrival (must be now or in future)
-        Note: may not specify both departure_time and arrival_time
     > optimize_waypoints (bool) – optimize route by reordering waypoints [true, false, t, f, TRUE, FALSE]
     > transit_mode (string, ;-delimited strings) – one or more preferred modes of transit ('mode' must be 'transit')
         [bus, subway, train, tram, rail], “rail” is equivalent to [train, tram, subway].
