@@ -163,15 +163,19 @@ def dist_to_segment(ax, ay, bx, by, cx, cy):
     :param cy: point, x-coordinate
     :return: minimum distance between point and line segment
     """
-    A = by - ay
-    B = ax - bx
-    dl = abs(A * cx + B * cy - B * ay - A * ax) / sqrt(A**2 + B**2)
-    print "dl", dl
-    x = ((A / B) * ax + ay + (B / A) * cx - cy) / ((B / A) + (A / B))
-    print "x", x
-    if ax <= x <= bx or bx <= x <= ax:
+    # avoid divide by zero error
+    a = max(by - ay, 0.00001)
+    b = max(ax - bx, 0.00001)
+    # compute the perpendicular distance to the theoretical infinite line
+    dl = abs(a * cx + b * cy - b * ay - a * ax) / sqrt(a**2 + b**2)
+    # compute the intersection point
+    x = ((a / b) * ax + ay + (b / a) * cx - cy) / ((b / a) + (a / b))
+    y = -1 * (a / b) * (x - ax) + ay
+    # decide if the intersection point falls on the line segment
+    if (ax <= x <= bx or bx <= x <= ax) and (ay <= y <= by or by <= y <= ay):
         return dl
     else:
+        # if it does not, then return the minimum distance to the segment endpoints
         return min(sqrt((ax - cx)**2 + (ay - cy)**2), sqrt((bx - cx)**2 + (by - cy)**2))
 
 
