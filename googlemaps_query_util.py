@@ -112,8 +112,12 @@ def decode_polyline(polyline_str):
 
 def haversine(lon1, lat1, lon2, lat2):
     """
-    Calculate the great circle distance between two points
-    on the earth (specified in decimal degrees)
+    Calculate the great circle distance between two points on the earth (specified in decimal degrees).
+    :param lon1: longitude of point 1
+    :param lat1: latitude of point 1
+    :param lon2: longitude of point 2
+    :param lat2: latitude of point 2
+    :return Distance in miles
     """
     # convert decimal degrees to radians
     lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
@@ -146,6 +150,29 @@ def line_interpolate_points(points, fracs):
         pi = (p1[0] + (p2[0] - p1[0]) * fp, p1[1] + (p2[1] - p1[1]) * fp)
         interp.append(pi)
     return interp
+
+
+def dist_to_segment(ax, ay, bx, by, cx, cy):
+    """
+    Computes the minimum distance between a point (cx, cy) and a line segment with endpoints (ax, ay) and (bx, by).
+    :param ax: endpoint 1, x-coordinate
+    :param ay: endpoint 1, y-coordinate
+    :param bx: endpoint 2, x-coordinate
+    :param by: endpoint 2, y-coordinate
+    :param cx: point, x-coordinate
+    :param cy: point, x-coordinate
+    :return: minimum distance between point and line segment
+    """
+    A = by - ay
+    B = ax - bx
+    dl = abs(A * cx + B * cy - B * ay - A * ax) / sqrt(A**2 + B**2)
+    print "dl", dl
+    x = ((A / B) * ax + ay + (B / A) * cx - cy) / ((B / A) + (A / B))
+    print "x", x
+    if ax <= x <= bx or bx <= x <= ax:
+        return dl
+    else:
+        return min(sqrt((ax - cx)**2 + (ay - cy)**2), sqrt((bx - cx)**2 + (by - cy)**2))
 
 
 # Multiprocessing testing

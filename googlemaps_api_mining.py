@@ -18,7 +18,7 @@ class GooglemapsAPIMiner:
     Full execution class to call Google Maps Python API (googlemaps) using an input query list and outputting results
         in the form of CSV and Python pickle objects.
     """
-    def __init__(self, api_key_file, execute_in_time=False, queries_per_second=10):
+    def __init__(self, api_key_file, execute_in_time=False, split_transit=False, queries_per_second=10):
         """
         Initialize API miner with API key to the Google Maps service. Create empty class variables for reading input
             and executing queries.
@@ -31,8 +31,10 @@ class GooglemapsAPIMiner:
         mykey = open(api_key_file, 'r').read()
         self.gmaps = googlemaps.Client(key=mykey, queries_per_second=queries_per_second)
         self.execute_in_time = execute_in_time
+        self.split_transit = split_transit
         self.results = []
         self.queries = None
+        self.split_queries = None
         self.input_header = None
         self.saved_input_filename = None
         return
@@ -59,6 +61,7 @@ class GooglemapsAPIMiner:
         :param verbose: T/F to print loaded queries
         :return: None
         """
+        # TODO: accept column(s) indicating intermediate transit station routing (orientation drive-transit/transit-drive and override)
         # Valid range parameters
         date_rp = (['arrival_time', 'departure_time'], ['_min', '_max', '_delta'])
         loc_rp = (['origin', 'destination'], ['_min', '_max', '_count', '_arrange'])
@@ -212,13 +215,21 @@ class GooglemapsAPIMiner:
         print "Loaded", len(self.queries), "API queries."
         return
 
-    def run_queries(self, verbose=False):
+    def run_queries(self, verbose=False, here_are_the_queries=None):
         """
         Sequentially executes previously-loaded queries.
         :param verbose: runs recursive print (for legible indention) on each query result
+        :param here_are_the_queries: explicit passing of queries for execution - will return results instead of storing
         :return: None
         """
-        for q in self.queries:
+        local_results = []
+        if here_are_the_queries:
+            queries = here_are_the_queries
+        else:
+            queries = self.queries
+
+        successes = 0
+        for q in queries:
             for tt in ('departure_time', 'arrival_time'):
                 if tt in q:
                     # q[tt] should have already been converted to dt.datetime unless it is 'now'
@@ -228,6 +239,8 @@ class GooglemapsAPIMiner:
                         pass
                     else:
                         raise ValueError("Invalid type for parameter '%s'." % tt)
+
+            # TODO: if split routing indicated, call the function for that query
 
             if self.execute_in_time:
                 # All queries were checked that they were in the future during ingestion, but if queries multiple
@@ -244,20 +257,27 @@ class GooglemapsAPIMiner:
                 q['departure_time'] = dt.datetime.now()
                 print "Executing now (%s)." % q['departure_time'].strftime("%m/%d/%Y %H:%M")
 
-            successes = 0
             try:
                 q_result = self.gmaps.directions(**q)
                 successes += 1
             except (googlemaps.exceptions.ApiError, googlemaps.exceptions.HTTPError,
                     googlemaps.exceptions.Timeout, googlemaps.exceptions.TransportError):
                 traceback.print_exc()
+                # append empty result to keep number of queries and number of results in sync
                 q_result = []
             if verbose:
                 recursive_print(q_result)
                 print '\n\n'
-            self.results.append(q_result)
+            if here_are_the_queries:
+                # save results in function instead of in class variable
+                local_results.append(q_result)
+            else:
+                self.results.append(q_result)
         print "Executed", successes, "queries successfully."
-        return
+        if here_are_the_queries:
+            return local_results
+        else:
+            return
 
     def output_results(self, output_filename=None, write_csv=True, write_pickle=True, get_outputs=None):
         """
@@ -269,6 +289,8 @@ class GooglemapsAPIMiner:
             results gathered; already defined within function, but these may not be valid depending on queries
         :return: None
         """
+        # TODO: dump to file every 24 hours after minimum query time
+        # TODO: save split query results to separate file
         if not self.results:
             return
         if output_filename is None:
@@ -343,6 +365,60 @@ class GooglemapsAPIMiner:
         self.output_results(output_filename=output_filename, write_csv=write_csv, write_pickle=write_pickle)
         return
 
+    def build_intermediate_queries(self, verbose=False):
+        """
+        Takes imported queries and executes the primary/full version of the query. Then builds secondary/split queries
+            from the results, then to be executed in order and at correct times, if indicated.
+        :param verbose: runs recursive print for primary/full queries and prints information about intermediate stations
+        :return: None
+        """
+        split_queries = []
+        for preliminary_query in self.queries:
+            # execute preliminary query
+            self.run_queries(verbose=False, here_are_the_queries=preliminary_query)
+            # find intermediate transit stations
+            # build queries to and from intermediate transit stations
+            # add secondary queries to split_queries, which will then get sorted
+            # put in class storage separate from non-split queries
+        self.split_queries = split_queries
+        self.split_queries.sort(key=lambda x: x['departure_time'])
+        pass
+
+    def find_intermediate_transit_stations(self, transit_leg):
+        """
+
+        :param transit_leg: portion of full transit trip for which to find intermediate stations
+        :return:
+        """
+        # distance limit in miles from stations found along route to the given route polyline
+        dist_threshold = 0.1
+        # find number of stations from query leg
+        n_stations = transit_leg['transit_details']['num_stops']
+        # extract beginning station, ending station, from transit leg
+        # each is a dictionary with keys 'location' -> ('lat', 'lon') and 'name'
+        begin_station = transit_leg['transit_details']['departure_stop']
+        end_station = transit_leg['transit_details']['arrival_stop']
+        station_type = transit_leg['transit_details']['line']['vehicle']['type'].lower() + '_station'
+        # returned in list of (latitude, longitude) tuples
+        pline = decode_polyline(transit_leg['polyline'])
+        # arrange for n_stations across fractional length [0.0, 1.0] of polyline, then interpolate points
+        linspace = [(j+1) * (1./n_stations) for j in range(n_stations-1)]
+        # interpolation done in cartesian coordinates
+        interp = line_interpolate_points(points=pline, fracs=linspace)
+        intermed = []
+        for itp in interp:
+            # run Google Maps places query to find top result for interpolated station location
+            itm = self.gmaps.places(query='', location=itp, types=station_type)
+            # TODO: can we run directions query from/to a place-id?
+            # calculate minimum cartesian distance from station found at interpolation point to polyline
+            dist_to_pline = min([dist_to_segment(p1[1], p1[0], p2[1], p2[0], itp[1], itp[0]) for p1, p2 in pline])
+            # make sure minimum distance is less than threshold (miles)
+            # cartesian distance approximation for lat/lon is, for short distances, about 1/55 of haversine mileage
+            if dist_to_pline > (dist_threshold / 55.):
+                print "Distance from station found to polyline is approximately greater than %s miles." % dist_threshold
+            intermed.append(itm['results'][0]['place_id'])
+        return intermed
+
 
 def parallel_run_pipeline(all_args):
     """
@@ -378,6 +454,7 @@ if __name__ == '__main__':
         g.run_pipeline(input_filename=input_file, verbose_input=True, verbose_execute=False)
         sys.exit(0)
 
+    # TODO: options to test finding of intermediate points (-s)
     usage = """
     usage: googlemaps_api_mining.py -k <api_key_file> -i <input_filename>
             --[execute_in_time, queries_per_second, output_filename, write_csv, write_pickle,
@@ -423,6 +500,8 @@ if __name__ == '__main__':
         # Initialization arguments.
         elif opt == "-k":
             initspec['api_key_file'] = arg
+        elif opt == "-s":
+            initspec['split_transit'] = arg
         elif opt == "--queries_per_second":
             initspec['queries_per_second'] = int(arg)
         elif opt == "--execute_in_time":
