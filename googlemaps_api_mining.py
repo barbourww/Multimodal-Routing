@@ -372,15 +372,27 @@ class GooglemapsAPIMiner:
         :param verbose: runs recursive print for primary/full queries and prints information about intermediate stations
         :return: None
         """
-        split_queries = []
         for preliminary_query in self.queries:
             # execute preliminary query
-            self.run_queries(verbose=False, here_are_the_queries=preliminary_query)
+            preliminary_result = self.run_queries(verbose=verbose, here_are_the_queries=preliminary_query)
+
             # find intermediate transit stations
+            if preliminary_query['split_on_leg'] == 'begin':
+                steps = preliminary_result[0]['legs'][0]['steps']
+            elif preliminary_query['split_on_leg'] == 'end':
+                steps = list(preliminary_result[0]['legs'][0]['steps'].__reversed__())
+
+            leg = steps[[1 if s['travel_mode'] == 'TRANSIT' else 0 for s in steps].index(1)]
+            stations = self.find_intermediate_transit_stations(transit_leg=leg)
+
             # build queries to and from intermediate transit stations
+            secondary_queries = []
+            for station in stations:
+                # TODO: build secondary queries
+                pass
             # add secondary queries to split_queries, which will then get sorted
-            # put in class storage separate from non-split queries
-        self.split_queries = split_queries
+            self.split_queries += secondary_queries
+        # TODO: need a way to align results when secondary queries get unorganized by time
         self.split_queries.sort(key=lambda x: x['departure_time'])
         pass
 
@@ -390,6 +402,7 @@ class GooglemapsAPIMiner:
         :param transit_leg: portion of full transit trip for which to find intermediate stations
         :return:
         """
+        # TODO: test and validate this whole thing
         # distance limit in miles from stations found along route to the given route polyline
         dist_threshold = 0.1
         # find number of stations from query leg
@@ -454,10 +467,9 @@ if __name__ == '__main__':
         g.run_pipeline(input_filename=input_file, verbose_input=True, verbose_execute=False)
         sys.exit(0)
 
-    # TODO: options to test finding of intermediate points (-s)
     usage = """
     usage: googlemaps_api_mining.py -k <api_key_file> -i <input_filename>
-            --[execute_in_time, queries_per_second, output_filename, write_csv, write_pickle,
+            --[execute_in_time, split_transit, queries_per_second, output_filename, write_csv, write_pickle,
                 parallel_input_files, parallel_api_key_files]
     ex: python googlemaps_api_mining.py -k "./api_key.txt" -i "./test_queries.csv" --output_file "./output_test.csv"
     note: it is advised that the query input filenames be given as an absolute path
@@ -480,8 +492,8 @@ if __name__ == '__main__':
 
     try:
         opts, args = getopt.getopt(command_line_arguments, "hck:i:",
-                                   ["execute_in_time=", "queries_per_second=", "output_filename=", "write_csv=",
-                                    "write_pickle=", "parallel_input_files=", "parallel_api_key_files="])
+                                   ["execute_in_time=", "split_transit=", "queries_per_second=", "output_filename=",
+                                    "write_csv=", "write_pickle=", "parallel_input_files=", "parallel_api_key_files="])
     except getopt.GetoptError:
         print usage
         sys.exit(2)
@@ -500,8 +512,6 @@ if __name__ == '__main__':
         # Initialization arguments.
         elif opt == "-k":
             initspec['api_key_file'] = arg
-        elif opt == "-s":
-            initspec['split_transit'] = arg
         elif opt == "--queries_per_second":
             initspec['queries_per_second'] = int(arg)
         elif opt == "--execute_in_time":
@@ -511,6 +521,14 @@ if __name__ == '__main__':
                 initspec['execute_in_time'] = False
             else:
                 print "--execute_in_time should be [True/False/TRUE/FALSE/true/false]"
+                sys.exit(2)
+        elif opt == "--split_transit":
+            if arg.lower() == 'true':
+                initspec['split_transit'] = True
+            elif arg.lower() == 'false':
+                initspec['split_transit'] = False
+            else:
+                print "--split_transit should be [True/False/TRUE/FALSE/true/false]"
                 sys.exit(2)
 
         # Pipeline arguments.
