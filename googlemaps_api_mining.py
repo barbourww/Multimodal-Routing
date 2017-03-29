@@ -217,9 +217,9 @@ class GooglemapsAPIMiner:
 
     def run_queries(self, verbose=False, here_are_the_queries=None):
         """
-        Sequentially executes previously-loaded queries.
+        Sequentially executes previously-loaded queries stored in class variable self.queries.
         :param verbose: runs recursive print (for legible indention) on each query result
-        :param here_are_the_queries: explicit passing of queries for execution - will return results instead of storing
+        :param here_are_the_queries: list of queries for execution - will return results instead of storing
         :return: None
         """
         local_results = []
@@ -234,7 +234,7 @@ class GooglemapsAPIMiner:
                 if tt in q:
                     # q[tt] should have already been converted to dt.datetime unless it is 'now'
                     if type(q[tt]) is str and q[tt].lower() == 'now':
-                        q[tt] = dt.datetime.now()
+                        q[tt] = localize_to_my_timezone(dt.datetime.now())
                     elif type(q[tt]) is dt.datetime:
                         pass
                     else:
@@ -381,7 +381,8 @@ class GooglemapsAPIMiner:
                 steps = preliminary_result[0]['legs'][0]['steps']
             elif preliminary_query['split_on_leg'] == 'end':
                 steps = list(preliminary_result[0]['legs'][0]['steps'].__reversed__())
-
+            # .index() will get first instance where the travel mode was 'TRANSIT'
+            # if looking for end leg - the order was already reversed above
             leg = steps[[1 if s['travel_mode'] == 'TRANSIT' else 0 for s in steps].index(1)]
             stations = self.find_intermediate_transit_stations(transit_leg=leg)
 
@@ -396,48 +397,74 @@ class GooglemapsAPIMiner:
         self.split_queries.sort(key=lambda x: x['departure_time'])
         pass
 
-    def find_intermediate_transit_stations(self, transit_leg):
+    def find_intermediate_transit_stations(self, transit_leg, verbose=False):
         """
 
         :param transit_leg: portion of full transit trip for which to find intermediate stations
+        :param verbose: print incremental results for debugging/information
         :return:
         """
-        # TODO: test and validate this whole thing
         # distance limit in miles from stations found along route to the given route polyline
         dist_threshold = 0.1
         # find number of stations from query leg
         n_stations = transit_leg['transit_details']['num_stops']
-        # extract beginning station, ending station, from transit leg
-        # each is a dictionary with keys 'location' -> ('lat', 'lon') and 'name'
-        begin_station = transit_leg['transit_details']['departure_stop']
-        end_station = transit_leg['transit_details']['arrival_stop']
         station_type = transit_leg['transit_details']['line']['vehicle']['type'].lower() + '_station'
+        if verbose:
+            print "n_stations:", n_stations
+            print "station_type:", station_type
+            print "raw polyline:", transit_leg['polyline']['points']
         # returned in list of (latitude, longitude) tuples
-        pline = decode_polyline(transit_leg['polyline'])
+        pline = decode_polyline(transit_leg['polyline']['points'])
+        if verbose:
+            print "decoded polyline:", pline
         # arrange for n_stations across fractional length [0.0, 1.0] of polyline, then interpolate points
         linspace = [(j+1) * (1./n_stations) for j in range(n_stations-1)]
         # interpolation done in cartesian coordinates
-        interp = line_interpolate_points(points=pline, fracs=linspace)
-        intermed = []
+        # also add in start and end points of polyline to get those stations as well
+        #   they are listed first so those station names will be used to rule out erroneous top results
+        interp = [pline[0], pline[-1]] + line_interpolate_points(points=pline, fracs=linspace)
+        if verbose:
+            print "interpolating points at:", linspace
+            print "found interpolated points:", interp
+        # gather coordinates of stations, keyed by station name
+        intermed = {}
         for itp in interp:
             # run Google Maps places query to find top result for interpolated station location
-            itm = self.gmaps.places(query='', location=itp, types=station_type)
-            # TODO: can we run directions query from/to a place-id?
+            itm = self.gmaps.places(query='', location=itp, type=station_type)
+            # interpolation method is not perfect because stations are not evenly spaced
+            if itm['results'][0]['name'] not in intermed:
+                top_result = itm['results'][0]
+            elif len(itm['results']) > 1 and itm['results'][1]['name'] not in intermed:
+                top_result = itm['results'][1]
+                if verbose:
+                    print "top result already found, using second result"
+            top_result_point = (top_result['geometry']['location']['lat'], top_result['geometry']['location']['lng'])
+            if verbose:
+                print "interpolated point:", itp
+                print "found point:", top_result_point
+                print "name:", top_result['name']
+                recursive_print(top_result)
             # calculate minimum cartesian distance from station found at interpolation point to polyline
-            dist_to_pline = min([dist_to_segment(p1[1], p1[0], p2[1], p2[0], itp[1], itp[0]) for p1, p2 in pline])
+            dist_to_pline = min([dist_to_segment(p1[1], p1[0], p2[1], p2[0], top_result_point[1], top_result_point[0])
+                                 for p1, p2 in zip(pline[:-1], pline[1:])])
+            if verbose:
+                print "minimum distance from top result to polyline (approx miles):", dist_to_pline * 55.
             # make sure minimum distance is less than threshold (miles)
             # cartesian distance approximation for lat/lon is, for short distances, about 1/55 of haversine mileage
             if dist_to_pline > (dist_threshold / 55.):
                 print "Distance from station found to polyline is approximately greater than %s miles." % dist_threshold
-            intermed.append(itm['results'][0]['place_id'])
+                print "Found minimum distance of approximately %s miles." % dist_to_pline * 55.
+                print "Skipping this station -", top_result['name']
+                continue
+            intermed[top_result['name']] = top_result_point
         return intermed
 
 
 def parallel_run_pipeline(all_args):
     """
-
-    :param all_args:
-    :return:
+    Wrapper method used in parallel execution to run class pipeline method.
+    :param all_args: dictionary containing dictionaries of arguments for class initialization and pipeline function
+    :return: "Success"/"Failure"
     """
     try:
         pipeline_args = all_args['pipeline_args']
@@ -458,13 +485,21 @@ def parallel_run_pipeline(all_args):
 
 if __name__ == '__main__':
     # Set to True for running easily within IDE.
-    if False:
+    if True:
         key_file = './will_googlemaps_api_key.txt'
         input_file = './test_queries.csv'
         g = GooglemapsAPIMiner(api_key_file=key_file, execute_in_time=True)
         # g.read_input_queries(input_filename=input_file, verbose=True)
         # raise KeyboardInterrupt
-        g.run_pipeline(input_filename=input_file, verbose_input=True, verbose_execute=False)
+        # g.run_pipeline(input_filename=input_file, verbose_input=True, verbose_execute=False)
+        test_query = {'origin': 'Harvard transit station Boston MA', 'destination': 'Airport station Boston MA',
+                      'mode': 'transit', 'departure_time': 'now'}
+        l = g.run_queries(here_are_the_queries=[test_query])[0]
+        recursive_print(l)
+        steps = l[0]['legs'][0]['steps']
+        leg = steps[[1 if s['travel_mode'] == 'TRANSIT' else 0 for s in steps].index(1)]
+        i = g.find_intermediate_transit_stations(transit_leg=leg, verbose=True)
+        print i
         sys.exit(0)
 
     usage = """

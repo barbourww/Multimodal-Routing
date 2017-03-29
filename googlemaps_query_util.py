@@ -132,6 +132,12 @@ def haversine(lon1, lat1, lon2, lat2):
 
 
 def line_interpolate_points(points, fracs):
+    """
+    Using a series of points that make up connected line segments, interpolate the location of fractional lengths.
+    :param points: list of point tuples defining connected line segments (i.e., polyline)
+    :param fracs: list of fractional lengths at which to interpolate the location in cartesian space
+    :return: list of point tuples with dimension the same as fracs
+    """
     dist = [haversine(p1[0], p1[1], p2[0], p2[1]) for p1, p2 in zip(points[:-1], points[1:])]
     dist_sum = sum(dist)
     assert all([fr <= 1. for fr in fracs]), "Can only interpolate up to 100% of length (fracs = 1.0)."
@@ -215,4 +221,6 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # test multiprocessing
+    # main()
+    pass
