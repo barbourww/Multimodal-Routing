@@ -222,6 +222,7 @@ class GooglemapsAPIMiner:
         self.input_header = list(set(chain(*[tuple(q.keys()) for q in self.queries])))
         # Sort queries for execution in order.
         if self.execute_in_time:
+            assert not any(['arrival_time' in q for q in self.queries]), "Can't use arrival_time with execute_in_time."
             self.queries.sort(key=lambda x: x['departure_time'])
         print "Loaded", len(self.queries), "API queries."
         return
@@ -281,13 +282,18 @@ class GooglemapsAPIMiner:
                 # execute full query and add result
                 q_result = self.gmaps.directions(**qe)
                 successes += 1
-                # then get any applic
+                # then get any applicable split queries
                 if self.split_transit:
-                    # TODO: add more queries
                     add_queries = self.build_intermediate_queries(full_query_to_split=q, result_to_split=q_result,
                                                                   verbose=verbose)
+                    # TODO: build_intermediate_queries needs to send back first leg to execute and second leg to fill with appropriate departure/arrival time
+                    # TODO: maybe assign unqiue ID to each pair of split queries then let output function align them
                     # make sure all queries will get put in after the current one
-                    assert all([aq['departure_time'] > q['departure_time'] for aq in add_queries])
+                    assert all([aq1['departure_time'] > q['departure_time'] and
+                                aq2['departure_time'] > q['departure_time'] for aq1, aq2 in add_queries
+                                if 'departure_time' in aq1 and 'departure_time' in aq2]), \
+                        "Departure times need to be in future."
+                    assert all([])
                     # TODO: sort list again
                     queries.sort(key=lambda x: x['departure_time'])
                     pass
@@ -332,6 +338,7 @@ class GooglemapsAPIMiner:
             else:
                 output_stub = os.path.split(output_filename)[0]
             output_fn = os.path.splitext(os.path.split(output_filename)[-1])[0]
+        # TODO: if split_transit, then need specialized output format
         if write_pickle:
             try:
                 with open(output_stub + '/' + output_fn + '.cpkl', 'wb') as f:
