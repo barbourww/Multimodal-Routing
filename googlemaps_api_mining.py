@@ -34,7 +34,6 @@ class GooglemapsAPIMiner:
         self.split_transit = split_transit
         self.results = []
         self.queries = None
-        self.split_queries = None
         self.input_header = None
         self.saved_input_filename = None
         return
@@ -47,11 +46,13 @@ class GooglemapsAPIMiner:
             - origin (required)
             - destination (required)
             - mode (required)
+            - timezone (required)
             - waypoints     - traffic_model
             - alternatives  - avoid
             - units         - departure_time
             - arrival_time  - optimize_waypoints
             - transit_mode  - transit_routing_parameters
+            - split_on_leg
         Range parameters:
             - arrival_time (arrival_time_min, arrival_time_max, arrival_time_delta)
             - departure_time (departure_time_min, departure_time_max, departure_time_delta)
@@ -61,7 +62,6 @@ class GooglemapsAPIMiner:
         :param verbose: T/F to print loaded queries
         :return: None
         """
-        # TODO: accept column(s) indicating intermediate transit station routing (orientation drive-transit/transit-drive and override)
         # Valid range parameters
         date_rp = (['arrival_time', 'departure_time'], ['_min', '_max', '_delta'])
         loc_rp = (['origin', 'destination'], ['_min', '_max', '_count', '_arrange'])
@@ -69,7 +69,8 @@ class GooglemapsAPIMiner:
         with open(input_filename, 'rU') as f:
             input_reader = csv.reader(f, delimiter=',', quotechar='"')
             self.input_header = input_reader.next()
-            valid_args = getargspec(googlemaps.directions.directions)[0] + ['timezone'] \
+            # only accept valid execution parameters and the helper parameters (e.g., timezone)
+            valid_args = getargspec(googlemaps.directions.directions)[0] + ['timezone', 'split_on_leg'] \
                          + [va[0] + va[1] for va in product(date_rp[0], date_rp[1])] \
                          + [va[0] + va[1] for va in product(loc_rp[0], loc_rp[1])]
             if not all([h in valid_args for h in self.input_header]):
@@ -77,6 +78,7 @@ class GooglemapsAPIMiner:
                 raise IOError("Header contains invalid columns/arguments.")
             self.queries = [{h: v for h, v in zip(self.input_header, row) if v is not None and v != ''}
                             for row in input_reader if not row[0].startswith('#')]
+        # make sure all required parameters are present
         assert all(['origin' in q or 'origin_min' in q for q in self.queries]), \
             "Origin point must be supplied for all queries."
         assert all(['destination' in q or 'destination_min' in q for q in self.queries]), \
@@ -102,6 +104,7 @@ class GooglemapsAPIMiner:
             rs = [r + suf for suf in date_rp[1]]
             for q in self.queries:
                 if any([ri in q for ri in rs]):
+                    # make sure all required range parameters are present
                     if not all([ri in q for ri in rs]):
                         print "Range param", r, "needs", date_rp[1]
                         print q
@@ -110,23 +113,15 @@ class GooglemapsAPIMiner:
 
                     try:
                         rmin = dt.datetime.strptime(q[r + '_min'], '%m/%d/%Y %H:%M')
-                    except ValueError:
-                        print "Problem with query format on", r+'_min', "(couldn't convert to datetime)."
-                        print q
-                        remove_indices.append(self.queries.index(q))
-                        continue
-                    assert rmin > dt.datetime.now(), "Departure/Arrival times must be in future."
-
-                    try:
                         rmax = dt.datetime.strptime(q[r + '_max'], '%m/%d/%Y %H:%M')
+                        rdel = dt.timedelta(minutes=int(q[r + '_delta']))
                     except ValueError:
-                        print "Problem with query format on", r+'_max', "(couldn't convert to datetime)."
+                        print "Problem with query format on a range parameter (couldn't convert to datetime)."
                         print q
                         remove_indices.append(self.queries.index(q))
                         continue
                     assert rmax > rmin, "Max time is not greater than min time."
 
-                    rdel = dt.timedelta(minutes=int(q[r + '_delta']))
                     i = 0
                     while rmin + i * rdel <= rmax:
                         qn = {}
@@ -137,19 +132,35 @@ class GooglemapsAPIMiner:
                         self.queries.append(qn)
                         i += 1
                     remove_indices.append(self.queries.index(q))
+
+                # now parse out non-range parameters
                 elif r in q:
-                    if type(q[r]) is str and q[r].lower() != 'now':
-                        try:
-                            q[r] = dt.datetime.strptime(q[r], '%m/%d/%Y %H:%M')
-                        except ValueError:
-                            print "Problem with query format on", r, "('now' not used and couldn't convert to datetime)"
-                            print q
-                            remove_indices.append(self.queries.index(q))
+                    if not self.execute_in_time:
+                        # wait until execution time to put datetime.now() in for 'now' if not executing in time
+                        # doesn't matter because sorting doesn't occur when not executing in time
+                        if type(q[r]) is str and q[r].lower() != 'now':
+                            try:
+                                q[r] = dt.datetime.strptime(q[r], '%m/%d/%Y %H:%M')
+                            except ValueError:
+                                print "Problem with query format on", r, "(couldn't convert to datetime)"
+                                print q
+                                remove_indices.append(self.queries.index(q))
+                        elif type(q[r]) is str and q[r].lower() == 'now':
+                            pass
+                    else:
+                        # if executing in time, then put datetime.now() in for the moment
+                        # later it will get caught as slightly in the past and moved up to datetime.now() again
+                        if type(q[r]) is str and q[r].lower() == 'now':
+                            q[r] = dt.datetime.now()
+                            # assign local timezone
+                            q['timezone'] = mytz
+
         # Remove queries that contained range parameters.
         if remove_indices:
             self.queries = [self.queries[j] for j in range(len(self.queries)) if j not in remove_indices]
         remove_indices = []
 
+        # add timezone to all datetime query parameters
         for q in self.queries:
             qtz = q['timezone']
             for r in date_rp[0] + [ri[0] + ri[1] for ri in product(date_rp[0], date_rp[1])]:
@@ -229,18 +240,27 @@ class GooglemapsAPIMiner:
             queries = self.queries
 
         successes = 0
-        for q in queries:
-            for tt in ('departure_time', 'arrival_time'):
-                if tt in q:
-                    # q[tt] should have already been converted to dt.datetime unless it is 'now'
-                    if type(q[tt]) is str and q[tt].lower() == 'now':
-                        q[tt] = localize_to_my_timezone(dt.datetime.now())
-                    elif type(q[tt]) is dt.datetime:
-                        pass
-                    else:
-                        raise ValueError("Invalid type for parameter '%s'." % tt)
-
-            # TODO: if split routing indicated, call the function for that query
+        # run while loop with index, emulating for loop, so that items can be added to the list during looping
+        # persistent sorting of list and nature of query additions ensures that additions happen after the current index
+        qi = 0
+        while qi < len(queries):
+            q = queries[qi]
+            # the query that gets executed can't have an invalid column
+            qe = {k: v for k, v in q.items() if k != 'split_on_leg'}
+            qi += 1
+            if 'departure_time' in q:
+                # q[tt] should have already been converted to dt.datetime unless it is 'now' (and execute_in_time False)
+                if type(q['departure_time']) is str and q['departure_time'].lower() == 'now':
+                    q['departure_time'] = localize_to_my_timezone(dt.datetime.now())
+                # if 'now' was in departure_time and execute_in_time was True, then the parameter will be slightly in
+                #   the past since it was put in as datetime.now() at the time of query input processing
+                if q['departure_time'] < localize_to_my_timezone(dt.datetime.now() - dt.timedelta(minutes=10)):
+                    raise AssertionError("Query departure time too far in past. Will tolerate up to 10 minutes.")
+                elif q['departure_time'] < localize_to_my_timezone(dt.datetime.now()):
+                    q['departure_time'] = localize_to_my_timezone(dt.datetime.now())
+            # arrival time queries must be 90 minutes in the future (to allow for travel time)
+            if 'arrival' in r:
+                assert q[r] > localize_to_my_timezone(dt.datetime.now() + dt.timedelta(hours=1.5))
 
             if self.execute_in_time:
                 # All queries were checked that they were in the future during ingestion, but if queries multiple
@@ -258,8 +278,19 @@ class GooglemapsAPIMiner:
                 print "Executing now (%s)." % q['departure_time'].strftime("%m/%d/%Y %H:%M")
 
             try:
-                q_result = self.gmaps.directions(**q)
+                # execute full query and add result
+                q_result = self.gmaps.directions(**qe)
                 successes += 1
+                # then get any applic
+                if self.split_transit:
+                    # TODO: add more queries
+                    add_queries = self.build_intermediate_queries(full_query_to_split=q, result_to_split=q_result,
+                                                                  verbose=verbose)
+                    # make sure all queries will get put in after the current one
+                    assert all([aq['departure_time'] > q['departure_time'] for aq in add_queries])
+                    # TODO: sort list again
+                    queries.sort(key=lambda x: x['departure_time'])
+                    pass
             except (googlemaps.exceptions.ApiError, googlemaps.exceptions.HTTPError,
                     googlemaps.exceptions.Timeout, googlemaps.exceptions.TransportError):
                 traceback.print_exc()
@@ -290,7 +321,6 @@ class GooglemapsAPIMiner:
         :return: None
         """
         # TODO: dump to file every 24 hours after minimum query time
-        # TODO: save split query results to separate file
         if not self.results:
             return
         if output_filename is None:
@@ -365,37 +395,31 @@ class GooglemapsAPIMiner:
         self.output_results(output_filename=output_filename, write_csv=write_csv, write_pickle=write_pickle)
         return
 
-    def build_intermediate_queries(self, verbose=False):
+    def build_intermediate_queries(self, full_query_to_split, result_to_split, verbose=False):
         """
         Takes imported queries and executes the primary/full version of the query. Then builds secondary/split queries
             from the results, then to be executed in order and at correct times, if indicated.
         :param verbose: runs recursive print for primary/full queries and prints information about intermediate stations
         :return: None
         """
-        for preliminary_query in self.queries:
-            # execute preliminary query
-            preliminary_result = self.run_queries(verbose=verbose, here_are_the_queries=preliminary_query)
+        # find intermediate transit stations
+        if full_query_to_split['split_on_leg'] == 'begin':
+            steps = full_query_to_split[0]['legs'][0]['steps']
+        elif full_query_to_split['split_on_leg'] == 'end':
+            steps = list(full_query_to_split[0]['legs'][0]['steps'].__reversed__())
+        # .index() will get first instance where the travel mode was 'TRANSIT'
+        # if looking for end leg - the order was already reversed above
+        leg = steps[[1 if s['travel_mode'] == 'TRANSIT' else 0 for s in steps].index(1)]
+        stations = self.find_intermediate_transit_stations(transit_leg=leg)
 
-            # find intermediate transit stations
-            if preliminary_query['split_on_leg'] == 'begin':
-                steps = preliminary_result[0]['legs'][0]['steps']
-            elif preliminary_query['split_on_leg'] == 'end':
-                steps = list(preliminary_result[0]['legs'][0]['steps'].__reversed__())
-            # .index() will get first instance where the travel mode was 'TRANSIT'
-            # if looking for end leg - the order was already reversed above
-            leg = steps[[1 if s['travel_mode'] == 'TRANSIT' else 0 for s in steps].index(1)]
-            stations = self.find_intermediate_transit_stations(transit_leg=leg)
-
-            # build queries to and from intermediate transit stations
-            secondary_queries = []
-            for station in stations:
-                # TODO: build secondary queries
-                pass
-            # add secondary queries to split_queries, which will then get sorted
-            self.split_queries += secondary_queries
-        # TODO: need a way to align results when secondary queries get unorganized by time
-        self.split_queries.sort(key=lambda x: x['departure_time'])
-        pass
+        # build queries to and from intermediate transit stations
+        secondary_queries = []
+        for station in stations:
+            # TODO: build secondary queries
+            # TODO: add a minute to each secondary query first leg so the departure_time is after the full query
+            pass
+        # return secondary queries so they can get added to query execution list, which will then get sorted
+        return secondary_queries
 
     def find_intermediate_transit_stations(self, transit_leg, verbose=False):
         """
