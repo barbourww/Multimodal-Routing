@@ -260,8 +260,8 @@ class GooglemapsAPIMiner:
                 elif q['departure_time'] < localize_to_my_timezone(dt.datetime.now()):
                     q['departure_time'] = localize_to_my_timezone(dt.datetime.now())
             # arrival time queries must be 90 minutes in the future (to allow for travel time)
-            if 'arrival' in r:
-                assert q[r] > localize_to_my_timezone(dt.datetime.now() + dt.timedelta(hours=1.5))
+            if 'arrival_time' in q:
+                assert q['arrival_time'] > localize_to_my_timezone(dt.datetime.now() + dt.timedelta(hours=1.5))
 
             if self.execute_in_time:
                 # All queries were checked that they were in the future during ingestion, but if queries multiple
@@ -279,37 +279,52 @@ class GooglemapsAPIMiner:
                 print "Executing now (%s)." % q['departure_time'].strftime("%m/%d/%Y %H:%M")
 
             try:
+                if 'id' in qe:
+                    qid = qe['id']
+                    del qe['id']
+                else:
+                    qid = None
                 # execute full query and add result
                 q_result = self.gmaps.directions(**qe)
                 successes += 1
+                if verbose:
+                    recursive_print(q_result)
+                    print '\n\n'
+                # TODO: put in departure/arrival time for remaining query in list (if there is one)
                 # then get any applicable split queries
-                if self.split_transit:
+                if self.split_transit and 'split_on_leg' in q:
                     add_queries = self.build_intermediate_queries(full_query_to_split=q, result_to_split=q_result,
-                                                                  verbose=verbose)
-                    # TODO: build_intermediate_queries needs to send back first leg to execute and second leg to fill with appropriate departure/arrival time
-                    # TODO: maybe assign unqiue ID to each pair of split queries then let output function align them
+                                                                  id_stub=successes, verbose=verbose)
+                    print add_queries
+                    self.queries += list(chain(*add_queries))
                     # make sure all queries will get put in after the current one
-                    assert all([aq1['departure_time'] > q['departure_time'] and
-                                aq2['departure_time'] > q['departure_time'] for aq1, aq2 in add_queries
-                                if 'departure_time' in aq1 and 'departure_time' in aq2]), \
+                    assert all([aq1['departure_time'] > q['departure_time'] for aq1, aq2 in add_queries
+                                if 'departure_time' in aq1 and aq1['departure_time'] is not None]), \
                         "Departure times need to be in future."
-                    assert all([])
-                    # TODO: sort list again
+                    assert all([aq2['departure_time'] > q['departure_time'] for aq1, aq2 in add_queries
+                                if 'departure_time' in aq2 and aq2['departure_time'] is not None]), \
+                        "Departure times need to be in future."
+                    assert all(['arrival_time'])
                     queries.sort(key=lambda x: x['departure_time'])
-                    pass
+                    print queries
             except (googlemaps.exceptions.ApiError, googlemaps.exceptions.HTTPError,
                     googlemaps.exceptions.Timeout, googlemaps.exceptions.TransportError):
                 traceback.print_exc()
                 # append empty result to keep number of queries and number of results in sync
                 q_result = []
-            if verbose:
-                recursive_print(q_result)
-                print '\n\n'
             if here_are_the_queries:
                 # save results in function instead of in class variable
                 local_results.append(q_result)
             else:
-                self.results.append(q_result)
+                if self.split_transit and qid:
+                    if qid in [i[0] for i in self.results]:
+                        for res in self.results:
+                            if res[0] == qid:
+                                self.results[self.results.index(res)].append(q_result)
+                    else:
+                        self.results.append([qid, q_result])
+                else:
+                    self.results.append(q_result)
         print "Executed", successes, "queries successfully."
         if here_are_the_queries:
             return local_results
@@ -402,29 +417,80 @@ class GooglemapsAPIMiner:
         self.output_results(output_filename=output_filename, write_csv=write_csv, write_pickle=write_pickle)
         return
 
-    def build_intermediate_queries(self, full_query_to_split, result_to_split, verbose=False):
+    def build_intermediate_queries(self, full_query_to_split, result_to_split, id_stub, verbose=False):
         """
         Takes imported queries and executes the primary/full version of the query. Then builds secondary/split queries
             from the results, then to be executed in order and at correct times, if indicated.
+        :param full_query_to_split:
+        :param result_to_split:
+        :param id_stub:
         :param verbose: runs recursive print for primary/full queries and prints information about intermediate stations
         :return: None
         """
         # find intermediate transit stations
         if full_query_to_split['split_on_leg'] == 'begin':
-            steps = full_query_to_split[0]['legs'][0]['steps']
+            steps = result_to_split[0]['legs'][0]['steps']
         elif full_query_to_split['split_on_leg'] == 'end':
-            steps = list(full_query_to_split[0]['legs'][0]['steps'].__reversed__())
+            steps = list(result_to_split[0]['legs'][0]['steps'].__reversed__())
+        else:
+            raise ValueError("Don't know what leg to split on. Specify 'begin'/'end'.")
+        if 'arrival_time' in full_query_to_split:
+            align = 'arrival_time'
+        elif 'departure_time' in full_query_to_split:
+            align = 'departure_time'
+        else:
+            raise ValueError("Don't know if splitting queries on arrival or departure time.")
         # .index() will get first instance where the travel mode was 'TRANSIT'
         # if looking for end leg - the order was already reversed above
-        leg = steps[[1 if s['travel_mode'] == 'TRANSIT' else 0 for s in steps].index(1)]
+        leg = steps[[1 if st['travel_mode'] == 'TRANSIT' else 0 for st in steps].index(1)]
         stations = self.find_intermediate_transit_stations(transit_leg=leg)
 
         # build queries to and from intermediate transit stations
         secondary_queries = []
-        for station in stations:
-            # TODO: build secondary queries
-            # TODO: add a minute to each secondary query first leg so the departure_time is after the full query
-            pass
+        for name, station in stations.items():
+            sq = []
+            if align == 'arrival_time':
+                # cp1 will be second/final part of split trip
+                cp1 = copy(full_query_to_split)
+                del cp1['split_on_leg']
+                cp1['id'] = "%04d%04d" % (id_stub, stations.index(station))
+                # keep arrival time the same
+                cp1['origin'] = station
+                if full_query_to_split['split_on_leg'] == 'end':
+                    cp1['mode'] = 'driving'
+                sq.append(cp1)
+                cp2 = copy(full_query_to_split)
+                del cp2['split_on_leg']
+                cp2['id'] = 0.
+                cp2['arrival_time'] = dt.datetime.max
+                cp2['destination'] = station
+                if full_query_to_split['split_on_leg'] == 'end':
+                    cp2['mode'] = 'driving'
+                sq.append(cp2)
+            else:
+                # cp1 will be first part of split trip
+                cp1 = copy(full_query_to_split)
+                del cp1['split_on_leg']
+                cp1['id'] = 0.
+                # add time to the split query so that when it gets returned the sorting will place it later in the list
+                cp1['departure_time'] = cp1['departure_time'] + dt.timedelta(minutes=3)
+                # keep origin the same
+                cp1['destination'] = station
+                if full_query_to_split['split_on_leg'] == 'begin':
+                    cp1['mode'] = 'driving'
+                sq.append(cp1)
+                cp2 = copy(full_query_to_split)
+                del cp2['split_on_leg']
+                cp2['id'] = 0.
+                cp2['departure_time'] = dt.datetime.max
+                cp2['origin'] = station
+                # keep destination the same (second leg)
+                if full_query_to_split['split_on_leg'] == 'end':
+                    cp2['mode'] = 'driving'
+                sq.append(cp2)
+            secondary_queries.append(copy(sq))
+            if verbose:
+                print name, '\n', sq[0], '\n', sq[1]
         # return secondary queries so they can get added to query execution list, which will then get sorted
         return secondary_queries
 
@@ -470,6 +536,7 @@ class GooglemapsAPIMiner:
                 if verbose:
                     print "top result already found, using second result"
             top_result_point = (top_result['geometry']['location']['lat'], top_result['geometry']['location']['lng'])
+            top_result_address = top_result['formatted_address'].replace(',', '')
             if verbose:
                 print "interpolated point:", itp
                 print "found point:", top_result_point
@@ -479,15 +546,15 @@ class GooglemapsAPIMiner:
             dist_to_pline = min([dist_to_segment(p1[1], p1[0], p2[1], p2[0], top_result_point[1], top_result_point[0])
                                  for p1, p2 in zip(pline[:-1], pline[1:])])
             if verbose:
-                print "minimum distance from top result to polyline (approx miles):", dist_to_pline * 55.
+                print "minimum distance from top result to polyline (approx miles):", (dist_to_pline * 55.)
             # make sure minimum distance is less than threshold (miles)
             # cartesian distance approximation for lat/lon is, for short distances, about 1/55 of haversine mileage
             if dist_to_pline > (dist_threshold / 55.):
                 print "Distance from station found to polyline is approximately greater than %s miles." % dist_threshold
-                print "Found minimum distance of approximately %s miles." % dist_to_pline * 55.
+                print "Found minimum distance of approximately %s miles." % (dist_to_pline * 55.)
                 print "Skipping this station -", top_result['name']
                 continue
-            intermed[top_result['name']] = top_result_point
+            intermed[top_result['name']] = top_result_address
         return intermed
 
 
@@ -519,18 +586,16 @@ if __name__ == '__main__':
     if True:
         key_file = './will_googlemaps_api_key.txt'
         input_file = './test_queries.csv'
-        g = GooglemapsAPIMiner(api_key_file=key_file, execute_in_time=True)
+        g = GooglemapsAPIMiner(api_key_file=key_file, execute_in_time=False, split_transit=True)
         # g.read_input_queries(input_filename=input_file, verbose=True)
         # raise KeyboardInterrupt
         # g.run_pipeline(input_filename=input_file, verbose_input=True, verbose_execute=False)
         test_query = {'origin': 'Harvard transit station Boston MA', 'destination': 'Airport station Boston MA',
-                      'mode': 'transit', 'departure_time': 'now'}
-        l = g.run_queries(here_are_the_queries=[test_query])[0]
-        recursive_print(l)
-        steps = l[0]['legs'][0]['steps']
-        leg = steps[[1 if s['travel_mode'] == 'TRANSIT' else 0 for s in steps].index(1)]
-        i = g.find_intermediate_transit_stations(transit_leg=leg, verbose=True)
-        print i
+                      'mode': 'transit', 'departure_time': localize_to_my_timezone(dt.datetime.now()),
+                      'split_on_leg': 'begin'}
+        g.queries = [test_query]
+        l = g.run_queries()
+        print g.results
         sys.exit(0)
 
     usage = """
