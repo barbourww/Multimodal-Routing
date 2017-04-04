@@ -301,19 +301,19 @@ class GooglemapsAPIMiner:
                 successes += 1
                 if verbose:
                     print "Result:"
-                    if not q_result:
-                        print qe
-                        raise KeyboardInterrupt
-                    else:
-                        recursive_print(q_result)
+                    recursive_print(q_result)
                     print '\n\n'
+                if not q_result:
+                    print qe
+                    raise KeyboardInterrupt
                 if self.split_transit and qid and qid.split('-')[1] == '1':
                     if recursive_get(q_result, (0, 'legs', 0, 'duration_in_traffic', 'value')) == 'n/a':
                         leg1_time = int(recursive_get(q_result, (0, 'legs', 0, 'duration', 'value'))) / 60.
                     else:
                         leg1_time = int(recursive_get(q_result, (0, 'legs', 0, 'duration_in_traffic', 'value'))) / 60.
-                    q_index = [True if 'id' in rq and rq['id'].split('-')[0] == qid.split('-')[0] else False
+                    q_index = [True if 'id' in rq and rq['id'] == qid.split('-')[0] + '-2' else False
                                for rq in queries].index(True)
+                    print "Found index of query to change."
                     if 'departure_time' in queries[q_index]:
                         queries[q_index]['departure_time'] = qe['departure_time'] + dt.timedelta(minutes=leg1_time)
                     elif 'arrival_time' in queries[q_index]:
@@ -325,7 +325,8 @@ class GooglemapsAPIMiner:
                     add_queries = self.build_intermediate_queries(full_query_to_split=q, result_to_split=q_result,
                                                                   id_stub=successes, verbose=verbose_split)
                     ####################
-                    print "Add queries:"
+                    print "ID stub:", "000%d" % successes
+                    print "Adding", len(add_queries), " queries:"
                     for aq in add_queries:
                         print aq
                     self.queries += list(chain(*add_queries))
@@ -340,11 +341,11 @@ class GooglemapsAPIMiner:
                         assert not any(['arrival_time' in aq for aq in add_queries]), \
                             "Arrival time not allowed for execute_in_time."
                     queries.sort(key=lambda x: x['departure_time'] if 'departure_time' in x else x['arrival_time'])
-                    ##################
-                    print "All queries:"
-                    print "\tThis was number", queries.index(q)
-                    for alq in queries:
-                        print alq
+                ##################
+                print "All queries:"
+                print "\tThis was number", queries.index(q)
+                for alq in queries:
+                    print alq
             except (googlemaps.exceptions.ApiError, googlemaps.exceptions.HTTPError,
                     googlemaps.exceptions.Timeout, googlemaps.exceptions.TransportError):
                 traceback.print_exc()
@@ -359,8 +360,10 @@ class GooglemapsAPIMiner:
                         for res in self.results:
                             if res[0] == qid.split('-')[0]:
                                 self.results[self.results.index(res)].append(q_result)
+                                print "Added a result to an existing ID:", qid.split('-')[0]
                     else:
                         self.results.append([qid.split('-')[0], q_result])
+                        print "Added a result under a new ID:", qid.split('-')[0]
                 else:
                     self.results.append(q_result)
             ###################
@@ -652,7 +655,7 @@ def parallel_run_pipeline(all_args):
 if __name__ == '__main__':
     # Set to True for running easily within IDE.
     if True:
-        key_file = './steve_googlemaps_api_key.txt'
+        key_file = './will2_googlemaps_api_key.txt'
         input_file = './test_queries.csv'
         g = GooglemapsAPIMiner(api_key_file=key_file, execute_in_time=False, split_transit=True)
         # g.read_input_queries(input_filename=input_file, verbose=True)
@@ -661,7 +664,9 @@ if __name__ == '__main__':
         test_query = {'origin': 'Harvard transit station Boston MA', 'destination': 'Airport station Boston MA',
                       'mode': 'transit', 'departure_time': localize_to_my_timezone(dt.datetime.now()),
                       'split_on_leg': 'begin'}
-        g.run_pipeline(input_filename=input_file, verbose_execute=True, verbose_input=True, verbose_split=False)
+        # print g.gmaps.places(query='', location=(42.3732437, -71.1200269), type='subway_station')
+        # sys.exit(0)
+        g.run_pipeline(input_filename=input_file, verbose_execute=False, verbose_input=True, verbose_split=False)
         sys.exit(0)
 
     usage = """
