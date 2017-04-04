@@ -18,7 +18,7 @@ class GooglemapsAPIMiner:
     Full execution class to call Google Maps Python API (googlemaps) using an input query list and outputting results
         in the form of CSV and Python pickle objects.
     """
-    def __init__(self, api_key_file, execute_in_time=False, split_transit=False, queries_per_second=10):
+    def __init__(self, api_key_file, execute_in_time=False, split_transit=False, queries_per_second=1):
         """
         Initialize API miner with API key to the Google Maps service. Create empty class variables for reading input
             and executing queries.
@@ -30,12 +30,17 @@ class GooglemapsAPIMiner:
         """
         mykey = open(api_key_file, 'r').read()
         self.gmaps = googlemaps.Client(key=mykey, queries_per_second=queries_per_second)
+        self.places_query_count = 0
+        self.directions_query_count = 0
         self.execute_in_time = execute_in_time
         self.split_transit = split_transit
         self.results = []
         self.queries = None
         self.input_header = None
         self.saved_input_filename = None
+        self.start_time = dt.datetime.now()
+        # keys are (origin, destination, split_on_leg)
+        self.split_cache = {}
         return
 
     def read_input_queries(self, input_filename, verbose=False):
@@ -68,7 +73,7 @@ class GooglemapsAPIMiner:
 
         with open(input_filename, 'rU') as f:
             input_reader = csv.reader(f, delimiter=',', quotechar='"')
-            self.input_header = input_reader.next()
+            self.input_header = [ih.strip() for ih in input_reader.next()]
             # only accept valid execution parameters and the helper parameters (e.g., timezone)
             valid_args = getargspec(googlemaps.directions.directions)[0] + ['timezone', 'split_on_leg'] \
                          + [va[0] + va[1] for va in product(date_rp[0], date_rp[1])] \
@@ -76,8 +81,9 @@ class GooglemapsAPIMiner:
             if not all([h in valid_args for h in self.input_header]):
                 print "Invalid:", set(self.input_header).difference(set(valid_args))
                 raise IOError("Header contains invalid columns/arguments.")
-            self.queries = [{h: v for h, v in zip(self.input_header, row) if v is not None and v != ''}
+            self.queries = [{h: v for h, v in zip(self.input_header, [re.strip() for re in row]) if v is not None and v != ''}
                             for row in input_reader if not row[0].startswith('#')]
+
         # make sure all required parameters are present
         assert all(['origin' in q or 'origin_min' in q for q in self.queries]), \
             "Origin point must be supplied for all queries."
@@ -166,7 +172,6 @@ class GooglemapsAPIMiner:
             for r in date_rp[0] + [ri[0] + ri[1] for ri in product(date_rp[0], date_rp[1])]:
                 if r in q and type(q[r]) is dt.datetime:
                     q[r] = convert_to_my_timezone(localize_to_query_timezone(time_in_query=q[r], timezone_in_query=qtz))
-            q.__delitem__('timezone')
 
         for r in loc_rp[0]:
             rs = [r + suf for suf in loc_rp[1]]
@@ -227,10 +232,11 @@ class GooglemapsAPIMiner:
         print "Loaded", len(self.queries), "API queries."
         return
 
-    def run_queries(self, verbose=False, here_are_the_queries=None):
+    def run_queries(self, verbose=False, verbose_split=False, here_are_the_queries=None):
         """
         Sequentially executes previously-loaded queries stored in class variable self.queries.
         :param verbose: runs recursive print (for legible indention) on each query result
+        :param verbose_split:
         :param here_are_the_queries: list of queries for execution - will return results instead of storing
         :return: None
         """
@@ -245,9 +251,12 @@ class GooglemapsAPIMiner:
         # persistent sorting of list and nature of query additions ensures that additions happen after the current index
         qi = 0
         while qi < len(queries):
+            if dt.datetime.now() > self.start_time + dt.timedelta(hours=24):
+                self.output_results()
+                self.start_time = dt.datetime.now()
             q = queries[qi]
             # the query that gets executed can't have an invalid column
-            qe = {k: v for k, v in q.items() if k != 'split_on_leg'}
+            qe = {k: v for k, v in q.items() if k not in ['timezone', 'split_on_leg']}
             qi += 1
             if 'departure_time' in q:
                 # q[tt] should have already been converted to dt.datetime unless it is 'now' (and execute_in_time False)
@@ -278,23 +287,33 @@ class GooglemapsAPIMiner:
                 q['departure_time'] = dt.datetime.now()
                 print "Executing now (%s)." % q['departure_time'].strftime("%m/%d/%Y %H:%M")
 
+            if 'id' in qe:
+                qid = qe['id']
+                del qe['id']
+            else:
+                qid = None
+
             try:
-                if 'id' in qe:
-                    qid = qe['id']
-                    del qe['id']
-                else:
-                    qid = None
                 # execute full query and add result
+                self.directions_query_count += 1
+                print "Directions count:", self.directions_query_count
                 q_result = self.gmaps.directions(**qe)
                 successes += 1
                 if verbose:
-                    recursive_print(q_result)
+                    print "Result:"
+                    if not q_result:
+                        print qe
+                        raise KeyboardInterrupt
+                    else:
+                        recursive_print(q_result)
                     print '\n\n'
-                if self.split_transit:
-                    leg1_time = recursive_get(q_result, (0, 'legs', 0, 'duration_in_traffic', 'value')) / 60.
-                    if leg1_time == 'n/a':
-                        leg1_time = recursive_get(q_result, (0, 'legs', 0, 'duration', 'value')) / 60.
-                    q_index = [True if 'id' in rq and rq['id'] == qid else False for rq in queries].index(True)
+                if self.split_transit and qid and qid.split('-')[1] == '1':
+                    if recursive_get(q_result, (0, 'legs', 0, 'duration_in_traffic', 'value')) == 'n/a':
+                        leg1_time = int(recursive_get(q_result, (0, 'legs', 0, 'duration', 'value'))) / 60.
+                    else:
+                        leg1_time = int(recursive_get(q_result, (0, 'legs', 0, 'duration_in_traffic', 'value'))) / 60.
+                    q_index = [True if 'id' in rq and rq['id'].split('-')[0] == qid.split('-')[0] else False
+                               for rq in queries].index(True)
                     if 'departure_time' in queries[q_index]:
                         queries[q_index]['departure_time'] = qe['departure_time'] + dt.timedelta(minutes=leg1_time)
                     elif 'arrival_time' in queries[q_index]:
@@ -304,8 +323,11 @@ class GooglemapsAPIMiner:
                 # then get any applicable split queries
                 if self.split_transit and 'split_on_leg' in q:
                     add_queries = self.build_intermediate_queries(full_query_to_split=q, result_to_split=q_result,
-                                                                  id_stub=successes, verbose=verbose)
-                    print add_queries
+                                                                  id_stub=successes, verbose=verbose_split)
+                    ####################
+                    print "Add queries:"
+                    for aq in add_queries:
+                        print aq
                     self.queries += list(chain(*add_queries))
                     # make sure all queries will get put in after the current one
                     assert all([aq1['departure_time'] > q['departure_time'] for aq1, aq2 in add_queries
@@ -318,7 +340,11 @@ class GooglemapsAPIMiner:
                         assert not any(['arrival_time' in aq for aq in add_queries]), \
                             "Arrival time not allowed for execute_in_time."
                     queries.sort(key=lambda x: x['departure_time'] if 'departure_time' in x else x['arrival_time'])
-                    print queries
+                    ##################
+                    print "All queries:"
+                    print "\tThis was number", queries.index(q)
+                    for alq in queries:
+                        print alq
             except (googlemaps.exceptions.ApiError, googlemaps.exceptions.HTTPError,
                     googlemaps.exceptions.Timeout, googlemaps.exceptions.TransportError):
                 traceback.print_exc()
@@ -329,14 +355,18 @@ class GooglemapsAPIMiner:
                 local_results.append(q_result)
             else:
                 if self.split_transit and qid:
-                    if qid in [i[0] for i in self.results]:
+                    if qid.split('-')[0] in [i[0] for i in self.results]:
                         for res in self.results:
-                            if res[0] == qid:
+                            if res[0] == qid.split('-')[0]:
                                 self.results[self.results.index(res)].append(q_result)
                     else:
-                        self.results.append([qid, q_result])
+                        self.results.append([qid.split('-')[0], q_result])
                 else:
                     self.results.append(q_result)
+            ###################
+            print "Results:"
+            for r in self.results:
+                print r
         print "Executed", successes, "queries successfully."
         if here_are_the_queries:
             return local_results
@@ -353,7 +383,7 @@ class GooglemapsAPIMiner:
             results gathered; already defined within function, but these may not be valid depending on queries
         :return: None
         """
-        # TODO: dump to file every 24 hours after minimum query time
+        # TODO: results list won't be aligned with queries
         if not self.results:
             return
         if output_filename is None:
@@ -365,7 +395,6 @@ class GooglemapsAPIMiner:
             else:
                 output_stub = os.path.split(output_filename)[0]
             output_fn = os.path.splitext(os.path.split(output_filename)[-1])[0]
-        # TODO: if split_transit, then need specialized output format
         if write_pickle:
             try:
                 with open(output_stub + '/' + output_fn + '.cpkl', 'wb') as f:
@@ -395,12 +424,20 @@ class GooglemapsAPIMiner:
                 with open(output_stub + '/' + output_fn + '.csv', 'w') as f:
                     writer = csv.writer(f, delimiter='|')
                     outputs_keys, outputs_values = zip(*outputs.items())
-                    output_header = self.input_header + list(outputs_keys)
+                    if self.split_transit:
+                        output_header = self.input_header + list(outputs_keys) * 2
+                    else:
+                        output_header = self.input_header + list(outputs_keys)
                     writer.writerow(output_header)
                     for q, res in zip(self.queries, self.results):
-                        line = [q[ih] if ih in q else ''
-                                for ih in self.input_header] + [recursive_get(res, oh)
-                                                                for oh in outputs_values]
+                        line = [q[ih] if ih in q else '' for ih in self.input_header]
+                        if self.split_transit and len(res) == 3 and type(res[0]) is str and len(res[0]) == 8:
+                            line += [recursive_get(res[1], oh) for oh in outputs_values]
+                            line += [recursive_get(res[2], oh) for oh in outputs_values]
+                        elif len(res) == 1:
+                            line += [recursive_get(res, oh) for oh in outputs_values]
+                        else:
+                            pass
                         writer.writerow(line)
             except:
                 traceback.print_exc()
@@ -413,7 +450,7 @@ class GooglemapsAPIMiner:
         return
 
     def run_pipeline(self, input_filename, output_filename=None, verbose_input=False, verbose_execute=False,
-                     write_csv=True, write_pickle=True):
+                     verbose_split=False, write_csv=True, write_pickle=True):
         """
         Executes read_input_queries(...), run_queries(...), and output_results(...) with their relevant parameters
         :param input_filename: absolute or relative path for input file (will be saved for possible use in output)
@@ -425,7 +462,7 @@ class GooglemapsAPIMiner:
         :return: None
         """
         self.read_input_queries(input_filename=input_filename, verbose=verbose_input)
-        self.run_queries(verbose=verbose_execute)
+        self.run_queries(verbose=verbose_execute, verbose_split=verbose_split)
         self.output_results(output_filename=output_filename, write_csv=write_csv, write_pickle=write_pickle)
         return
 
@@ -454,28 +491,37 @@ class GooglemapsAPIMiner:
             raise ValueError("Don't know if splitting queries on arrival or departure time.")
         # .index() will get first instance where the travel mode was 'TRANSIT'
         # if looking for end leg - the order was already reversed above
+        ky = (full_query_to_split['origin'], full_query_to_split['destination'], full_query_to_split['split_on_leg'])
         leg = steps[[1 if st['travel_mode'] == 'TRANSIT' else 0 for st in steps].index(1)]
-        stations = self.find_intermediate_transit_stations(transit_leg=leg)
+        if ky in self.split_cache:
+            stations = self.split_cache[ky]
+            if verbose:
+                print "Using cached station list."
+        else:
+            stations = self.find_intermediate_transit_stations(transit_leg=leg, verbose=verbose)
+            self.split_cache[ky] = stations
+        station_keys = stations.keys()
 
         # build queries to and from intermediate transit stations
         secondary_queries = []
-        for name, station in stations.items():
+        for name, loc in stations.items():
             sq = []
             if align == 'arrival_time':
                 # cp1 will be second/final part of split trip
                 cp1 = copy(full_query_to_split)
                 del cp1['split_on_leg']
-                cp1['id'] = "%04d%04d" % (id_stub, stations.index(station))
+                cp1['id'] = "%04d%04d-1" % (id_stub, station_keys.index(name))
                 # keep arrival time the same
-                cp1['origin'] = station
+                cp1['origin'] = loc
                 if full_query_to_split['split_on_leg'] == 'end':
                     cp1['mode'] = 'driving'
                 sq.append(cp1)
                 cp2 = copy(full_query_to_split)
                 del cp2['split_on_leg']
-                cp2['id'] = 0.
-                cp2['arrival_time'] = dt.datetime.max
-                cp2['destination'] = station
+                cp2['id'] = "%04d%04d-2" % (id_stub, station_keys.index(name))
+                cp2['arrival_time'] = localize_to_query_timezone(dt.datetime.max - dt.timedelta(hours=24),
+                                                                 cp2['timezone'])
+                cp2['destination'] = loc
                 if full_query_to_split['split_on_leg'] == 'end':
                     cp2['mode'] = 'driving'
                 sq.append(cp2)
@@ -483,19 +529,20 @@ class GooglemapsAPIMiner:
                 # cp1 will be first part of split trip
                 cp1 = copy(full_query_to_split)
                 del cp1['split_on_leg']
-                cp1['id'] = 0.
+                cp1['id'] = "%04d%04d-1" % (id_stub, station_keys.index(name))
                 # add time to the split query so that when it gets returned the sorting will place it later in the list
                 cp1['departure_time'] = cp1['departure_time'] + dt.timedelta(minutes=3)
                 # keep origin the same
-                cp1['destination'] = station
+                cp1['destination'] = loc
                 if full_query_to_split['split_on_leg'] == 'begin':
                     cp1['mode'] = 'driving'
                 sq.append(cp1)
                 cp2 = copy(full_query_to_split)
                 del cp2['split_on_leg']
-                cp2['id'] = 0.
-                cp2['departure_time'] = dt.datetime.max
-                cp2['origin'] = station
+                cp2['id'] = "%04d%04d-2" % (id_stub, station_keys.index(name))
+                cp2['departure_time'] = localize_to_query_timezone(dt.datetime.max - dt.timedelta(hours=24),
+                                                                   cp2['timezone'])
+                cp2['origin'] = loc
                 # keep destination the same (second leg)
                 if full_query_to_split['split_on_leg'] == 'end':
                     cp2['mode'] = 'driving'
@@ -539,7 +586,16 @@ class GooglemapsAPIMiner:
         intermed = {}
         for itp in interp:
             # run Google Maps places query to find top result for interpolated station location
-            itm = self.gmaps.places(query='', location=itp, type=station_type)
+            try:
+                self.places_query_count += 1
+                print "Places count:", self.places_query_count
+                itm = self.gmaps.places(query='', location=itp, type=station_type)
+            except (googlemaps.exceptions.ApiError, googlemaps.exceptions.HTTPError,
+                    googlemaps.exceptions.Timeout, googlemaps.exceptions.TransportError):
+                traceback.print_exc()
+                print "ERROR: location =", itp, "type =", station_type
+                # append empty result to keep number of queries and number of results in sync
+                continue
             # interpolation method is not perfect because stations are not evenly spaced
             if itm['results'][0]['name'] not in intermed:
                 top_result = itm['results'][0]
@@ -548,7 +604,7 @@ class GooglemapsAPIMiner:
                 if verbose:
                     print "top result already found, using second result"
             top_result_point = (top_result['geometry']['location']['lat'], top_result['geometry']['location']['lng'])
-            top_result_address = top_result['formatted_address'].replace(',', '')
+            top_result_loc = (top_result['geometry']['location']['lat'], top_result['geometry']['location']['lng'])
             if verbose:
                 print "interpolated point:", itp
                 print "found point:", top_result_point
@@ -566,7 +622,7 @@ class GooglemapsAPIMiner:
                 print "Found minimum distance of approximately %s miles." % (dist_to_pline * 55.)
                 print "Skipping this station -", top_result['name']
                 continue
-            intermed[top_result['name']] = top_result_address
+            intermed[top_result['name']] = top_result_loc
         return intermed
 
 
@@ -596,7 +652,7 @@ def parallel_run_pipeline(all_args):
 if __name__ == '__main__':
     # Set to True for running easily within IDE.
     if True:
-        key_file = './will_googlemaps_api_key.txt'
+        key_file = './steve_googlemaps_api_key.txt'
         input_file = './test_queries.csv'
         g = GooglemapsAPIMiner(api_key_file=key_file, execute_in_time=False, split_transit=True)
         # g.read_input_queries(input_filename=input_file, verbose=True)
@@ -605,9 +661,7 @@ if __name__ == '__main__':
         test_query = {'origin': 'Harvard transit station Boston MA', 'destination': 'Airport station Boston MA',
                       'mode': 'transit', 'departure_time': localize_to_my_timezone(dt.datetime.now()),
                       'split_on_leg': 'begin'}
-        g.queries = [test_query]
-        l = g.run_queries()
-        print g.results
+        g.run_pipeline(input_filename=input_file, verbose_execute=True, verbose_input=True, verbose_split=False)
         sys.exit(0)
 
     usage = """
