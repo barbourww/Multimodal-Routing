@@ -290,7 +290,17 @@ class GooglemapsAPIMiner:
                 if verbose:
                     recursive_print(q_result)
                     print '\n\n'
-                # TODO: put in departure/arrival time for remaining query in list (if there is one)
+                if self.split_transit:
+                    leg1_time = recursive_get(q_result, (0, 'legs', 0, 'duration_in_traffic', 'value')) / 60.
+                    if leg1_time == 'n/a':
+                        leg1_time = recursive_get(q_result, (0, 'legs', 0, 'duration', 'value')) / 60.
+                    q_index = [True if 'id' in rq and rq['id'] == qid else False for rq in queries].index(True)
+                    if 'departure_time' in queries[q_index]:
+                        queries[q_index]['departure_time'] = qe['departure_time'] + dt.timedelta(minutes=leg1_time)
+                    elif 'arrival_time' in queries[q_index]:
+                        queries[q_index]['arrival_time'] = qe['arrival_time'] - dt.timedelta(minutes=leg1_time)
+                    else:
+                        pass
                 # then get any applicable split queries
                 if self.split_transit and 'split_on_leg' in q:
                     add_queries = self.build_intermediate_queries(full_query_to_split=q, result_to_split=q_result,
@@ -304,8 +314,10 @@ class GooglemapsAPIMiner:
                     assert all([aq2['departure_time'] > q['departure_time'] for aq1, aq2 in add_queries
                                 if 'departure_time' in aq2 and aq2['departure_time'] is not None]), \
                         "Departure times need to be in future."
-                    assert all(['arrival_time'])
-                    queries.sort(key=lambda x: x['departure_time'])
+                    if self.execute_in_time:
+                        assert not any(['arrival_time' in aq for aq in add_queries]), \
+                            "Arrival time not allowed for execute_in_time."
+                    queries.sort(key=lambda x: x['departure_time'] if 'departure_time' in x else x['arrival_time'])
                     print queries
             except (googlemaps.exceptions.ApiError, googlemaps.exceptions.HTTPError,
                     googlemaps.exceptions.Timeout, googlemaps.exceptions.TransportError):
