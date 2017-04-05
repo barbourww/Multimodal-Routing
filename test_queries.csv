@@ -1,1 +1,1 @@
-origin,destination,mode,transit_mode,timezone,departure_time,departure_time_min,departure_time_max,departure_time_delta,arrival_time, split_on_legHarvard transit station Boston MA, Airport station Boston MA, transit, , eastern, , 04/05/2017 14:15, 04/05/2017 14:20, 5, , begin
+origin,destination,mode,transit_mode,timezone,departure_time,departure_time_min,departure_time_max,departure_time_delta,arrival_time, split_on_legHarvard transit station Boston MA, Airport station Boston MA, transit, , eastern, , 04/05/2017 00:05, 04/05/2017 00:10, 5, , begin
