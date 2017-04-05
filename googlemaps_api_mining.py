@@ -259,22 +259,32 @@ class GooglemapsAPIMiner:
             if dt.datetime.now() > self.start_time + dt.timedelta(hours=24):
                 self.output_results()
                 self.start_time = dt.datetime.now()
+
             q = queries[qi]
             # the query that gets executed can't have an invalid column - 'id' will be handled later
+            # the departure_time will get changed temporarily here so that sorting will not be broken
             qe = {k: v for k, v in q.items() if k not in ['timezone', 'split_on_leg']}
             qi += 1
+
+            # if substituting dt.datetime.now() then it can't be put into query, bc sort will break
+            # proxy_time = None
 
             # handle 'now' value in departure_time
             if 'departure_time' in q:
                 # q[tt] should have already been converted to dt.datetime unless it is 'now' (and execute_in_time False)
                 if type(q['departure_time']) is str and q['departure_time'].lower() == 'now':
-                    q['departure_time'] = localize_to_my_timezone(dt.datetime.now())
+                    qe['departure_time'] = localize_to_my_timezone(dt.datetime.now())
+                    # proxy_time = localize_to_my_timezone(dt.datetime.now())
                 # if 'now' was in departure_time and execute_in_time was True, then the parameter will be slightly in
                 #   the past since it was put in as datetime.now() at the time of query input processing
                 if q['departure_time'] < localize_to_my_timezone(dt.datetime.now() - dt.timedelta(minutes=10)):
                     raise AssertionError("Query departure time too far in past. Will tolerate up to 10 minutes.")
                 elif q['departure_time'] < localize_to_my_timezone(dt.datetime.now()):
-                    q['departure_time'] = localize_to_my_timezone(dt.datetime.now())
+                    # might get a bit behind departure time if queries have same time
+                    qe['departure_time'] = localize_to_my_timezone(dt.datetime.now())
+                    # proxy_time = localize_to_my_timezone(dt.datetime.now())
+                else:
+                    pass
             # arrival time queries must be 90 minutes in the future (to allow for travel time)
             if 'arrival_time' in q:
                 assert q['arrival_time'] > localize_to_my_timezone(dt.datetime.now() + dt.timedelta(hours=1.5))
@@ -284,18 +294,19 @@ class GooglemapsAPIMiner:
                 # All queries were checked that they were in the future during ingestion, but if queries multiple
                 #   were given the same departure_time, then time.sleep() would be for negative number of seconds.
                 # Therefore, just skip sleeping and execute at 'now'.
-                print "Query departure_time:", q['departure_time']
+                print "Query departure_time:", qe['departure_time']
                 print "Now:", localize_to_my_timezone(dt.datetime.now())
-                t = q['departure_time'] - localize_to_my_timezone(dt.datetime.now())
+                t = qe['departure_time'] - localize_to_my_timezone(dt.datetime.now())
                 if t > dt.timedelta(0):
                     print "Waiting for next query at", q['departure_time'].strftime("%m/%d/%Y %H:%M")
                     print "Sleep for", str(t).split('.')[0]
                     time.sleep(t.total_seconds())
                 # Put in the exact current time for precision as indicated by googlemaps package documentation.
-                q['departure_time'] = dt.datetime.now()
-                print "Executing now (%s)." % q['departure_time'].strftime("%m/%d/%Y %H:%M")
+                qe['departure_time'] = localize_to_my_timezone(dt.datetime.now())
+                # proxy_time = localize_to_my_timezone(dt.datetime.now())
+                print "Executing now (%s)." % qe['departure_time'].strftime("%m/%d/%Y %H:%M")
 
-            # grab id value and then delete from dictionary
+            # grab id value and then delete from executing dictionary to avoid function parameter conflict
             if 'id' in qe:
                 qid = qe['id']
                 del qe['id']
@@ -344,19 +355,23 @@ class GooglemapsAPIMiner:
                                                                   id_stub=successes, verbose=verbose_split)
                     ####################
                     print "ID stub:", "{0:0>4}".format(successes)
-                    print "Adding", len(add_queries), " queries:"
+                    print "Adding", len(add_queries), "sets of queries:"
                     for aq in add_queries:
                         print aq
                     ####################
                     self.queries += list(chain(*add_queries))
-                    # make sure all queries will get put in after the current one
+                    # make sure all queries will get put in after the current one (strictly greater than)
                     assert all([aq1['departure_time'] > q['departure_time'] for aq1, aq2 in add_queries
                                 if 'departure_time' in aq1 and aq1['departure_time'] is not None]), \
                         "Departure times need to be in future."
                     assert all([aq2['departure_time'] > q['departure_time'] for aq1, aq2 in add_queries
                                 if 'departure_time' in aq2 and aq2['departure_time'] is not None]), \
                         "Departure times need to be in future."
-                    queries.sort(key=lambda x: x['departure_time'] if 'departure_time' in x else x['arrival_time'])
+                    # resort queries
+                    #   put 'now' queries at very beginning
+                    #   prefer to use 'departure_time' but will resort to 'arrival_time'
+                    queries.sort(key=lambda x: (dt.datetime.min if x['departure_time'] == 'now' else
+                                                x['departure_time']) if 'departure_time' in x else x['arrival_time'])
                 ##################
                 print "All queries:"
                 print "\tThis was number", queries.index(q)
@@ -506,6 +521,7 @@ class GooglemapsAPIMiner:
         :param output_filename: (optional) override 'output_' + input_filename for output files
         :param verbose_input: T/F to print loaded queries
         :param verbose_execute: T/F to print executed query results
+        :param verbose_split: T/F to print transit split process
         :param write_csv: write output as CSV file (distance, duration, start(x, y), end(x, y))
         :param write_pickle: write results to pickle file, full query returns in list
         :return: None
@@ -543,6 +559,8 @@ class GooglemapsAPIMiner:
         ky = (full_query_to_split['origin'], full_query_to_split['destination'], full_query_to_split['split_on_leg'])
         leg = steps[[1 if st['travel_mode'] == 'TRANSIT' else 0 for st in steps].index(1)]
         if ky in self.split_cache:
+            # TODO: known limitation is that transit trip may change route - can maybe compare polyline?
+            # TODO: that method may create too many different station lists and Places API queries
             stations = self.split_cache[ky]
             if verbose:
                 print "Using cached station list."
@@ -581,7 +599,7 @@ class GooglemapsAPIMiner:
                 del cp1['split_on_leg']
                 cp1['id'] = "{0:0>4}{1:0>4}-1".format(id_stub, station_keys.index(name) + 1)
                 # add time to the split query so that when it gets returned the sorting will place it later in the list
-                cp1['departure_time'] = cp1['departure_time'] + dt.timedelta(minutes=3)
+                cp1['departure_time'] = cp1['departure_time'] + dt.timedelta(minutes=2)
                 # keep origin the same
                 cp1['destination'] = loc
                 if full_query_to_split['split_on_leg'] == 'begin':
@@ -703,9 +721,9 @@ def parallel_run_pipeline(all_args):
 if __name__ == '__main__':
     # Set to True for running easily within IDE.
     if True:
-        key_file = './will2_googlemaps_api_key.txt'
+        key_file = './will_googlemaps_api_key.txt'
         input_file = './test_queries.csv'
-        g = GooglemapsAPIMiner(api_key_file=key_file, execute_in_time=False, split_transit=True)
+        g = GooglemapsAPIMiner(api_key_file=key_file, execute_in_time=True, split_transit=True)
         test_query = {'origin': 'Harvard transit station Boston MA', 'destination': 'Airport station Boston MA',
                       'mode': 'transit', 'departure_time': localize_to_my_timezone(dt.datetime.now()),
                       'split_on_leg': 'begin'}
