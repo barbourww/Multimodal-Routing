@@ -11,6 +11,7 @@ import getopt
 from inspect import getargspec
 import multiprocessing
 from copy import copy
+import protect
 
 
 class GooglemapsAPIMiner:
@@ -28,7 +29,8 @@ class GooglemapsAPIMiner:
             parameter in run_queries() function
         :return: None
         """
-        mykey = open(api_key_file, 'r').read()
+        password = raw_input("Type API key decoding password and press Enter...")
+        mykey = protect.decode(key=password, string=open(api_key_file, 'r').read())
         self.gmaps = googlemaps.Client(key=mykey, queries_per_second=queries_per_second)
         self.places_query_count = 0
         self.directions_query_count = 0

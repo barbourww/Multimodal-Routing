@@ -82,6 +82,11 @@ def convert_to_my_timezone(local_time_from_query):
 
 
 def decode_polyline(polyline_str):
+    """
+    Uses Google Maps polyline encoding to take polyline string back to lat/long coordinates.
+    :param polyline_str: Google Maps encoded polyline
+    :return: list of lat/long tuples
+    """
     index, lat, lng = 0, 0, 0
     coordinates = []
     changes = {'latitude': 0, 'longitude': 0}
