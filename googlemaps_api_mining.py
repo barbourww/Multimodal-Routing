@@ -354,10 +354,10 @@ class GooglemapsAPIMiner:
                     add_queries = self.build_intermediate_queries(full_query_to_split=q, result_to_split=q_result,
                                                                   id_stub=successes, verbose=verbose_split)
                     ####################
-                    print "ID stub:", "{0:0>4}".format(successes)
-                    print "Adding", len(add_queries), "sets of queries:"
-                    for aq in add_queries:
-                        print aq
+                    # print "ID stub:", "{0:0>4}".format(successes)
+                    # print "Adding", len(add_queries), "sets of queries:"
+                    # for aq in add_queries:
+                    #     print aq
                     ####################
                     self.queries += list(chain(*add_queries))
                     # make sure all queries will get put in after the current one (strictly greater than)
@@ -373,10 +373,10 @@ class GooglemapsAPIMiner:
                     queries.sort(key=lambda x: (dt.datetime.min if x['departure_time'] == 'now' else
                                                 x['departure_time']) if 'departure_time' in x else x['arrival_time'])
                 ##################
-                print "All queries:"
-                print "\tThis was number", queries.index(q)
-                for alq in queries:
-                    print alq
+                # print "All queries:"
+                # print "\tThis was number", queries.index(q)
+                # for alq in queries:
+                #     print alq
                 ##################
             except (googlemaps.exceptions.ApiError, googlemaps.exceptions.HTTPError,
                     googlemaps.exceptions.Timeout, googlemaps.exceptions.TransportError):
@@ -399,9 +399,9 @@ class GooglemapsAPIMiner:
                 else:
                     self.results.append(q_result)
             ###################
-            print "Results:"
-            for r in self.results:
-                print r[0], len(r) - 1
+            # print "Results:"
+            # for r in self.results:
+            #     print r[0], len(r) - 1
             ###################
             # use for debugging...
             # raw_input("Press Enter to continue")
@@ -720,7 +720,7 @@ def parallel_run_pipeline(all_args):
 
 if __name__ == '__main__':
     # Set to True for running easily within IDE.
-    if True:
+    if False:
         key_file = './will_googlemaps_api_key.txt'
         input_file = './test_queries.csv'
         g = GooglemapsAPIMiner(api_key_file=key_file, execute_in_time=True, split_transit=True)
