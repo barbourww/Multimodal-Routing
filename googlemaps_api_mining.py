@@ -177,19 +177,19 @@ class GooglemapsAPIMiner:
                 if r in q and type(q[r]) is dt.datetime:
                     q[r] = convert_to_my_timezone(localize_to_query_timezone(time_in_query=q[r], timezone_in_query=qtz))
 
-        for r in loc_rp[0]:
-            rs = [r + suf for suf in loc_rp[1]]
+        for l in loc_rp[0]:
+            rs = [l + suf for suf in loc_rp[1]]
             for q in self.queries:
                 if any([ri in q for ri in rs]):
                     if not all([ri in q for ri in rs]):
-                        print "Range param", r, "needs", loc_rp[1]
+                        print "Range param", l, "needs", loc_rp[1]
                         print q
                         remove_indices.append(self.queries.index(q))
                         continue
-                    rmin = (float(q[r + '_min'].split(';')[0]), float(q[r + '_min'].split(';')[1]))
-                    rmax = (float(q[r + '_max'].split(';')[0]), float(q[r + '_max'].split(';')[1]))
-                    rdiv = (int(q[r + '_count'].split(';')[0]), int(q[r + '_count'].split(';')[1]))
-                    rarr = q[r + '_arrange']
+                    rmin = (float(q[l + '_min'].split(';')[0]), float(q[l + '_min'].split(';')[1]))
+                    rmax = (float(q[l + '_max'].split(';')[0]), float(q[l + '_max'].split(';')[1]))
+                    rdiv = (int(q[l + '_count'].split(';')[0]), int(q[l + '_count'].split(';')[1]))
+                    rarr = q[l + '_arrange']
                     rdel = ((rmax[0] - rmin[0]) / (rdiv[0] - 1), (rmax[1] - rmin[1]) / (rdiv[1] - 1))
                     rvals = ([rmin[0] + i * rdel[0] for i in range(rdiv[0])],
                              [rmin[1] + i * rdel[1] for i in range(rdiv[1])])
@@ -205,17 +205,17 @@ class GooglemapsAPIMiner:
                     for rv in rq:
                         qn = {}
                         for k, v in q.items():
-                            if k not in [r] + rs:
+                            if k not in [l] + rs:
                                 qn[k] = v
-                        qn[r] = rv
+                        qn[l] = rv
                         self.queries.append(qn)
                     remove_indices.append(self.queries.index(q))
                 else:
-                    if ';' in q[r]:
+                    if ';' in q[l]:
                         try:
-                            q[r] = tuple([float(i) for i in q[r].split(';')])
+                            q[l] = tuple([float(i) for i in q[l].split(';')])
                         except ValueError:
-                            print "Problem with query format on", r, "(';' included but couldn't convert to lat/long)"
+                            print "Problem with query format on", l, "(';' included but couldn't convert to lat/long)"
                             print q
                             remove_indices.append(self.queries.index(q))
         # Remove queries that contained range parameters.
@@ -438,7 +438,7 @@ class GooglemapsAPIMiner:
             try:
                 with open(output_stub + '/' + output_fn + '.cpkl', 'wb') as f:
                     cPickle.dump(self.results, f)
-            except:
+            except (cPickle.PicklingError, RuntimeError, ImportError, AttributeError):
                 traceback.print_exc()
                 print "Problem with output as pickle."
                 print "Attempting to save as file './exception_dump.cpkl'."
@@ -505,7 +505,7 @@ class GooglemapsAPIMiner:
                             line = [q[ih] if ih in q else '' for ih in self.input_header]
                             line += [recursive_get(res, oh) for oh in outputs_values]
                             writer.writerow(line)
-            except:
+            except (KeyError, ValueError, IOError, IndexError):
                 traceback.print_exc()
                 print "Problem with output as CSV."
                 if not write_pickle:
@@ -560,15 +560,19 @@ class GooglemapsAPIMiner:
         # if looking for end leg - the order was already reversed above
         ky = (full_query_to_split['origin'], full_query_to_split['destination'], full_query_to_split['split_on_leg'])
         leg = steps[[1 if st['travel_mode'] == 'TRANSIT' else 0 for st in steps].index(1)]
-        if ky in self.split_cache:
-            # TODO: known limitation is that transit trip may change route - can maybe compare polyline?
-            # TODO: that method may create too many different station lists and Places API queries
-            stations = self.split_cache[ky]
+        polyline = leg['polyline']['points']
+        # if ky in self.split_cache:
+        if polyline in self.split_cache:
+            # stations = self.split_cache[ky]
+            stations = self.split_cache[polyline]
             if verbose:
                 print "Using cached station list."
+        elif self.places_query_count * 10 > 900:
+            print "Hit limit for places queries."
+            stations = {}
         else:
             stations, rev_lookup = self.find_intermediate_transit_stations(transit_leg=leg, verbose=verbose)
-            self.split_cache[ky] = stations
+            self.split_cache[polyline] = stations
             self.split_reverse_cache.update(rev_lookup)
         station_keys = stations.keys()
 
