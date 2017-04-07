@@ -19,7 +19,7 @@ class GooglemapsAPIMiner:
     Full execution class to call Google Maps Python API (googlemaps) using an input query list and outputting results
         in the form of CSV and Python pickle objects.
     """
-    def __init__(self, api_key_file, execute_in_time=False, split_transit=False, queries_per_second=1):
+    def __init__(self, api_key_file, execute_in_time=False, split_transit=False, queries_per_second=1, password=None):
         """
         Initialize API miner with API key to the Google Maps service. Create empty class variables for reading input
             and executing queries.
@@ -29,7 +29,8 @@ class GooglemapsAPIMiner:
             parameter in run_queries() function
         :return: None
         """
-        password = raw_input("Type API key decoding password and press Enter...")
+        if not password:
+            password = raw_input("Type API key decoding password and press Enter...")
         mykey = protect.decode(key=password, string=open(api_key_file, 'r').read())
         self.gmaps = googlemaps.Client(key=mykey, queries_per_second=queries_per_second)
         self.places_query_count = 0
@@ -845,6 +846,9 @@ if __name__ == '__main__':
         print "Full filename list:"
         for fn in add_inputs:
             print '\t', fn
+        pswd = raw_input("Type API key decoding password and press Enter...")
+        if pswd:
+            initspec['password'] = pswd
         # Need copies of pipeline argument spec with appropriate input file names.
         pipes = []
         inits = []
@@ -858,8 +862,8 @@ if __name__ == '__main__':
             inits.append(copy(initspec))
         print "Built list of", len(pipes), "argument specs for pipeline execution."
 
-        pool = multiprocessing.Pool(multiprocessing.cpu_count())
-        print "Assembled pool of", multiprocessing.cpu_count(), "processes."
+        pool = multiprocessing.Pool(len(pipes))
+        print "Assembled pool of", len(pipes), "processes."
         p = pool.map_async(parallel_run_pipeline, [{'init_args': i, 'pipeline_args': p} for i, p in zip(inits, pipes)])
         try:
             # Timeout set at approximately 12 days.
