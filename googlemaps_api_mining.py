@@ -258,7 +258,8 @@ class GooglemapsAPIMiner:
         qi = 0
         while qi < len(queries):
             # dump results to file if it has been more than 24 hours since last start time
-            if dt.datetime.now() > self.start_time + dt.timedelta(hours=24):
+            if dt.datetime.now() > self.start_time + dt.timedelta(hours=1):
+                print "Dumping results to file before continuing."
                 self.output_results()
                 self.start_time = dt.datetime.now()
 
