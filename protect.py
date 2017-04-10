@@ -23,7 +23,7 @@ def decode(key, string):
 
 
 if __name__ == '__main__':
-    e = encode('key', 'AIzaSyDFZaJV31Hllrdv9sKZGhU-JzASOrjOskw')
+    e = encode('key', 'AAaaBBbbCCccDDdd123456')
     print "encoded:", e
     d = decode('key', e)
     print "decoded:", d

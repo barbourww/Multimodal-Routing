@@ -510,11 +510,12 @@ class GooglemapsAPIMiner:
             except (KeyError, ValueError, IOError, IndexError):
                 traceback.print_exc()
                 print "Problem with output as CSV."
-                if not write_pickle:
-                    print "Attempting to save results as pickle at './exception_dump.cpkl'."
-                    print "Rename that file to recover results, it may be overwritten if output fails again."
-                    with open("./exception_dump.cpkl", 'wb') as f:
-                        cPickle.dump(self.results, f)
+                print "Attempting to save results as pickle at './exception_dump.cpkl'."
+                print "Rename that file to recover results, it may be overwritten if output fails again."
+                with open("./exception_dump_results.cpkl", 'wb') as f:
+                    cPickle.dump(self.results, f)
+                with open("./exception_dump_queries.cpkl", 'wb') as f:
+                    cPickle.dump(self.queries, f)
         return
 
     def run_pipeline(self, input_filename, output_filename=None, verbose_input=False, verbose_execute=False,
@@ -530,9 +531,14 @@ class GooglemapsAPIMiner:
         :param write_pickle: write results to pickle file, full query returns in list
         :return: None
         """
+        original_stdout = sys.stdout
+        log = open(os.path.splitext(input_filename)[0] + "_log.txt", 'w')
+        sys.stdout = PrintLogTee(original_stdout, log)
         self.read_input_queries(input_filename=input_filename, verbose=verbose_input)
         self.run_queries(verbose=verbose_execute, verbose_split=verbose_split)
         self.output_results(output_filename=output_filename, write_csv=write_csv, write_pickle=write_pickle)
+        log.close()
+        sys.stdout = original_stdout
         return
 
     def build_intermediate_queries(self, full_query_to_split, result_to_split, id_stub, verbose=False):
@@ -736,6 +742,17 @@ if __name__ == '__main__':
                       'mode': 'transit', 'departure_time': localize_to_my_timezone(dt.datetime.now()),
                       'split_on_leg': 'begin'}
         g.run_pipeline(input_filename=input_file, verbose_execute=False, verbose_input=True, verbose_split=True)
+        sys.exit(0)
+
+    if True:
+        with open('/Users/wbarbour1/Google Drive/Classes/CEE_418/final_project/results_local/output_a20405_2.cpkl') as f:
+            results = cPickle.load(f)
+        key_file = './key_coded_will.txt'
+        input_file = './results/airports2_04_05/a20405_2.csv'
+        g = GooglemapsAPIMiner(api_key_file=key_file, execute_in_time=True, split_transit=True)
+        g.results = results
+        g.read_input_queries(input_filename=input_file)
+        g.output_results(write_pickle=False)
         sys.exit(0)
 
     usage = """

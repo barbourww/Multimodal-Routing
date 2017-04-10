@@ -5,6 +5,21 @@ import multiprocessing
 import os
 from math import radians, cos, sin, sqrt, asin
 
+
+class PrintLogTee(object):
+    def __init__(self, *files):
+        self.files = files
+
+    def write(self, obj):
+        for fl in self.files:
+            fl.write(obj)
+            fl.flush()  # If you want the output to be visible immediately
+
+    def flush(self):
+        for fl in self.files:
+            fl.flush()
+
+
 tzmap = {'p': 'US/Pacific', 'pst': 'US/Pacific', 'pdt': 'US/Pacific',
          'pacific': 'US/Pacific', 'us/pacific': 'US/Pacific',
          'm': 'US/Mountain', 'mst': 'US/Mountain', 'mdt': 'US/Mountain',
