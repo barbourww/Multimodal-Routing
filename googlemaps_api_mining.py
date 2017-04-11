@@ -754,7 +754,7 @@ if __name__ == '__main__':
         g.run_pipeline(input_filename=input_file, verbose_execute=False, verbose_input=True, verbose_split=True)
         sys.exit(0)
 
-    if True:
+    if False:
         with open('/Users/wbarbour1/Google Drive/Classes/CEE_418/final_project/results_local/output_a20405_2.cpkl') as f:
             results = cPickle.load(f)
         key_file = './key_coded_will.txt'
