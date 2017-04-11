@@ -1,0 +1,2 @@
+origin,destination,mode,avoid,timezone,split_on_leg,departure_time,departure_time_min,departure_time_max,departure_time_delta,unitsOhare Airport,Wrigley Field Chicago IL,driving,tolls,central,,,04/11/2017 05:00,04/11/2017 23:30,15,imperialOhare Airport,Wrigley Field Chicago IL,transit,,central,begin,,04/11/2017 05:00,04/11/2017 23:30,15,imperial
+Ohare Airport,Wrigley Field Chicago IL,transit,,central,end,,04/11/2017 05:00,04/11/2017 23:30,15,imperial

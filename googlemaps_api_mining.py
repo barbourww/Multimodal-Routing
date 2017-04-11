@@ -652,7 +652,9 @@ class GooglemapsAPIMiner:
         # distance limit in miles from stations found along route to the given route polyline
         dist_threshold = 0.1
         # find number of stations from query leg
-        n_stations = transit_leg['transit_details']['num_stops']
+        # put limit on number of stations on the transit leg for split queries
+        # distance to polyline limit will make sure that interpolation falling between stations doesn't break things
+        n_stations = min(transit_leg['transit_details']['num_stops'], 6)
         station_type = transit_leg['transit_details']['line']['vehicle']['type'].lower() + '_station'
         if verbose:
             print "n_stations:", n_stations
