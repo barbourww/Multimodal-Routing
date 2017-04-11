@@ -534,9 +534,16 @@ class GooglemapsAPIMiner:
         original_stdout = sys.stdout
         log = open(os.path.splitext(input_filename)[0] + "_log.txt", 'w')
         sys.stdout = PrintLogTee(original_stdout, log)
-        self.read_input_queries(input_filename=input_filename, verbose=verbose_input)
-        self.run_queries(verbose=verbose_execute, verbose_split=verbose_split)
-        self.output_results(output_filename=output_filename, write_csv=write_csv, write_pickle=write_pickle)
+        try:
+            self.read_input_queries(input_filename=input_filename, verbose=verbose_input)
+            self.run_queries(verbose=verbose_execute, verbose_split=verbose_split)
+            self.output_results(output_filename=output_filename, write_csv=write_csv, write_pickle=write_pickle)
+        except BaseException as e:
+            # catch any exception raised and make sure the log gets closed before re-raising
+            log.close()
+            sys.stdout = original_stdout
+            # re-raise: don't want to do anything with e, or the traceback stack gets lost
+            raise
         log.close()
         sys.stdout = original_stdout
         return
@@ -728,6 +735,7 @@ def parallel_run_pipeline(all_args):
         pass
     except BaseException as e:
         print "Exception raised on PID %d..." % os.getpid()
+        traceback.print_exc()
         print type(e), e.message
         return "Failure"
 
