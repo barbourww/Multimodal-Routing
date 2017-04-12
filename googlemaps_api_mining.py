@@ -531,6 +531,7 @@ class GooglemapsAPIMiner:
         :param write_pickle: write results to pickle file, full query returns in list
         :return: None
         """
+        # TODO: might have problem with parallel execution and shared stdout
         original_stdout = sys.stdout
         log = open(os.path.splitext(input_filename)[0] + "_log.txt", 'w')
         sys.stdout = PrintLogTee(original_stdout, log)
@@ -558,6 +559,7 @@ class GooglemapsAPIMiner:
         :param verbose: runs recursive print for primary/full queries and prints information about intermediate stations
         :return: None
         """
+        # TODO: capability to split on either leg and drive either new leg
         # find intermediate transit stations
         if full_query_to_split['split_on_leg'] == 'begin':
             steps = result_to_split[0]['legs'][0]['steps']
