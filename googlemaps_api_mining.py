@@ -565,8 +565,6 @@ class GooglemapsAPIMiner:
         :param verbose: runs recursive print for primary/full queries and prints information about intermediate stations
         :return: None
         """
-        # TODO: capability to split on either leg and drive either new leg
-        # TODO: column name is drive_leg and values are 'start' and 'finish'
         # find intermediate transit stations
         if full_query_to_split['split_on_leg'] == 'begin':
             steps = result_to_split[0]['legs'][0]['steps']
@@ -574,12 +572,20 @@ class GooglemapsAPIMiner:
             steps = list(result_to_split[0]['legs'][0]['steps'].__reversed__())
         else:
             raise ValueError("Don't know what leg to split on. Specify 'begin'/'end'.")
+        # determine which end to align times on
         if 'arrival_time' in full_query_to_split:
             align = 'arrival_time'
         elif 'departure_time' in full_query_to_split:
             align = 'departure_time'
         else:
             raise ValueError("Don't know if splitting queries on arrival or departure time.")
+        # get the 'drive_leg' parameter and check it is valid
+        if full_query_to_split['drive_leg'] == 'start':
+            drive = 'start'
+        elif full_query_to_split['drive_leg'] == 'finish':
+            drive = 'finish'
+        else:
+            raise ValueError("Invalid value for parameter 'drive_leg'.")
         # .index() will get first instance where the travel mode was 'TRANSIT'
         # if looking for end leg - the order was already reversed above
         ky = (full_query_to_split['origin'], full_query_to_split['destination'], full_query_to_split['split_on_leg'])
@@ -612,7 +618,10 @@ class GooglemapsAPIMiner:
                 # keep arrival time the same
                 cp1['origin'] = loc
                 if full_query_to_split['split_on_leg'] == 'end':
-                    cp1['mode'] = 'driving'
+                    if drive == 'start':
+                        cp1['mode'] = 'driving'
+                    else:
+                        cp1['mode'] = 'transit'
                 sq.append(cp1)
                 cp2 = copy(full_query_to_split)
                 del cp2['split_on_leg']
@@ -621,7 +630,10 @@ class GooglemapsAPIMiner:
                                                                  cp2['timezone'])
                 cp2['destination'] = loc
                 if full_query_to_split['split_on_leg'] == 'end':
-                    cp2['mode'] = 'driving'
+                    if drive == 'start':
+                        cp2['mode'] = 'transit'
+                    else:
+                        cp2['mode'] = 'driving'
                 sq.append(cp2)
             else:
                 # cp1 will be first part of split trip
