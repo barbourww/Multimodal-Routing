@@ -23,7 +23,7 @@ These three functions are wrapped into a pipeline function run_pipeline(...) wit
     write_pickle=True
 The pipeline function may also be executed from the command line with the following usage:
     usage: python googlemaps_api_mining.py -k <api_key_file> -i <input_file>
-            --[execute_in_time, queries_per_second, output_filename, write_csv, write_pickle,
+            --[execute_in_time, queries_per_second, split_transit, output_filename, write_csv, write_pickle,
                 parallel_input_files, parallel_api_key_files]
     example: python googlemaps_api_mining.py -k "./api_key.txt" -i "./test_queries.csv"
                 --output_file "./output_test.csv" --write_csv True --write_pickle False
@@ -119,6 +119,7 @@ Output from the API queries is provided according to the documentation of the AP
     CSV:
     - keeps query values and header (only direct parameters used in a query are kept)
     - uses pipe ('|') delimiter
-    - looks at each result and gathers basic values (by default: distance, duration, start (X, Y), end (X, Y))
+    - looks at each result and gathers basic values
+        - by default: distance (meters), duration (seconds), start (X, Y) (longitude/latitude), end (X, Y)
     - can be supplied with 'get_outputs' to output different values from the results
         (format is dict{ column_names: tuple(depth-wise calls to make to each query result lists/dicts to get value)}

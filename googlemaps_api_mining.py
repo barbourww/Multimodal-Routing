@@ -453,7 +453,7 @@ class GooglemapsAPIMiner:
                 if get_outputs:
                     outputs = get_outputs
                 else:
-                    outputs = {'distance': (0, 'legs', 0, 'distance', 'text'),
+                    outputs = {'distance_m': (0, 'legs', 0, 'distance', 'value'),
                                'duration-sec': (0, 'legs', 0, 'duration', 'value'),
                                'duration_in_traffic-sec': (0, 'legs', 0, 'duration_in_traffic', 'value'),
                                'start_x': (0, 'legs', 0, 'start_location', 'lng'),
@@ -479,6 +479,7 @@ class GooglemapsAPIMiner:
                                                    for qry in self.queries].index(True)]
                                 q2 = self.queries[[True if qry['id'] == res[0] + '-2' else False
                                                    for qry in self.queries].index(True)]
+
                                 # get split point of the query
                                 if q1['destination'] == q2['origin']:
                                     # query was made on departure time
@@ -498,8 +499,10 @@ class GooglemapsAPIMiner:
                                 line += [recursive_get(res[1], oh) for oh in outputs_values]
                                 line += [recursive_get(res[2], oh) for oh in outputs_values]
                             else:
+                                # for query split point
                                 line += ['']
                                 line += [recursive_get(res[1], oh) for oh in outputs_values]
+                                line += [''] * len(outputs_values)
                             # output the line
                             writer.writerow(line)
                     else:
@@ -532,6 +535,9 @@ class GooglemapsAPIMiner:
         :return: None
         """
         # TODO: might have problem with parallel execution and shared stdout
+        # TODO: seems to be logging fine, but the traceback isn't making it on the log
+        # TODO: maybe write separate file or cut out other print statements so the traceback is on the screen
+        # TODO: might have to figure out how to dump command line log to file in linux
         original_stdout = sys.stdout
         log = open(os.path.splitext(input_filename)[0] + "_log.txt", 'w')
         sys.stdout = PrintLogTee(original_stdout, log)
@@ -560,6 +566,7 @@ class GooglemapsAPIMiner:
         :return: None
         """
         # TODO: capability to split on either leg and drive either new leg
+        # TODO: column name is drive_leg and values are 'start' and 'finish'
         # find intermediate transit stations
         if full_query_to_split['split_on_leg'] == 'begin':
             steps = result_to_split[0]['legs'][0]['steps']
