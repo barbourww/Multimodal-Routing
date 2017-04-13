@@ -142,15 +142,15 @@ tempDV = datevec(tripsMixed.depTime);
 tripsMixed.depTimeHr = tempDV(:,4) + tempDV(:,5)./60 + tempDV(:,6)./60^2;
 
 
-%% Plot 1: Scatter
-% Bin colors: teal-blue gradient from:
+%% Plot 1: Scatter: driving & transit only, plus composites
+% Bin colors: 
 % https://blog.graphiq.com/finding-the-right-color-palettes-for-data-visualizations-fcd4e707a283
 colors = NaN(8,3);
 colors(1,:) = [190, 224, 204]./255; % all transit
-colors(2,:) = [131, 202, 207] ./255; % bin 1
-colors(3,:) = [71, 174, 208] ./255; % bin 2
-colors(4,:) = [57, 132, 182] ./255; % bin 3
-colors(5,:) = [34, 59, 137] ./255; % bin 4
+colors(2,:) = [255, 255, 162] ./255; % bin 1
+colors(3,:) = [190, 235, 159] ./255; % bin 2
+colors(4,:) = [121, 189, 143] ./255; % bin 3
+colors(5,:) = [0, 162, 136] ./255; % bin 4
 colors(6,:) = [21, 30, 94] ./255; % all driving
 colors(7,:) = [204, 255, 153] ./255; % transit -> drive, light green
 colors(8,:) = [127, 0, 255] ./255; % drive -> transit, purp
@@ -159,42 +159,45 @@ colors(8,:) = [127, 0, 255] ./255; % drive -> transit, purp
 figure(1)
 % driving only
 pd = plot(tripsDrive.depTimeHr, tripsDrive.timeTotal_min, 'o', ...
-    'MarkerFaceColor', colors(6,:), 'MarkerSize', 3);
+    'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'k', 'MarkerSize', 3);
 title('NYU to LGA Apr 7 Travel Duration')
 xlabel('Time of Day')
 ylabel('Travel Duration (minutes)')
 hold on
 % transit only
 pt = plot(tripsTransit.depTimeHr, tripsTransit.timeTransit_min, 'o', ...
-    'MarkerFaceColor', colors(1,:), 'MarkerSize', 3);
+    'MarkerEdgeColor', 'r', 'MarkerFaceColor', 'r', 'MarkerSize', 3);
+% composite transit > drive
+ptd = plot(tripsTD.depTimeHr, tripsTD.timeTotal_min, 'o', ...
+    'MarkerEdgeColor', 'g', 'MarkerFaceColor', 'g', 'MarkerSize', 3);
+% composite drive > transit
+pdt = plot(tripsDT.depTimeHr, tripsDT.timeTotal_min, 'o', ...
+    'MarkerEdgeColor', 'b', 'MarkerFaceColor', 'b', 'MarkerSize', 3);
+legend('Driving', 'Transit', 'Composite Trans -> Dr', ...
+    'Composite Dr -> Transit')
+
+%% Plot 2: scatter of the four mixed bins
+
+figure(2)
 % bin 1
 pb1 = plot(tripsMixed.depTimeHr(tripsMixed.bin == 1,:), ...
     tripsMixed.timeTotal_min(tripsMixed.bin == 1, :), 'o', ...
-    'MarkerFaceColor', colors(2,:), 'MarkerSize', 3);
+    'MarkerEdgeColor', colors(2,:), 'MarkerFaceColor', colors(2,:), 'MarkerSize', 4);
+hold on
 % bin 2
 pb2 = plot(tripsMixed.depTimeHr(tripsMixed.bin == 2,:), ...
     tripsMixed.timeTotal_min(tripsMixed.bin == 2, :), 'o', ...
-    'MarkerFaceColor', colors(3,:), 'MarkerSize', 3);
+    'MarkerEdgeColor', colors(3,:), 'MarkerFaceColor', colors(3,:), 'MarkerSize', 4);
 % bin 3
 pb3 = plot(tripsMixed.depTimeHr(tripsMixed.bin == 3,:), ...
     tripsMixed.timeTotal_min(tripsMixed.bin == 3, :), 'o', ...
-    'MarkerFaceColor', colors(4,:), 'MarkerSize', 3);
+    'MarkerEdgeColor', colors(4,:), 'MarkerFaceColor', colors(4,:), 'MarkerSize', 4);
 % bin 4
 pb4 = plot(tripsMixed.depTimeHr(tripsMixed.bin == 4,:), ...
     tripsMixed.timeTotal_min(tripsMixed.bin == 4, :), 'o', ...
-    'MarkerFaceColor', colors(5,:), 'MarkerSize', 3);
-% composite transit > drive
-ptd = plot(tripsTD.depTimeHr, tripsTD.timeTotal_min, 'o', ...
-    'MarkerFaceColor', colors(7,:), 'MarkerSize', 3);
-% composite drive > transit
-pdt = plot(tripsDT.depTimeHr, tripsDT.timeTotal_min, 'o', ...
-    'MarkerFaceColor', colors(8,:), 'MarkerSize', 3);
-
-legend('Driving', 'Transit', 'Mixed (0-25% Dr)', 'Mixed (25-50% Dr)', ...
-    'Mixed (50-75% Dr)', 'Mixed(75-100% Dr)', 'Composite Trans > Dr', ...
-    'Composite Dr > Transit')
-
-%% Add a moving average to the plot
-
-
-
+    'MarkerEdgeColor', colors(5,:), 'MarkerFaceColor', colors(5,:), 'MarkerSize', 4);
+title('NYU to LGA Apr 7 Travel Duration')
+xlabel('Time of Day')
+ylabel('Travel Duration (minutes)')
+legend('Mixed (0-25% Dr)', 'Mixed (25-50% Dr)', ...
+    'Mixed (50-75% Dr)', 'Mixed (75-100% Dr)')
