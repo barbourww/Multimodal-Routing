@@ -42,9 +42,10 @@ class GooglemapsAPIMiner:
         self.input_header = None
         self.saved_input_filename = None
         self.start_time = dt.datetime.now()
-        # keys are (origin, destination, split_on_leg)
+        # deprecated - keys are (origin, destination, split_on_leg)
+        # new version is keyed on polyline
         self.split_cache = {}
-        # keys are (origin, destination, split_on_leg)
+        # keys are (long, lat) locations
         self.split_reverse_cache = {}
         return
 
@@ -80,7 +81,7 @@ class GooglemapsAPIMiner:
             input_reader = csv.reader(f, delimiter=',', quotechar='"')
             self.input_header = [ih.strip() for ih in input_reader.next()]
             # only accept valid execution parameters and the helper parameters (e.g., timezone)
-            valid_args = getargspec(googlemaps.directions.directions)[0] + ['timezone', 'split_on_leg'] \
+            valid_args = getargspec(googlemaps.directions.directions)[0] + ['timezone', 'split_on_leg', 'drive_leg'] \
                          + [va[0] + va[1] for va in product(date_rp[0], date_rp[1])] \
                          + [va[0] + va[1] for va in product(loc_rp[0], loc_rp[1])]
             if not all([h in valid_args for h in self.input_header]):
@@ -267,7 +268,7 @@ class GooglemapsAPIMiner:
             q = queries[qi]
             # the query that gets executed can't have an invalid column - 'id' will be handled later
             # the departure_time will get changed temporarily here so that sorting will not be broken
-            qe = {k: v for k, v in q.items() if k not in ['timezone', 'split_on_leg']}
+            qe = {k: v for k, v in q.items() if k not in ['timezone', 'split_on_leg', 'drive_leg']}
             qi += 1
 
             # if substituting dt.datetime.now() then it can't be put into query, bc sort will break
@@ -614,47 +615,56 @@ class GooglemapsAPIMiner:
                 # cp1 will be second/final part of split trip
                 cp1 = copy(full_query_to_split)
                 del cp1['split_on_leg']
+                del cp1['drive_leg']
                 cp1['id'] = "{0:0>4}{1:0>4}-1".format(id_stub, station_keys.index(name) + 1)
                 # keep arrival time the same
                 cp1['origin'] = loc
-                if full_query_to_split['split_on_leg'] == 'end':
-                    if drive == 'start':
-                        cp1['mode'] = 'driving'
-                    else:
-                        cp1['mode'] = 'transit'
+                # remember cp1 is the second leg - so logic is reversed
+                if drive == 'start':
+                    cp1['mode'] = 'transit'
+                else:
+                    cp1['mode'] = 'driving'
                 sq.append(cp1)
+                # cp2 will be first/start part of split trip
                 cp2 = copy(full_query_to_split)
                 del cp2['split_on_leg']
+                del cp2['drive_leg']
                 cp2['id'] = "{0:0>4}{1:0>4}-2".format(id_stub, station_keys.index(name) + 1)
                 cp2['arrival_time'] = localize_to_query_timezone(dt.datetime.max - dt.timedelta(hours=24),
                                                                  cp2['timezone'])
                 cp2['destination'] = loc
-                if full_query_to_split['split_on_leg'] == 'end':
-                    if drive == 'start':
-                        cp2['mode'] = 'transit'
-                    else:
-                        cp2['mode'] = 'driving'
+                if drive == 'start':
+                    cp2['mode'] = 'driving'
+                else:
+                    cp2['mode'] = 'transit'
                 sq.append(cp2)
             else:
                 # cp1 will be first part of split trip
                 cp1 = copy(full_query_to_split)
                 del cp1['split_on_leg']
+                del cp1['drive_leg']
                 cp1['id'] = "{0:0>4}{1:0>4}-1".format(id_stub, station_keys.index(name) + 1)
                 # add time to the split query so that when it gets returned the sorting will place it later in the list
                 cp1['departure_time'] = cp1['departure_time'] + dt.timedelta(minutes=2)
                 # keep origin the same
                 cp1['destination'] = loc
-                if full_query_to_split['split_on_leg'] == 'begin':
+                if drive == 'start':
                     cp1['mode'] = 'driving'
+                else:
+                    cp1['mode'] = 'transit'
                 sq.append(cp1)
+                # cp2 will be final part of split trip
                 cp2 = copy(full_query_to_split)
                 del cp2['split_on_leg']
+                del cp2['drive_leg']
                 cp2['id'] = "{0:0>4}{1:0>4}-2".format(id_stub, station_keys.index(name) + 1)
                 cp2['departure_time'] = localize_to_query_timezone(dt.datetime.max - dt.timedelta(hours=24),
                                                                    cp2['timezone'])
                 cp2['origin'] = loc
                 # keep destination the same (second leg)
-                if full_query_to_split['split_on_leg'] == 'end':
+                if drive == 'start':
+                    cp2['mode'] = 'transit'
+                else:
                     cp2['mode'] = 'driving'
                 sq.append(cp2)
             secondary_queries.append(copy(sq))
@@ -771,7 +781,7 @@ if __name__ == '__main__':
         g = GooglemapsAPIMiner(api_key_file=key_file, execute_in_time=True, split_transit=True)
         test_query = {'origin': 'Harvard transit station Boston MA', 'destination': 'Airport station Boston MA',
                       'mode': 'transit', 'departure_time': localize_to_my_timezone(dt.datetime.now()),
-                      'split_on_leg': 'begin'}
+                      'split_on_leg': 'begin', 'drive_leg': 'start'}
         g.run_pipeline(input_filename=input_file, verbose_execute=False, verbose_input=True, verbose_split=True)
         sys.exit(0)
 
