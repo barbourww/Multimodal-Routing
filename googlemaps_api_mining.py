@@ -87,7 +87,8 @@ class GooglemapsAPIMiner:
             if not all([h in valid_args for h in self.input_header]):
                 print "Invalid:", set(self.input_header).difference(set(valid_args))
                 raise IOError("Header contains invalid columns/arguments.")
-            self.queries = [{h: v for h, v in zip(self.input_header, [re.strip() for re in row]) if v is not None and v != ''}
+            self.queries = [{h: v for h, v in zip(self.input_header, [re.strip() for re in row])
+                             if v is not None and v != ''}
                             for row in input_reader if not row[0].startswith('#')]
 
         # make sure all required parameters are present
@@ -775,14 +776,14 @@ def parallel_run_pipeline(all_args):
 
 if __name__ == '__main__':
     # Set to True for running easily within IDE.
-    if False:
-        key_file = './will_googlemaps_api_key.txt'
+    if True:
+        key_file = './key_coded_will.txt'
         input_file = './test_queries.csv'
         g = GooglemapsAPIMiner(api_key_file=key_file, execute_in_time=True, split_transit=True)
-        test_query = {'origin': 'Harvard transit station Boston MA', 'destination': 'Airport station Boston MA',
-                      'mode': 'transit', 'departure_time': localize_to_my_timezone(dt.datetime.now()),
-                      'split_on_leg': 'begin', 'drive_leg': 'start'}
-        g.run_pipeline(input_filename=input_file, verbose_execute=False, verbose_input=True, verbose_split=True)
+        test_query = {'origin': 'Guaranteed Rate Field Chicago IL', 'destination': 'Bucktown Chicago IL',
+                      'mode': 'driving', 'departure_time': localize_to_my_timezone(dt.datetime.now())}
+        # g.run_pipeline(input_filename=input_file, verbose_execute=False, verbose_input=True, verbose_split=True)
+        recursive_print(g.run_queries(here_are_the_queries=[test_query]))
         sys.exit(0)
 
     if False:

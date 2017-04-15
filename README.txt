@@ -96,12 +96,12 @@ The header (first) row of the file defines the parameters (columns) of the queri
     > origin [must be lat/long] (origin_min, origin_max, origin_divs, origin_arrange)
         >> origin_min - ;-separated floats for lat/long
         >> origin_max - ;-separated floats for lat/long (defines coordinates of opposite corner of grid/line)
-        >> origin_divs - ;-separated integers for number of points including _min and _max to generate on lat/long
+        >> origin_count - ;-separated integers for number of points including _min and _max to generate on lat/long
         >> origin_arrange - [line, grid] for incrementing lat/long simultaneously (line) or independently (grid)
     > destination [must be in lat/long] (destination_min, destination_max, destination_divs, destination_arrange)
         >> destination_min - ;-separated floats for lat/long
         >> destination_max - ;-separated floats for lat/long
-        >> destination_divs - ;-separated integers for number of points including _min and _max to generate on lat/long
+        >> destination_count - ;-separated integers for number of points including _min and _max to generate on lat/long
         >> destination_arrange - [line, grid] for incrementing lat/long simultaneously (line) or independently (grid)
 
 
