@@ -22,10 +22,110 @@ if sum(sourceFile(end-2:end) == 'csv') ~= 3
 end
 
 %% Import
-% 24 data columns. First 10 are imported as string, last 14 as fixed point
+% 24 data columns.
+% Intend to import first 10 are imported as string, last 14 as numeric.
+% Older outputs have 23 columns (drive_leg was not implented). This needs
+% to be added manually in Excel since it was only a temporary blip.
+
+% Notes:
+% Cols 11 and 18 (distance) are imported as a string since it comes with 
+% 'mi' and 'ft' tags. Strip units, convert to mi, and convert to numeric.
+% Cols 14 and 21 (duration_in_traffic_sec) are also imported as string
+% since "n/a" values are present. These are replaced by blanks then
+% converted to numeric.
+
 T = readtable(sourceFile, 'Delimiter', '|', 'ReadVariableNames', true, ...
-    'Format', '%s%s%s%s%s%s%s%s%s%s%f%f%f%f%f%f%f%f%f%f%f%f%f%f');
+    'Format', '%s%s%s%s%s%s%s%s%s%s%s%f%f%s%f%f%f%s%f%f%s%f%f%f');
 % spreadsheet read: T = readtable(sourceFile, 'ReadVariableNames', true);
+
+% Overwrite with correct variable names:
+correctNames = ['origin';
+    'split_on_leg';
+    'drive_leg';
+    'avoid';
+    'destination';
+    'mode';
+    'units';
+    'timezone';
+    'departure_time';
+    'split_point';
+    'distance_mi';
+    'end_y';
+    'end_x';
+    'duration_in_traffic_sec';
+    'duration_sec';
+    'start_x';
+    'start_y';
+    'distance_mi_1';
+    'end_y_1';
+    'end_x_1';
+    'duration_in_traffic_sec_1';
+    'duration_sec_1';
+    'start_x_1';
+    'start_y_1'];
+T.Properties.VariableNames = correctNames;
+
+%% Distance Conversion and Text to Numeric Processing
+dist_txt = T.distance_mi;
+dist_1_txt = T.distance_mi_1;
+dist_num = NaN(size(dist_txt)); % Initialize numeric vectors
+dist_1_num = NaN(size(dist_1_txt));
+
+for i = 1:size(dist_txt, 1)
+    tempVal = char(dist_txt(i));
+    if isempty(tempVal)
+        dist_num(i) = NaN;
+    elseif tempVal(end-1:end) == 'mi'
+        dist_num(i) = str2double(tempVal(1:end-3));
+    elseif tempVal(end-1:end) == 'ft'
+        dist_num(i) = str2double(tempVal(1:end-3)) / 5280;
+    end
+    
+    tempVal_1 = char(dist_1_txt(i));
+    if isempty(tempVal_1)
+        dist_1_num(i) = NaN;
+    elseif tempVal_1(end-1:end) == 'mi'
+        dist_1_num(i) = str2double(tempVal_1(1:end-3));
+    elseif tempVal_1(end-1:end) == 'ft'
+        dist_1_num(i) = str2double(tempVal_1(1:end-3)) / 5280;
+    end 
+end
+
+T.distance_mi = dist_num;
+T.distance_mi_1 = dist_1_num;
+
+clear dist_txt dist_1_txt dist_num dist_1_num
+
+%% Duration in Traffic Conversion and Text to Numeric Processing
+dit_txt = T.duration_in_traffic_sec;
+dit_1_txt = T.duration_in_traffic_sec_1;
+dit_num = NaN(size(dit_txt)); % Initialize numeric vectors
+dit_1_num = NaN(size(dit_1_txt));
+
+for i = 1:size(dit_txt, 1)
+    tempVal = char(dit_txt(i));
+    if strcmp(tempVal, '')
+        dit_num(i) = NaN;
+    elseif strcmp(tempVal, 'n/a')
+        dit_num(i) = NaN;
+    else
+        dit_num(i) = str2double(tempVal);
+    end
+    
+    tempVal_1 = char(dit_1_txt(i));
+    if strcmp(tempVal_1, '')
+        dit_1_num(i) = NaN;
+    elseif strcmp(tempVal_1, 'n/a')
+        dit_1_num(i) = NaN;
+    else
+        dit_1_num(i) = str2double(tempVal_1);
+    end
+end
+
+T.duration_in_traffic_sec = dit_num;
+T.duration_in_traffic_sec_1 = dit_1_num;
+
+clear dit_txt dit_1_txt dit_num dit_1_num
 
 %% Date Time Processing
 % Departure time is column 9. Format into 'datetime' format.
