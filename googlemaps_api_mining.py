@@ -29,10 +29,13 @@ class GooglemapsAPIMiner:
             parameter in run_queries() function
         :return: None
         """
-        if not password:
-            password = raw_input("Type API key decoding password and press Enter...")
-        mykey = protect.decode(key=password, string=open(api_key_file, 'r').read())
-        self.gmaps = googlemaps.Client(key=mykey, queries_per_second=queries_per_second)
+        if api_key_file:
+            if not password:
+                password = raw_input("Type API key decoding password and press Enter...")
+            mykey = protect.decode(key=password, string=open(api_key_file, 'r').read())
+            self.gmaps = googlemaps.Client(key=mykey, queries_per_second=queries_per_second)
+        else:
+            self.gmaps = None
         self.places_query_count = 0
         self.directions_query_count = 0
         self.execute_in_time = execute_in_time
@@ -106,6 +109,7 @@ class GooglemapsAPIMiner:
             self.saved_input_filename = input_filename
 
         # Parse out '|'-delimited waypoints, if supplied.
+        # Also assign 'id' field to each
         for q in self.queries:
             if 'waypoints' in q:
                 q['waypoints'] = q['waypoints'].split('|')
@@ -224,14 +228,15 @@ class GooglemapsAPIMiner:
         # Remove queries that contained range parameters.
         if remove_indices:
             self.queries = [self.queries[j] for j in range(len(self.queries)) if j not in remove_indices]
-
+        for q in self.queries:
+            q['id'] = "{0:0>4}0000-0".format(self.queries.index(q))
         if verbose:
             for i in self.queries:
                 print i
 
         # Redefine input header to remove columns that are unused or no longer needed (e.g., range parameters)
         # This will be used later in output files.
-        self.input_header = list(set(chain(*[tuple(q.keys()) for q in self.queries])))
+        self.input_header = [ihi for ihi in list(set(chain(*[tuple(q.keys()) for q in self.queries]))) if ihi != 'id']
         # Sort queries for execution in order.
         if self.execute_in_time:
             assert not any(['arrival_time' in q for q in self.queries]), "Can't use arrival_time with execute_in_time."
@@ -269,7 +274,7 @@ class GooglemapsAPIMiner:
             q = queries[qi]
             # the query that gets executed can't have an invalid column - 'id' will be handled later
             # the departure_time will get changed temporarily here so that sorting will not be broken
-            qe = {k: v for k, v in q.items() if k not in ['timezone', 'split_on_leg', 'drive_leg']}
+            qe = {k: v for k, v in q.items() if k not in ['timezone', 'split_on_leg', 'drive_leg', 'id']}
             qi += 1
 
             # if substituting dt.datetime.now() then it can't be put into query, bc sort will break
@@ -312,12 +317,11 @@ class GooglemapsAPIMiner:
                 # proxy_time = localize_to_my_timezone(dt.datetime.now())
                 print "Executing now (%s)." % qe['departure_time'].strftime("%m/%d/%Y %H:%M")
 
-            # grab id value and then delete from executing dictionary to avoid function parameter conflict
-            if 'id' in qe:
-                qid = qe['id']
-                del qe['id']
+            # grab id value
+            if here_are_the_queries:
+                qid = '00000000-0'
             else:
-                qid = None
+                qid = q['id']
 
             try:
                 # execute full query and add result
@@ -325,10 +329,6 @@ class GooglemapsAPIMiner:
                 print "Directions count:", self.directions_query_count
                 q_result = self.gmaps.directions(**qe)
                 successes += 1
-                # if this query wasn't a split one, then give it the #######0 id
-                if self.split_transit and not qid:
-                    q['id'] = "{0:0>4}0000-0".format(successes)
-                    qid = q['id']
 
                 if verbose:
                     print "Result:"
@@ -338,27 +338,30 @@ class GooglemapsAPIMiner:
                     print "Empty query result on", qe
 
                 # if this was the first query to execute - populate the pair query with the departure/arrival
-                if self.split_transit and qid and qid.split('-')[1] == '1':
-                    if recursive_get(q_result, (0, 'legs', 0, 'duration_in_traffic', 'value')) == 'n/a':
-                        leg1_time = int(recursive_get(q_result, (0, 'legs', 0, 'duration', 'value'))) / 60.
+                if self.split_transit and qid.split('-')[1] == '1':
+                    q_index = [True if rq['id'] == qid.split('-')[0] + '-2' else False for rq in queries].index(True)
+                    if q_result:
+                        if recursive_get(q_result, (0, 'legs', 0, 'duration_in_traffic', 'value')) == 'n/a':
+                            leg1_time = int(recursive_get(q_result, (0, 'legs', 0, 'duration', 'value'))) / 60.
+                        else:
+                            leg1_time = int(recursive_get(q_result, (0, 'legs', 0, 'duration_in_traffic', 'value'))) / 60.
+                        print "Found index of query to change:", q_index
+                        print "Adding", leg1_time, "minutes"
+                        if 'departure_time' in queries[q_index]:
+                            queries[q_index]['departure_time'] = qe['departure_time'] + dt.timedelta(minutes=leg1_time)
+                        elif 'arrival_time' in queries[q_index]:
+                            queries[q_index]['arrival_time'] = qe['arrival_time'] - dt.timedelta(minutes=leg1_time)
+                        else:
+                            pass
                     else:
-                        leg1_time = int(recursive_get(q_result, (0, 'legs', 0, 'duration_in_traffic', 'value'))) / 60.
-                    q_index = [True if 'id' in rq and rq['id'] == qid.split('-')[0] + '-2' else False
-                               for rq in queries].index(True)
-                    print "Found index of query to change:", q_index
-                    print "Adding", leg1_time, "minutes"
-                    if 'departure_time' in queries[q_index]:
-                        queries[q_index]['departure_time'] = qe['departure_time'] + dt.timedelta(minutes=leg1_time)
-                    elif 'arrival_time' in queries[q_index]:
-                        queries[q_index]['arrival_time'] = qe['arrival_time'] - dt.timedelta(minutes=leg1_time)
-                    else:
-                        pass
+                        print "Removing complementary query at index:", q_index
+                        queries.remove(queries[q_index])
                     queries.sort(key=lambda x: x['departure_time'] if 'departure_time' in x else x['arrival_time'])
 
                 # then get any applicable split queries
-                if self.split_transit and 'split_on_leg' in q:
+                if self.split_transit and 'split_on_leg' in q and q_result:
                     add_queries = self.build_intermediate_queries(full_query_to_split=q, result_to_split=q_result,
-                                                                  id_stub=successes, verbose=verbose_split)
+                                                                  verbose=verbose_split)
                     ####################
                     # print "ID stub:", "{0:0>4}".format(successes)
                     # print "Adding", len(add_queries), "sets of queries:"
@@ -384,8 +387,10 @@ class GooglemapsAPIMiner:
                 # for alq in queries:
                 #     print alq
                 ##################
+            # Catch any exception so that no matter what happens, process will proceed.
             except (googlemaps.exceptions.ApiError, googlemaps.exceptions.HTTPError,
-                    googlemaps.exceptions.Timeout, googlemaps.exceptions.TransportError):
+                    googlemaps.exceptions.Timeout, googlemaps.exceptions.TransportError,
+                    BaseException):
                 traceback.print_exc()
                 # append empty result to keep number of queries and number of results in sync
                 q_result = []
@@ -393,7 +398,7 @@ class GooglemapsAPIMiner:
                 # save results in function instead of in class variable
                 local_results.append(q_result)
             else:
-                if self.split_transit and qid:
+                if self.split_transit:
                     if qid.split('-')[0] in [i[0] for i in self.results]:
                         for res in self.results:
                             if res[0] == qid.split('-')[0]:
@@ -433,10 +438,9 @@ class GooglemapsAPIMiner:
             output_stub = os.path.split(self.saved_input_filename)[0]
             output_fn = 'output_' + os.path.splitext(os.path.split(self.saved_input_filename)[-1])[0]
         else:
-            if os.path.split(output_filename)[0] == '':
-                output_stub = './'
-            else:
-                output_stub = os.path.split(output_filename)[0]
+            output_stub = os.path.split(output_filename)[0]
+            if not output_stub:
+                output_stub = '.'
             output_fn = os.path.splitext(os.path.split(output_filename)[-1])[0]
         if write_pickle:
             try:
@@ -447,8 +451,11 @@ class GooglemapsAPIMiner:
                 print "Problem with output as pickle."
                 print "Attempting to save as file './exception_dump.cpkl'."
                 print "Rename that file to recover results, it may be overwritten if output fails again."
-                with open("./exception_dump.cpkl", 'wb') as f:
-                    cPickle.dump(self.results, f)
+                try:
+                    with open("./exception_dump.cpkl", 'wb') as f:
+                        cPickle.dump(self.results, f)
+                except:
+                    pass
         if write_csv:
             try:
                 # define output parameters and the appropriate depth-wise calls to list-dict combinations to get each
@@ -467,47 +474,57 @@ class GooglemapsAPIMiner:
                     outputs_keys, outputs_values = zip(*outputs.items())
                     if self.split_transit:
                         output_header = self.input_header + ['split_point'] + list(outputs_keys) * 2
-                    else:
-                        output_header = self.input_header + list(outputs_keys)
-                    writer.writerow(output_header)
-                    if self.split_transit:
+                        writer.writerow(output_header)
                         for res in self.results:
                             # get full query portion of the output row
-                            q = self.queries[[True if qry['id'] == res[0][:4] + '0000-0' else False
-                                              for qry in self.queries].index(True)]
+                            try:
+                                q = self.queries[[True if qry['id'] == res[0][:4] + '0000-0' else False
+                                                  for qry in self.queries].index(True)]
+                            except ValueError:
+                                print "Couldn't find full source query."
+                                q = [''] * len(self.input_header)
                             line = [q[ih] if ih in q else '' for ih in self.input_header]
                             if len(res) > 2:
-                                q1 = self.queries[[True if qry['id'] == res[0] + '-1' else False
-                                                   for qry in self.queries].index(True)]
-                                q2 = self.queries[[True if qry['id'] == res[0] + '-2' else False
-                                                   for qry in self.queries].index(True)]
-
-                                # get split point of the query
-                                if q1['destination'] == q2['origin']:
-                                    # query was made on departure time
-                                    try:
-                                        line += [self.split_reverse_cache[q1['destination']]]
-                                    except KeyError:
-                                        line += [q1['destination']]
-                                elif q1['origin'] == q2['destination']:
-                                    # query was made on arrival time
-                                    try:
-                                        line += [self.split_reverse_cache[q1['origin']]]
-                                    except KeyError:
-                                        line += [q1['origin']]
-                                else:
-                                    print "Couldn't discern split point - no origin/destination match within result."
-
+                                try:
+                                    q1 = self.queries[[True if qry['id'] == res[0] + '-1' else False
+                                                       for qry in self.queries].index(True)]
+                                    q2 = self.queries[[True if qry['id'] == res[0] + '-2' else False
+                                                       for qry in self.queries].index(True)]
+                                    # get split point of the query
+                                    if q1['destination'] == q2['origin']:
+                                        # query was made on departure time
+                                        try:
+                                            line += [self.split_reverse_cache[q1['destination']]]
+                                        except KeyError:
+                                            line += [q1['destination']]
+                                    elif q1['origin'] == q2['destination']:
+                                        # query was made on arrival time
+                                        try:
+                                            line += [self.split_reverse_cache[q1['origin']]]
+                                        except KeyError:
+                                            line += [q1['origin']]
+                                    else:
+                                        print "Couldn't discern split point - no origin/destination match in results."
+                                except ValueError:
+                                    print "Couldn't find source query for split query pair.", res[0]
+                                    end_loc = "{}/{}".format(recursive_get(res[1],
+                                                                           (0, 'legs', 0, 'end_location', 'lat')),
+                                                             recursive_get(res[1],
+                                                                           (0, 'legs', 0, 'end_location', 'lng')))
+                                    line += [str(end_loc).strip('(').strip(')')]
                                 line += [recursive_get(res[1], oh) for oh in outputs_values]
                                 line += [recursive_get(res[2], oh) for oh in outputs_values]
                             else:
                                 # for query split point
                                 line += ['']
                                 line += [recursive_get(res[1], oh) for oh in outputs_values]
+                                # for nonexistent second leg
                                 line += [''] * len(outputs_values)
                             # output the line
                             writer.writerow(line)
                     else:
+                        output_header = self.input_header + list(outputs_keys)
+                        writer.writerow(output_header)
                         for q, res in zip(self.queries, self.results):
                             line = [q[ih] if ih in q else '' for ih in self.input_header]
                             line += [recursive_get(res, oh) for oh in outputs_values]
@@ -557,16 +574,16 @@ class GooglemapsAPIMiner:
         sys.stdout = original_stdout
         return
 
-    def build_intermediate_queries(self, full_query_to_split, result_to_split, id_stub, verbose=False):
+    def build_intermediate_queries(self, full_query_to_split, result_to_split, verbose=False):
         """
         Takes imported queries and executes the primary/full version of the query. Then builds secondary/split queries
             from the results, then to be executed in order and at correct times, if indicated.
         :param full_query_to_split:
         :param result_to_split:
-        :param id_stub:
         :param verbose: runs recursive print for primary/full queries and prints information about intermediate stations
         :return: None
         """
+        id_stub = full_query_to_split['id'][:4]
         # find intermediate transit stations
         if full_query_to_split['split_on_leg'] == 'begin':
             steps = result_to_split[0]['legs'][0]['steps']
