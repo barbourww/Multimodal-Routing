@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1abd0deb-6026-4be8-86a1-1adbd7f936e0" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/airports5_04_13/output_a50413_2.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/airports5_04_13/output_a50413_3.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/airports5_04_13/output_a50413_4.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/airports6_04_14/output_a60414_1.csv" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/googlemaps_api_mining.py" afterPath="$PROJECT_DIR$/googlemaps_api_mining.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/googlemaps_query_util.py" afterPath="$PROJECT_DIR$/googlemaps_query_util.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/results/airports2_04_05/output_a20405_2.csv" afterPath="$PROJECT_DIR$/results/airports2_04_05/output_a20405_2.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/results/airports3_04_11/output_a30411_2.csv" afterPath="$PROJECT_DIR$/results/airports3_04_11/output_a30411_2.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/results/airports3_04_11/output_a30411_3.csv" afterPath="$PROJECT_DIR$/results/airports3_04_11/output_a30411_3.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/results/airports4_04_12/output_a40412_2.csv" afterPath="$PROJECT_DIR$/results/airports4_04_12/output_a40412_2.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/results/airports4_04_12/output_a40412_4.csv" afterPath="$PROJECT_DIR$/results/airports4_04_12/output_a40412_4.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/results/airports5_04_13/output_a50413_1.csv" afterPath="$PROJECT_DIR$/results/airports5_04_13/output_a50413_1.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/results/airports6_04_14/output_a60414_3.csv" afterPath="$PROJECT_DIR$/results/airports6_04_14/output_a60414_3.csv" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -47,7 +34,7 @@
       <file leaf-file-name="googlemaps_api_mining.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/googlemaps_api_mining.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.47519085">
+            <state vertical-scroll-proportion="12.413794">
               <caret line="456" column="22" selection-start-line="456" selection-start-column="22" selection-end-line="456" selection-end-column="22" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
@@ -162,20 +149,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="multimodal_routing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="multimodal_routing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="multimodal_routing" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="results" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -413,9 +386,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27799842" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27799842" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329235" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.352459" sideWeight="0.5059571" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.352459" sideWeight="0.4940429" order="7" side_tool="false" content_ui="tabs" />
@@ -853,7 +826,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/googlemaps_api_mining.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47519085">
+        <state vertical-scroll-proportion="12.413794">
           <caret line="456" column="22" selection-start-line="456" selection-start-column="22" selection-end-line="456" selection-end-column="22" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
