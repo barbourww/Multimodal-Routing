@@ -1,1 +1,3 @@
-origin,destination,mode,transit_mode,timezone,departure_time,departure_time_min,departure_time_max,departure_time_delta,arrival_time, split_on_legHarvard transit station Boston MA, Airport station Boston MA, transit, , eastern, , 04/05/2017 00:05, 04/05/2017 00:10, 5, , begin
+origin,destination,mode,avoid,timezone,split_on_leg,drive_leg,departure_time,departure_time_min,departure_time_max,departure_time_delta,units
+New York University,LaGuardia Airport,driving,tolls,eastern,,,,04/19/2017 01:10,04/19/2017 01:13,3,imperial
+New York University,LaGuardia Airport,transit,,eastern,begin,finish,,04/19/2017 01:10,04/19/2017 01:13,3,imperial

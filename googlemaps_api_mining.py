@@ -556,7 +556,6 @@ class GooglemapsAPIMiner:
         # TODO: might have problem with parallel execution and shared stdout
         # TODO: seems to be logging fine, but the traceback isn't making it on the log
         # TODO: maybe write separate file or cut out other print statements so the traceback is on the screen
-        # TODO: might have to figure out how to dump command line log to file in linux
         original_stdout = sys.stdout
         log = open(os.path.splitext(input_filename)[0] + "_log.txt", 'w')
         sys.stdout = PrintLogTee(original_stdout, log)
@@ -799,8 +798,8 @@ if __name__ == '__main__':
         g = GooglemapsAPIMiner(api_key_file=key_file, execute_in_time=True, split_transit=True)
         test_query = {'origin': 'Guaranteed Rate Field Chicago IL', 'destination': 'Bucktown Chicago IL',
                       'mode': 'driving', 'departure_time': localize_to_my_timezone(dt.datetime.now())}
-        # g.run_pipeline(input_filename=input_file, verbose_execute=False, verbose_input=True, verbose_split=True)
-        recursive_print(g.run_queries(here_are_the_queries=[test_query]))
+        g.run_pipeline(input_filename=input_file, verbose_execute=False, verbose_input=True, verbose_split=True)
+        # recursive_print(g.run_queries(here_are_the_queries=[test_query]))
         sys.exit(0)
 
     if False:
