@@ -1,3 +1,657 @@
-{'origin': 'Harvard transit station Boston MA', 'split_on_leg': 'begin', 'destination': 'Airport station Boston MA', 'mode': 'transit', 'timezone': 'eastern', 'departure_time': datetime.datetime(2017, 4, 4, 23, 5, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)}
-{'origin': 'Harvard transit station Boston MA', 'split_on_leg': 'begin', 'destination': 'Airport station Boston MA', 'mode': 'transit', 'timezone': 'eastern', 'departure_time': datetime.datetime(2017, 4, 4, 23, 10, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)}
-Loaded 2 API queries.
+{'origin': 'New York University', 'avoid': 'tolls', 'destination': 'LaGuardia Airport', 'mode': 'driving', 'units': 'imperial', 'timezone': 'eastern', 'id': '00000000-0', 'departure_time': datetime.datetime(2017, 4, 19, 0, 10, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)}
+{'origin': 'New York University', 'avoid': 'tolls', 'destination': 'LaGuardia Airport', 'mode': 'driving', 'units': 'imperial', 'timezone': 'eastern', 'id': '00010000-0', 'departure_time': datetime.datetime(2017, 4, 19, 0, 13, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)}
+{'origin': 'New York University', 'split_on_leg': 'begin', 'drive_leg': 'finish', 'destination': 'LaGuardia Airport', 'mode': 'transit', 'units': 'imperial', 'timezone': 'eastern', 'id': '00020000-0', 'departure_time': datetime.datetime(2017, 4, 19, 0, 10, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)}
+{'origin': 'New York University', 'split_on_leg': 'begin', 'drive_leg': 'finish', 'destination': 'LaGuardia Airport', 'mode': 'transit', 'units': 'imperial', 'timezone': 'eastern', 'id': '00030000-0', 'departure_time': datetime.datetime(2017, 4, 19, 0, 13, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)}
+Loaded 4 API queries.
+Query departure_time: 2017-04-19 00:10:00-05:00
+Now: 2017-04-19 00:07:45.832626-05:00
+Waiting for next query at 04/19/2017 00:10
+Sleep for 0:02:14
+Executing now (04/19/2017 00:09).
+Directions count: 1
+Added a result under a new ID: 00000000
+Query departure_time: 2017-04-19 00:10:00.959639-05:00
+Now: 2017-04-19 00:10:00.959742-05:00
+Executing now (04/19/2017 00:10).
+Directions count: 2
+n_stations: 6
+station_type: subway_station
+raw polyline: khrwFrjtbMKXECECyE_DEACC_EkCu]iUa\eTwi@g^c@Yc_@yTwPkM{CqB}LeIgRaMqNiJg@i@a@k@]m@Yo@Qq@Ou@Iw@Cw@?{@B}@H_ANcARcAXeAZiAvLs_@bCuH~Pyi@BGBI@GBGBE@GBGBG@EBG@EBG@EBE@GtIiWbNga@BGBIBIBGBIBGBIDGBIBGDIBGBGBIDGtLuYXu@lAuCDIDKDIDKBKDIDKDIDKDKDIFKDIDKDIfM{YN[J]H[F[B[B]?[C]C[G[I]K[M]Q[Q][g@Wi@Uk@Sk@Qm@Oo@Ko@Ks@Gs@Gu@Cu@Aw@IyPE{LAU?UAUAUAUAUASCUAUCSCSCUCSCSCSqG_f@Ik@Gk@Em@Ek@Cm@Ck@Am@?m@?m@@m@@m@Bm@Bm@Do@Fm@~BqV@WBW@U@W?U@W?U?U@U?WAU?UAS?UAUa@}HAa@A_@?_@@_@?_@B]@_@B]D[D]F[F[F[H[JY`Sgn@|Qmk@ZcAe@[
+decoded polyline: [(40.7311, -74.00122), (40.73116, -74.00135), (40.73119, -74.00133), (40.73122, -74.00131), (40.73231, -74.00051), (40.73234, -74.0005), (40.73236, -74.00048), (40.73332, -73.99978), (40.73823, -73.99621), (40.74288, -73.99282), (40.74972, -73.98782), (40.7499, -73.98769), (40.75504, -73.9842), (40.75788, -73.9819), (40.75866, -73.98133), (40.76089, -73.9797), (40.76397, -73.97745), (40.76646, -73.97564), (40.76666, -73.97543), (40.76683, -73.97521), (40.76698, -73.97498), (40.76711, -73.97474), (40.7672, -73.97449), (40.76728, -73.97422), (40.76733, -73.97394), (40.76735, -73.97366), (40.76735, -73.97336), (40.76733, -73.97305), (40.76728, -73.97273), (40.7672, -73.97239), (40.7671, -73.97205), (40.76697, -73.9717), (40.76683, -73.97133), (40.76463, -73.96611), (40.76397, -73.96456), (40.76109, -73.95771), (40.76107, -73.95767), (40.76105, -73.95762), (40.76104, -73.95758), (40.76102, -73.95754), (40.761, -73.95751), (40.76099, -73.95747), (40.76097, -73.95743), (40.76095, -73.95739), (40.76094, -73.95736), (40.76092, -73.95732), (40.76091, -73.95729), (40.76089, -73.95725), (40.76088, -73.95722), (40.76086, -73.95719), (40.76085, -73.95715), (40.75914, -73.95326), (40.75672, -73.94778), (40.7567, -73.94774), (40.75668, -73.94769), (40.75666, -73.94764), (40.75664, -73.9476), (40.75662, -73.94755), (40.7566, -73.94751), (40.75658, -73.94746), (40.75655, -73.94742), (40.75653, -73.94737), (40.75651, -73.94733), (40.75648, -73.94728), (40.75646, -73.94724), (40.75644, -73.9472), (40.75642, -73.94715), (40.75639, -73.94711), (40.7542, -73.94284), (40.75407, -73.94257), (40.75368, -73.94182), (40.75365, -73.94177), (40.75362, -73.94171), (40.75359, -73.94166), (40.75356, -73.9416), (40.75354, -73.94154), (40.75351, -73.94149), (40.75348, -73.94143), (40.75345, -73.94138), (40.75342, -73.94132), (40.75339, -73.94126), (40.75336, -73.94121), (40.75332, -73.94115), (40.75329, -73.9411), (40.75326, -73.94104), (40.75323, -73.94099), (40.75095, -73.93669), (40.75087, -73.93655), (40.75081, -73.9364), (40.75076, -73.93626), (40.75072, -73.93612), (40.7507, -73.93598), (40.75068, -73.93583), (40.75068, -73.93569), (40.7507, -73.93554), (40.75072, -73.9354), (40.75076, -73.93526), (40.75081, -73.93511), (40.75087, -73.93497), (40.75094, -73.93482), (40.75103, -73.93468), (40.75112, -73.93453), (40.75126, -73.93433), (40.75138, -73.93412), (40.75149, -73.9339), (40.75159, -73.93368), (40.75168, -73.93345), (40.75176, -73.93321), (40.75182, -73.93297), (40.75188, -73.93271), (40.75192, -73.93245), (40.75196, -73.93218), (40.75198, -73.93191), (40.75199, -73.93163), (40.75204, -73.92878), (40.75207, -73.92656), (40.75208, -73.92645), (40.75208, -73.92634), (40.75209, -73.92623), (40.7521, -73.92612), (40.75211, -73.92601), (40.75212, -73.9259), (40.75213, -73.9258), (40.75215, -73.92569), (40.75216, -73.92558), (40.75218, -73.92548), (40.7522, -73.92538), (40.75222, -73.92527), (40.75224, -73.92517), (40.75226, -73.92507), (40.75228, -73.92497), (40.75365, -73.91873), (40.7537, -73.91851), (40.75374, -73.91829), (40.75377, -73.91806), (40.7538, -73.91784), (40.75382, -73.91761), (40.75384, -73.91739), (40.75385, -73.91716), (40.75385, -73.91693), (40.75385, -73.9167), (40.75384, -73.91647), (40.75383, -73.91624), (40.75381, -73.91601), (40.75379, -73.91578), (40.75376, -73.91554), (40.75372, -73.91531), (40.75308, -73.91154), (40.75307, -73.91142), (40.75305, -73.9113), (40.75304, -73.91119), (40.75303, -73.91107), (40.75303, -73.91096), (40.75302, -73.91084), (40.75302, -73.91073), (40.75302, -73.91062), (40.75301, -73.91051), (40.75301, -73.91039), (40.75302, -73.91028), (40.75302, -73.91017), (40.75303, -73.91007), (40.75303, -73.90996), (40.75304, -73.90985), (40.75321, -73.90826), (40.75322, -73.90809), (40.75323, -73.90793), (40.75323, -73.90777), (40.75322, -73.90761), (40.75322, -73.90745), (40.7532, -73.9073), (40.75319, -73.90714), (40.75317, -73.90699), (40.75314, -73.90685), (40.75311, -73.9067), (40.75307, -73.90656), (40.75303, -73.90642), (40.75299, -73.90628), (40.75294, -73.90614), (40.75288, -73.90601), (40.74967, -73.89845), (40.74664, -73.89134), (40.7465, -73.891), (40.74669, -73.89086)]
+interpolating points at: [0.16666666666666666, 0.3333333333333333, 0.5, 0.6666666666666666, 0.8333333333333333]
+found interpolated points: [(40.7311, -74.00122), (40.74669, -73.89086), (40.75751854070799, -73.98219273111677), (40.764142146051434, -73.96496428239354), (40.75424218619615, -73.94292225345094), (40.75206416759399, -73.9269915980445), (40.753178445544485, -73.90855512696632)]
+Places count: 1
+interpolated point: (40.7311, -74.00122)
+found point: (40.73110409999999, -74.0012201)
+name: West 4 Street - Washington Square Station
+ {
+ rating : 3.7
+ name : West 4 Street - Washington Square Station
+ reference : CmRRAAAApQ67q8RQfphDwWQnVGkPnO3NqCGoOwnvY9XtstO7e7zJHubIvva1fX4bfCJB7-qOswdgosfUR9f5kv6MItCQn1BcXcpsvV6giCHkO2sZzguEUxir6BXYycAYN0B_4Nw4EhAmQjep9aU74Tzt8XIWAFu-GhTb9T7b_KUYwer75f4NnIHB5fCPsQ
+ geometry :
+	{
+	location :
+		{
+		lat : 40.7311041
+		lng : -74.0012201
+		}
+	viewport :
+		{
+		northeast :
+			{
+			lat : 40.7341351
+			lng : -73.99901075
+			}
+		southwest :
+			{
+			lat : 40.7300395
+			lng : -74.00234855
+			}
+		}
+	}
+ place_id : ChIJTbWiV5FZwokRsywIOc28k3Q
+ photos :
+	[
+		{
+		photo_reference : CoQBdwAAAD3XT17hhObl0LORYSdyJFb1RvVmIhV3HUY3sOeGC7GRrcS249CIH1pLj7lalT728YiPA8zQ5PNC_Su1Nwo8BEkUEt19YqthqfFEzUh1O6vC1_7wfhwiXaHBCnp88yGSKcqsOSsLIyEM-jqdWO0Hxq1ji5IzDirBg0MKs5NXRU4WEhCNRgdAh8r_7CjMnc_tLgyQGhTrU3krIgyY4yDQomsrKpPIodAK6Q
+		width : 3024
+		html_attributions :
+			[
+				<a href="https://maps.google.com/maps/contrib/111793281148483537299/photos">Warren Sze</a>
+			]
+		height : 4032
+		}
+	]
+ formatted_address : New York, NY 10012, United States
+ id : ff6df92cf8fbbda7d18f546dd1b24e6d7c348576
+ types :
+	[
+		subway_station
+		transit_station
+		point_of_interest
+		establishment
+	]
+ icon : https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png
+ }
+minimum distance from top result to polyline (approx miles): 0.000202440020919
+Places count: 2
+interpolated point: (40.74669, -73.89086)
+found point: (40.7466891, -73.8908579)
+name: Roosevelt Av - Jackson Heights Subway Station
+ {
+ rating : 4
+ name : Roosevelt Av - Jackson Heights Subway Station
+ reference : CmRSAAAA3GJk3Le_Iwf65sFcBiJvJ0g0ol5kXzPRuRfgMkxQhUp8lzIyoizzn0QjEYWd4oWcHWEVhdioxBsgvrMJFpAb5q-o4cb5dGlLo_HLSE4ABYfiPLNtrNEUSQmwooSzCrZvEhC7dQ7ktFUcx1jvMqceZmOeGhSminjwxtPDbF5VbSCrsbJAfRNFcw
+ geometry :
+	{
+	location :
+		{
+		lat : 40.7466891
+		lng : -73.8908579
+		}
+	viewport :
+		{
+		northeast :
+			{
+			lat : 40.7479412803
+			lng : -73.8890605
+			}
+		southwest :
+			{
+			lat : 40.7452433197
+			lng : -73.8936729
+			}
+		}
+	}
+ place_id : ChIJaXls0QBfwokRl9AcpPjexoQ
+ photos :
+	[
+		{
+		photo_reference : CoQBdwAAAKTa_T2oz3UbMP-tV-7jW-rdxpRmpqx1EcimYiOUuv8lBh0YzaxHOvONHzD48KevJAGX_rm6YaDYHR8igo0D8h5Hlzw413mZhBL8-QzQESmL0q0dcANg6Tu1tHx1vhDXkGnlFnjKuNQP4e1cxf1MT5DOvexUlQ68OTULVF_vVIAeEhAys88ZuWe68WWAuFd5Bg7XGhSsEejVdCpcOt_Kjz72v-bFPHSrhw
+		width : 1600
+		html_attributions :
+			[
+				<a href="https://maps.google.com/maps/contrib/117259763715142348434/photos">Sawdah Kadir</a>
+			]
+		height : 1200
+		}
+	]
+ formatted_address : Roosevelt Ave & 74th Street, New York, NY, United States
+ id : 5c2a754c2340cd8d668fe7f6a6b65f29a85d345d
+ types :
+	[
+		subway_station
+		transit_station
+		point_of_interest
+		establishment
+	]
+ icon : https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png
+ }
+minimum distance from top result to polyline (approx miles): 0.000125660256484
+Places count: 3
+interpolated point: (40.75751854070799, -73.98219273111677)
+found point: (40.7578276, -73.98179069999999)
+name: 47-50 Streets - Rockefeller Center Station
+ {
+ rating : 3.7
+ name : 47-50 Streets - Rockefeller Center Station
+ reference : CmRRAAAAhBvPjnn-lxU5xNXG7aHVGbXUWLp3M0_wj-jyfFZhDg-YUFntvFNfjNAdE55js2ayNYg83J6IImpwvzkFWYmM11PqkiSUe0ixmEgu3aoi9rfBEudOOZ5xXRHIeSrnYhMMEhDcBAMrn-nGAW1_fsndlZkPGhRIWpuOJ6ARItu0jabASKAbtEMLNw
+ geometry :
+	{
+	location :
+		{
+		lat : 40.7578276
+		lng : -73.9817907
+		}
+	viewport :
+		{
+		northeast :
+			{
+			lat : 40.7595472803
+			lng : -73.9802128197
+			}
+		southwest :
+			{
+			lat : 40.7568493197
+			lng : -73.9829107803
+			}
+		}
+	}
+ place_id : ChIJWQRMPv9YwokRExZRB8gYCBc
+ photos :
+	[
+		{
+		photo_reference : CoQBdwAAANZ9FUcsDSB7CenTK1jE0kgADg2wRSP2HDOXT5iO3l9kJqZ4Q-1SLZJd0CmptbNcAYUu2mCzGq2mSjWoJCwKfbZlQ_SDJeZ3ltfrqoAJCXZqefGWo_5i3RwFVEcJ4MMycYm7nOLmwq1c31i3Oq_T2v41CywFAQw036GbDuvyxeh6EhCmfjROvBKa4K3YlJtOtAaQGhQN23SpZHLnkoRmO_x40i2nB_rZBw
+		width : 4160
+		html_attributions :
+			[
+				<a href="https://maps.google.com/maps/contrib/115016631777511825743/photos">Rob Cameron</a>
+			]
+		height : 2340
+		}
+	]
+ formatted_address : New York, NY 10020, United States
+ id : 6add10593bed49e9a889c3ed90ba85478f851dbf
+ types :
+	[
+		subway_station
+		transit_station
+		point_of_interest
+		establishment
+	]
+ icon : https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png
+ }
+minimum distance from top result to polyline (approx miles): 0.00666663755232
+Places count: 4
+interpolated point: (40.764142146051434, -73.96496428239354)
+found point: (40.76487919999999, -73.9663982)
+name: Lexington Av - 63 St Subway Station
+ {
+ rating : 4.1
+ name : Lexington Av - 63 St Subway Station
+ reference : CmRSAAAABiJPNUouAmuvWarY65I9Yh4GG9IBTVaeWXzW19hsQdaYWtO4aVa2ueL_G4szGdVKjw5z5pUU4i1_SFbCQlBQXGIHhUeCZ-B28ECC9LpGLPA2xCySZDQdiLQGoM6tNklREhDryo7qcackF18uvSgbmFQVGhSCRiXUUNdTySet3HCAAFcYy_0tbQ
+ geometry :
+	{
+	location :
+		{
+		lat : 40.7648792
+		lng : -73.9663982
+		}
+	viewport :
+		{
+		northeast :
+			{
+			lat : 40.7662281803
+			lng : -73.9650492197
+			}
+		southwest :
+			{
+			lat : 40.7635302197
+			lng : -73.9677471803
+			}
+		}
+	}
+ place_id : ChIJk0aIJe9YwokR1EavxF8_P_g
+ photos :
+	[
+		{
+		photo_reference : CoQBdwAAALv1kgjP-uMUVRwmgO3yqcairTHwWdUALBAwuwlYzX1-12SQY6pReJbw4kvGgcuSiyMRYR_dh8Qp995y-bNn5ydmiKLRA59tnT1kRzqWE-CuiO0-C0ErqMepzp8OhRfVj3sRZvyKEtcpC6PIf5b6JplaJ22zzEHFLnTGF9vAN9__EhCrOKLzc46h0kdGARJSqhqhGhQ2s0xMGbDOoCd9hzzFoi2I3BJV7w
+		width : 2340
+		html_attributions :
+			[
+				<a href="https://maps.google.com/maps/contrib/100920714670552099354/photos">jeff perez</a>
+			]
+		height : 4160
+		}
+	]
+ formatted_address : United States
+ id : 27025fff4f6a3a2549a30829fe445ec1f66179fa
+ types :
+	[
+		subway_station
+		transit_station
+		point_of_interest
+		establishment
+	]
+ icon : https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png
+ }
+minimum distance from top result to polyline (approx miles): 0.0209549191597
+Places count: 5
+interpolated point: (40.75424218619615, -73.94292225345094)
+found point: (40.75417770000001, -73.94247419999999)
+name: 21 St - Queensbridge
+ {
+ rating : 3.9
+ name : 21 St - Queensbridge
+ reference : CmRRAAAAUjl7D6vQY7nv1_NILYMjJVjYC1TPTJaHh48GBcJ2POh3CLx-4FZrPnhNJMS6K29YMzsIllpZVbJLR_PuK8hihdkf1wZeC-h4bgkT3X2400zMNFtwkBKGk7GkgUhgJlYnEhBt9cxMMzChxagpgGAmeIe1GhTWCE2zyDQNzTsYlMMwGDrrmYXMsQ
+ geometry :
+	{
+	location :
+		{
+		lat : 40.7541777
+		lng : -73.9424742
+		}
+	viewport :
+		{
+		northeast :
+			{
+			lat : 40.7554518803
+			lng : -73.9410564197
+			}
+		southwest :
+			{
+			lat : 40.7527539197
+			lng : -73.9437543803
+			}
+		}
+	}
+ place_id : ChIJO6sPs9ZYwokRnV4BUy7L4nc
+ photos :
+	[
+		{
+		photo_reference : CoQBdwAAACBljOLoseLO-qfIPlt_npJ8PKGcGs3cPLXOx10w94IW7c6CgiWNr9yXRncufEPWFf8d1B34jeRFrUNU2K6hveX4ShBUHyR2hnv_cP9hdYVxBYIRff2ywNCAsv4A--o9Ix0ry6VAfoG7nbVB5BhUMQ5f47lKCdtGpeWEeITvjXVYEhByeNv4e13gwUSJfMCaIolkGhTa0Fvs9_stENvQ9_o1AVsBWg54Yw
+		width : 3888
+		html_attributions :
+			[
+				<a href="https://maps.google.com/maps/contrib/110252122280051666226/photos">Venessa Nina</a>
+			]
+		height : 2592
+		}
+	]
+ formatted_address : Long Island City, Queens, NY 11101, United States
+ id : 8b4de0c4ee966dbbb1d67ffc25ba33acebc558ee
+ types :
+	[
+		subway_station
+		transit_station
+		point_of_interest
+		establishment
+	]
+ icon : https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png
+ }
+minimum distance from top result to polyline (approx miles): 0.00792781264042
+Places count: 6
+interpolated point: (40.75206416759399, -73.9269915980445)
+found point: (40.752039, -73.928781)
+name: 36 St
+ {
+ rating : 4.8
+ name : 36 St
+ reference : CmRRAAAAHfZIL3KdbhCwozSNHOFcRdrpFSKybFSA_O6I5W9ZVm6WmmHrWtTGnVy7zFZQodnpjYsyfqPWvcL3W5l68cxkR652FU1VHDIH9vbcVPd9GJ6qHUTZSW2VRHqc398qBrk0EhDlq4eRGXN-Q9LtB5UQykLWGhRD5jPL9v8dMmxmxcBztAGj4tV66g
+ geometry :
+	{
+	location :
+		{
+		lat : 40.752039
+		lng : -73.928781
+		}
+	viewport :
+		{
+		northeast :
+			{
+			lat : 40.7533879803
+			lng : -73.9274320197
+			}
+		southwest :
+			{
+			lat : 40.7506900197
+			lng : -73.9301299803
+			}
+		}
+	}
+ place_id : ChIJkS8vSilfwokRcsN5-rjYP1Q
+ photos :
+	[
+		{
+		photo_reference : CoQBdwAAAMSWbo7TxPhrZ8UpOhhQlO5_PatN7gRM6rJO6tFb1IecZ7GrhskC3VUPm0AU0IW4oLfhMnkn0AzU7qrNaxKpAauOO4jMMerkAwVZ9eTxrq3xwfD7sZRuq5F-iIzVexPnubgxoLu3DFX2r8BIZ7LF8hWy5FHKZDtQk_bu3dBcRs-0EhAXa10GFh11ru-MoCE55kWoGhRO_TetyScQtEHzjkOHeQ1Rj0aHbw
+		width : 4600
+		html_attributions :
+			[
+				<a href="https://maps.google.com/maps/contrib/101580679594295106213/photos">Jay Kindell</a>
+			]
+		height : 3233
+		}
+	]
+ formatted_address : United States
+ id : 5ac47ddc8b44f3e819a7c7bbd10c7e5ff4ec9e8d
+ types :
+	[
+		subway_station
+		transit_station
+		point_of_interest
+		establishment
+	]
+ icon : https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png
+ }
+minimum distance from top result to polyline (approx miles): 7.77817457341e-05
+Places count: 7
+interpolated point: (40.753178445544485, -73.90855512696632)
+found point: (40.7531039, -73.9071013)
+name: Northern Blvd
+ {
+ rating : 3.7
+ name : Northern Blvd
+ reference : CmRRAAAALY8bskVMP3RnhMsUwN8d7rvHnNo8HKS0aZx8L4-pUuNVzWiJyslL5oTHFMSHdOqLDhBz7FEY_VtSguz628tJDae-Qg96Yu3N2JknZH__qcyJSE_SqsIy5UuNhjfsBwagEhDVT8tTgLNeyYopmzCnUSAcGhQB0Wckm5Jv-Ma3NEWusP_1rdMRVw
+ geometry :
+	{
+	location :
+		{
+		lat : 40.7531039
+		lng : -73.9071013
+		}
+	viewport :
+		{
+		northeast :
+			{
+			lat : 40.7546000303
+			lng : -73.9056263197
+			}
+		southwest :
+			{
+			lat : 40.7519020697
+			lng : -73.9083242803
+			}
+		}
+	}
+ place_id : ChIJbb1bGBpfwokRH-0VncDoqCo
+ photos :
+	[
+		{
+		photo_reference : CoQBdwAAAGogIK8KdvHgwEZA-4Wz-OJH7lgO78GarPrHXr-ojqY-A9tLSpo9IpxM4pxzEXBuORUhMCTw1rn9GaqbBkKIR51wSYKZekHUKHOC42-1Na4FCc5uETxSp0NGTKoukpp83_rPXrfbfiqunZZ1Rd-6sfckDsSQ9wp_VCeLg42BHYMZEhASZmDMF6kx48dS0OG-dSn4GhTBuR_dxhNFb23TXw5vzjzCWXMRUw
+		width : 5312
+		html_attributions :
+			[
+				<a href="https://maps.google.com/maps/contrib/108087423515662514834/photos">Haseeb Abbasi</a>
+			]
+		height : 2988
+		}
+	]
+ formatted_address : United States
+ id : 697f565d62d6a0f6c9194aacc807469c05936f0b
+ types :
+	[
+		subway_station
+		transit_station
+		point_of_interest
+		establishment
+	]
+ icon : https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png
+ }
+minimum distance from top result to polyline (approx miles): 0.005191865994
+West 4 Street - Washington Square Station 
+{'origin': 'New York University', 'destination': (40.73110409999999, -74.0012201), 'mode': 'transit', 'units': 'imperial', 'timezone': 'eastern', 'id': '00020001-1', 'departure_time': datetime.datetime(2017, 4, 19, 0, 12, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)} 
+{'origin': (40.73110409999999, -74.0012201), 'destination': 'LaGuardia Airport', 'mode': 'driving', 'units': 'imperial', 'timezone': 'eastern', 'id': '00020001-2', 'departure_time': datetime.datetime(9999, 12, 30, 23, 59, 59, 999999, tzinfo=<DstTzInfo 'US/Eastern' EST-1 day, 19:00:00 STD>)}
+47-50 Streets - Rockefeller Center Station 
+{'origin': 'New York University', 'destination': (40.7578276, -73.98179069999999), 'mode': 'transit', 'units': 'imperial', 'timezone': 'eastern', 'id': '00020002-1', 'departure_time': datetime.datetime(2017, 4, 19, 0, 12, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)} 
+{'origin': (40.7578276, -73.98179069999999), 'destination': 'LaGuardia Airport', 'mode': 'driving', 'units': 'imperial', 'timezone': 'eastern', 'id': '00020002-2', 'departure_time': datetime.datetime(9999, 12, 30, 23, 59, 59, 999999, tzinfo=<DstTzInfo 'US/Eastern' EST-1 day, 19:00:00 STD>)}
+36 St 
+{'origin': 'New York University', 'destination': (40.752039, -73.928781), 'mode': 'transit', 'units': 'imperial', 'timezone': 'eastern', 'id': '00020003-1', 'departure_time': datetime.datetime(2017, 4, 19, 0, 12, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)} 
+{'origin': (40.752039, -73.928781), 'destination': 'LaGuardia Airport', 'mode': 'driving', 'units': 'imperial', 'timezone': 'eastern', 'id': '00020003-2', 'departure_time': datetime.datetime(9999, 12, 30, 23, 59, 59, 999999, tzinfo=<DstTzInfo 'US/Eastern' EST-1 day, 19:00:00 STD>)}
+Roosevelt Av - Jackson Heights Subway Station 
+{'origin': 'New York University', 'destination': (40.7466891, -73.8908579), 'mode': 'transit', 'units': 'imperial', 'timezone': 'eastern', 'id': '00020004-1', 'departure_time': datetime.datetime(2017, 4, 19, 0, 12, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)} 
+{'origin': (40.7466891, -73.8908579), 'destination': 'LaGuardia Airport', 'mode': 'driving', 'units': 'imperial', 'timezone': 'eastern', 'id': '00020004-2', 'departure_time': datetime.datetime(9999, 12, 30, 23, 59, 59, 999999, tzinfo=<DstTzInfo 'US/Eastern' EST-1 day, 19:00:00 STD>)}
+Northern Blvd 
+{'origin': 'New York University', 'destination': (40.7531039, -73.9071013), 'mode': 'transit', 'units': 'imperial', 'timezone': 'eastern', 'id': '00020005-1', 'departure_time': datetime.datetime(2017, 4, 19, 0, 12, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)} 
+{'origin': (40.7531039, -73.9071013), 'destination': 'LaGuardia Airport', 'mode': 'driving', 'units': 'imperial', 'timezone': 'eastern', 'id': '00020005-2', 'departure_time': datetime.datetime(9999, 12, 30, 23, 59, 59, 999999, tzinfo=<DstTzInfo 'US/Eastern' EST-1 day, 19:00:00 STD>)}
+Lexington Av - 63 St Subway Station 
+{'origin': 'New York University', 'destination': (40.76487919999999, -73.9663982), 'mode': 'transit', 'units': 'imperial', 'timezone': 'eastern', 'id': '00020006-1', 'departure_time': datetime.datetime(2017, 4, 19, 0, 12, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)} 
+{'origin': (40.76487919999999, -73.9663982), 'destination': 'LaGuardia Airport', 'mode': 'driving', 'units': 'imperial', 'timezone': 'eastern', 'id': '00020006-2', 'departure_time': datetime.datetime(9999, 12, 30, 23, 59, 59, 999999, tzinfo=<DstTzInfo 'US/Eastern' EST-1 day, 19:00:00 STD>)}
+21 St - Queensbridge 
+{'origin': 'New York University', 'destination': (40.75417770000001, -73.94247419999999), 'mode': 'transit', 'units': 'imperial', 'timezone': 'eastern', 'id': '00020007-1', 'departure_time': datetime.datetime(2017, 4, 19, 0, 12, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)} 
+{'origin': (40.75417770000001, -73.94247419999999), 'destination': 'LaGuardia Airport', 'mode': 'driving', 'units': 'imperial', 'timezone': 'eastern', 'id': '00020007-2', 'departure_time': datetime.datetime(9999, 12, 30, 23, 59, 59, 999999, tzinfo=<DstTzInfo 'US/Eastern' EST-1 day, 19:00:00 STD>)}
+Added a result under a new ID: 00020000
+Query departure_time: 2017-04-19 00:12:00-05:00
+Now: 2017-04-19 00:10:10.226782-05:00
+Waiting for next query at 04/19/2017 00:12
+Sleep for 0:01:49
+Executing now (04/19/2017 00:12).
+Directions count: 3
+Found index of query to change: 11
+Adding 1.8 minutes
+Added a result under a new ID: 00020001
+Query departure_time: 2017-04-19 00:12:00.372863-05:00
+Now: 2017-04-19 00:12:00.372958-05:00
+Executing now (04/19/2017 00:12).
+Directions count: 4
+Found index of query to change: 12
+Adding 12.65 minutes
+Added a result under a new ID: 00020002
+Query departure_time: 2017-04-19 00:12:01.375428-05:00
+Now: 2017-04-19 00:12:01.375521-05:00
+Executing now (04/19/2017 00:12).
+Directions count: 5
+Found index of query to change: 13
+Adding 22.65 minutes
+Added a result under a new ID: 00020003
+Query departure_time: 2017-04-19 00:12:02.378059-05:00
+Now: 2017-04-19 00:12:02.378146-05:00
+Executing now (04/19/2017 00:12).
+Directions count: 6
+Found index of query to change: 14
+Adding 26.65 minutes
+Added a result under a new ID: 00020004
+Query departure_time: 2017-04-19 00:12:03.380423-05:00
+Now: 2017-04-19 00:12:03.380506-05:00
+Executing now (04/19/2017 00:12).
+Directions count: 7
+Found index of query to change: 15
+Adding 27.65 minutes
+Added a result under a new ID: 00020005
+Query departure_time: 2017-04-19 00:12:04.382076-05:00
+Now: 2017-04-19 00:12:04.382163-05:00
+Executing now (04/19/2017 00:12).
+Directions count: 8
+Found index of query to change: 16
+Adding 16.65 minutes
+Added a result under a new ID: 00020006
+Query departure_time: 2017-04-19 00:12:05.383338-05:00
+Now: 2017-04-19 00:12:05.383446-05:00
+Executing now (04/19/2017 00:12).
+Directions count: 9
+Found index of query to change: 17
+Adding 20.65 minutes
+Added a result under a new ID: 00020007
+Query departure_time: 2017-04-19 00:13:00-05:00
+Now: 2017-04-19 00:12:06.907870-05:00
+Waiting for next query at 04/19/2017 00:13
+Sleep for 0:00:53
+Executing now (04/19/2017 00:13).
+Directions count: 10
+Added a result under a new ID: 00010000
+Query departure_time: 2017-04-19 00:13:00.258375-05:00
+Now: 2017-04-19 00:13:00.258461-05:00
+Executing now (04/19/2017 00:13).
+Directions count: 11
+Using cached station list.
+West 4 Street - Washington Square Station 
+{'origin': 'New York University', 'destination': (40.73110409999999, -74.0012201), 'mode': 'transit', 'units': 'imperial', 'timezone': 'eastern', 'id': '00030001-1', 'departure_time': datetime.datetime(2017, 4, 19, 0, 15, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)} 
+{'origin': (40.73110409999999, -74.0012201), 'destination': 'LaGuardia Airport', 'mode': 'driving', 'units': 'imperial', 'timezone': 'eastern', 'id': '00030001-2', 'departure_time': datetime.datetime(9999, 12, 30, 23, 59, 59, 999999, tzinfo=<DstTzInfo 'US/Eastern' EST-1 day, 19:00:00 STD>)}
+47-50 Streets - Rockefeller Center Station 
+{'origin': 'New York University', 'destination': (40.7578276, -73.98179069999999), 'mode': 'transit', 'units': 'imperial', 'timezone': 'eastern', 'id': '00030002-1', 'departure_time': datetime.datetime(2017, 4, 19, 0, 15, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)} 
+{'origin': (40.7578276, -73.98179069999999), 'destination': 'LaGuardia Airport', 'mode': 'driving', 'units': 'imperial', 'timezone': 'eastern', 'id': '00030002-2', 'departure_time': datetime.datetime(9999, 12, 30, 23, 59, 59, 999999, tzinfo=<DstTzInfo 'US/Eastern' EST-1 day, 19:00:00 STD>)}
+36 St 
+{'origin': 'New York University', 'destination': (40.752039, -73.928781), 'mode': 'transit', 'units': 'imperial', 'timezone': 'eastern', 'id': '00030003-1', 'departure_time': datetime.datetime(2017, 4, 19, 0, 15, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)} 
+{'origin': (40.752039, -73.928781), 'destination': 'LaGuardia Airport', 'mode': 'driving', 'units': 'imperial', 'timezone': 'eastern', 'id': '00030003-2', 'departure_time': datetime.datetime(9999, 12, 30, 23, 59, 59, 999999, tzinfo=<DstTzInfo 'US/Eastern' EST-1 day, 19:00:00 STD>)}
+Roosevelt Av - Jackson Heights Subway Station 
+{'origin': 'New York University', 'destination': (40.7466891, -73.8908579), 'mode': 'transit', 'units': 'imperial', 'timezone': 'eastern', 'id': '00030004-1', 'departure_time': datetime.datetime(2017, 4, 19, 0, 15, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)} 
+{'origin': (40.7466891, -73.8908579), 'destination': 'LaGuardia Airport', 'mode': 'driving', 'units': 'imperial', 'timezone': 'eastern', 'id': '00030004-2', 'departure_time': datetime.datetime(9999, 12, 30, 23, 59, 59, 999999, tzinfo=<DstTzInfo 'US/Eastern' EST-1 day, 19:00:00 STD>)}
+Northern Blvd 
+{'origin': 'New York University', 'destination': (40.7531039, -73.9071013), 'mode': 'transit', 'units': 'imperial', 'timezone': 'eastern', 'id': '00030005-1', 'departure_time': datetime.datetime(2017, 4, 19, 0, 15, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)} 
+{'origin': (40.7531039, -73.9071013), 'destination': 'LaGuardia Airport', 'mode': 'driving', 'units': 'imperial', 'timezone': 'eastern', 'id': '00030005-2', 'departure_time': datetime.datetime(9999, 12, 30, 23, 59, 59, 999999, tzinfo=<DstTzInfo 'US/Eastern' EST-1 day, 19:00:00 STD>)}
+Lexington Av - 63 St Subway Station 
+{'origin': 'New York University', 'destination': (40.76487919999999, -73.9663982), 'mode': 'transit', 'units': 'imperial', 'timezone': 'eastern', 'id': '00030006-1', 'departure_time': datetime.datetime(2017, 4, 19, 0, 15, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)} 
+{'origin': (40.76487919999999, -73.9663982), 'destination': 'LaGuardia Airport', 'mode': 'driving', 'units': 'imperial', 'timezone': 'eastern', 'id': '00030006-2', 'departure_time': datetime.datetime(9999, 12, 30, 23, 59, 59, 999999, tzinfo=<DstTzInfo 'US/Eastern' EST-1 day, 19:00:00 STD>)}
+21 St - Queensbridge 
+{'origin': 'New York University', 'destination': (40.75417770000001, -73.94247419999999), 'mode': 'transit', 'units': 'imperial', 'timezone': 'eastern', 'id': '00030007-1', 'departure_time': datetime.datetime(2017, 4, 19, 0, 15, tzinfo=<DstTzInfo 'US/Central' CDT-1 day, 19:00:00 DST>)} 
+{'origin': (40.75417770000001, -73.94247419999999), 'destination': 'LaGuardia Airport', 'mode': 'driving', 'units': 'imperial', 'timezone': 'eastern', 'id': '00030007-2', 'departure_time': datetime.datetime(9999, 12, 30, 23, 59, 59, 999999, tzinfo=<DstTzInfo 'US/Eastern' EST-1 day, 19:00:00 STD>)}
+Added a result under a new ID: 00030000
+Query departure_time: 2017-04-19 00:13:48.000258-05:00
+Now: 2017-04-19 00:13:01.262299-05:00
+Waiting for next query at 04/19/2017 00:13
+Sleep for 0:00:46
+Executing now (04/19/2017 00:13).
+Directions count: 12
+Added a result to an existing ID: 00020001
+Query departure_time: 2017-04-19 00:15:00-05:00
+Now: 2017-04-19 00:13:49.321997-05:00
+Waiting for next query at 04/19/2017 00:15
+Sleep for 0:01:10
+Executing now (04/19/2017 00:14).
+Directions count: 13
+Found index of query to change: 25
+Adding 1.8 minutes
+Added a result under a new ID: 00030001
+Query departure_time: 2017-04-19 00:15:00.486419-05:00
+Now: 2017-04-19 00:15:00.486503-05:00
+Executing now (04/19/2017 00:15).
+Directions count: 14
+Found index of query to change: 26
+Adding 12.65 minutes
+Added a result under a new ID: 00030002
+Query departure_time: 2017-04-19 00:15:01.491101-05:00
+Now: 2017-04-19 00:15:01.491212-05:00
+Executing now (04/19/2017 00:15).
+Directions count: 15
+Found index of query to change: 27
+Adding 22.65 minutes
+Added a result under a new ID: 00030003
+Query departure_time: 2017-04-19 00:15:02.492711-05:00
+Now: 2017-04-19 00:15:02.492823-05:00
+Executing now (04/19/2017 00:15).
+Directions count: 16
+Found index of query to change: 28
+Adding 26.65 minutes
+Added a result under a new ID: 00030004
+Query departure_time: 2017-04-19 00:15:03.497119-05:00
+Now: 2017-04-19 00:15:03.497229-05:00
+Executing now (04/19/2017 00:15).
+Directions count: 17
+Found index of query to change: 29
+Adding 27.65 minutes
+Added a result under a new ID: 00030005
+Query departure_time: 2017-04-19 00:15:04.500850-05:00
+Now: 2017-04-19 00:15:04.500931-05:00
+Executing now (04/19/2017 00:15).
+Directions count: 18
+Found index of query to change: 30
+Adding 16.65 minutes
+Added a result under a new ID: 00030006
+Query departure_time: 2017-04-19 00:15:05.505107-05:00
+Now: 2017-04-19 00:15:05.505216-05:00
+Executing now (04/19/2017 00:15).
+Directions count: 19
+Found index of query to change: 31
+Adding 20.65 minutes
+Added a result under a new ID: 00030007
+Query departure_time: 2017-04-19 00:16:47.999653-05:00
+Now: 2017-04-19 00:15:06.508637-05:00
+Waiting for next query at 04/19/2017 00:16
+Sleep for 0:01:41
+Executing now (04/19/2017 00:16).
+Directions count: 20
+Added a result to an existing ID: 00030001
+Query departure_time: 2017-04-19 00:24:39.373077-05:00
+Now: 2017-04-19 00:16:48.354178-05:00
+Waiting for next query at 04/19/2017 00:24
+Sleep for 0:07:51
+Executing now (04/19/2017 00:24).
+Directions count: 21
+Added a result to an existing ID: 00020002
+Query departure_time: 2017-04-19 00:27:39.486606-05:00
+Now: 2017-04-19 00:24:40.171554-05:00
+Waiting for next query at 04/19/2017 00:27
+Sleep for 0:02:59
+Executing now (04/19/2017 00:27).
+Directions count: 22
+Added a result to an existing ID: 00030002
+Query departure_time: 2017-04-19 00:28:43.382268-05:00
+Now: 2017-04-19 00:27:39.762863-05:00
+Waiting for next query at 04/19/2017 00:28
+Sleep for 0:01:03
+Executing now (04/19/2017 00:28).
+Directions count: 23
+Added a result to an existing ID: 00020006
+Query departure_time: 2017-04-19 00:31:43.501035-05:00
+Now: 2017-04-19 00:28:43.698862-05:00
+Waiting for next query at 04/19/2017 00:31
+Sleep for 0:02:59
+Executing now (04/19/2017 00:31).
+Directions count: 24
+Added a result to an existing ID: 00030006
+Query departure_time: 2017-04-19 00:32:44.383581-05:00
+Now: 2017-04-19 00:31:44.418881-05:00
+Waiting for next query at 04/19/2017 00:32
+Sleep for 0:00:59
+Executing now (04/19/2017 00:32).
+Directions count: 25
+Added a result to an existing ID: 00020007
+Query departure_time: 2017-04-19 00:34:40.375630-05:00
+Now: 2017-04-19 00:32:45.039670-05:00
+Waiting for next query at 04/19/2017 00:34
+Sleep for 0:01:55
+Executing now (04/19/2017 00:34).
+Directions count: 26
+Added a result to an existing ID: 00020003
+Query departure_time: 2017-04-19 00:35:44.505359-05:00
+Now: 2017-04-19 00:34:40.838315-05:00
+Waiting for next query at 04/19/2017 00:35
+Sleep for 0:01:03
+Executing now (04/19/2017 00:35).
+Directions count: 27
+Added a result to an existing ID: 00030007
+Query departure_time: 2017-04-19 00:37:40.491350-05:00
+Now: 2017-04-19 00:35:44.792463-05:00
+Waiting for next query at 04/19/2017 00:37
+Sleep for 0:01:55
+Executing now (04/19/2017 00:37).
+Directions count: 28
+Added a result to an existing ID: 00030003
+Query departure_time: 2017-04-19 00:38:41.378252-05:00
+Now: 2017-04-19 00:37:40.916514-05:00
+Waiting for next query at 04/19/2017 00:38
+Sleep for 0:01:00
+Executing now (04/19/2017 00:38).
+Directions count: 29
+Added a result to an existing ID: 00020004
+Query departure_time: 2017-04-19 00:39:42.380650-05:00
+Now: 2017-04-19 00:38:42.334847-05:00
+Waiting for next query at 04/19/2017 00:39
+Sleep for 0:01:00
+Executing now (04/19/2017 00:39).
+Directions count: 30
+Added a result to an existing ID: 00020005
+Query departure_time: 2017-04-19 00:41:41.492989-05:00
+Now: 2017-04-19 00:39:42.937993-05:00
+Waiting for next query at 04/19/2017 00:41
+Sleep for 0:01:58
+Executing now (04/19/2017 00:41).
+Directions count: 31
+Added a result to an existing ID: 00030004
+Query departure_time: 2017-04-19 00:42:42.497364-05:00
+Now: 2017-04-19 00:41:42.283710-05:00
+Waiting for next query at 04/19/2017 00:42
+Sleep for 0:01:00
+Executing now (04/19/2017 00:42).
+Directions count: 32
+Added a result to an existing ID: 00030005
+Executed 32 queries successfully.

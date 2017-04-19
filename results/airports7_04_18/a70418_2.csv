@@ -1,2 +1,0 @@
-origin,destination,mode,avoid,timezone,split_on_leg,drive_leg,departure_time,departure_time_min,departure_time_max,departure_time_delta,unitsWashington Park Chicago IL,Ohare Airport,driving,tolls,central,,,,04/18/2017 05:00,04/18/2017 22:00,15,imperialWashington Park Chicago IL,Ohare Airport,transit,,central,begin,start,,04/18/2017 05:00,04/18/2017 22:00,15,imperial
-Washington Park Chicago IL,Ohare Airport,transit,,central,end,finish,,04/18/2017 05:00,04/18/2017 22:00,15,imperial
