@@ -792,7 +792,7 @@ def parallel_run_pipeline(all_args):
 
 if __name__ == '__main__':
     # Set to True for running easily within IDE.
-    if True:
+    if False:
         key_file = './key_coded_will.txt'
         input_file = './test_queries.csv'
         g = GooglemapsAPIMiner(api_key_file=key_file, execute_in_time=True, split_transit=True)
