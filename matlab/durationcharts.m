@@ -50,12 +50,12 @@ dataDrive = nld(strcmp(nld.mode,'driving'),:);
 % Extract transit only trips, extract conditions first
 transitCond = strcmp(nld.mode,'transit') & ...
     strcmp(nld.split_on_leg,'begin') & ...
-    isnan(nld.distance_mi__1); 
+    isnan(nld.distance_leg2); 
 dataTransit = nld(transitCond, :);
 % 103 results, good
 
 % Extract all mixed trips
-dataMixed = nld(~isnan(nld.distance_mi__1),:);
+dataMixed = nld(~isnan(nld.distance_leg2),:);
 % 1378-3*103 = 1069 rows, good
 % Maybe put these into 4 bins by proportion of driving to transit for
 % plotting?
@@ -79,17 +79,21 @@ dataTD = nld(TDCond, :);
 % Columns: 1. dep time, 2. mileage, 3. duration in traffic 4. duration
 % Duration units are in seconds, need to convert to minutes.
 % Also convert depTime from datetime to integer value 0-24 hrs
+% For driving, use duration_in_traffic. duration is just free-flow time.
+% For transit, use 
 tripsDrive = dataDrive(:, [9, 11, 14, 15]);
-tripsDrive.Properties.VariableNames = {'depTime' 'distD_mi' ...
+tripsDrive.Properties.VariableNames = {'depTime' 'distD' ...
     'timeTraffic_sec' 'timeFreeFlow_sec'};
-tripsDrive.timeTotal_min = (tripsDrive.timeTraffic_sec + ...
-    tripsDrive.timeFreeFlow_sec) ./60;
+tripsDrive.timeTraffic_min = tripsDrive.timeTraffic_sec ./60;
+tripsDrive.timeFreeFlow_min = tripsDrive.timeFreeFlow_sec ./60;
+tripsDrive.timeDrive_min = max(tripsDrive.timeTraffic_min, ...
+    tripsDrive.timeFreeFlow_min);
 tempDV = datevec(tripsDrive.depTime);
 tripsDrive.depTimeHr = tempDV(:,4) + tempDV(:,5)./60 + tempDV(:,6)./60^2;
 
 % Extract relevant data from transit trips
 tripsTransit = dataTransit(:, [9, 11, 15]);
-tripsTransit.Properties.VariableNames = {'depTime' 'distT_mi' ...
+tripsTransit.Properties.VariableNames = {'depTime' 'distT' ...
     'timeTransit_sec'};
 tripsTransit.timeTransit_min = tripsTransit.timeTransit_sec ./60;
 tempDV = datevec(tripsTransit.depTime);
@@ -98,43 +102,52 @@ tripsTransit.depTimeHr = tempDV(:,4) + tempDV(:,5)./60 + tempDV(:,6)./60^2;
 % Extract relevant data from drive > transit trips
 % Composite time & distance for all drive > transit trips
 tripsDT = dataDT(:, [9, 11, 14, 15, 18, 22]);
-tripsDT.Properties.VariableNames = {'depTime' 'distD_mi' ...
-    'timeTraffic_sec' 'timeFreeFlow_sec' 'distT_mi' 'timeTransit_sec'};
-tripsDT.distTot_mi = tripsDT.distD_mi + tripsDT.distT_mi;
-tripsDT.timeTotal_min = (tripsDT.timeTraffic_sec + ...
-    tripsDT.timeFreeFlow_sec + tripsDT.timeTransit_sec) ./60;
+tripsDT.Properties.VariableNames = {'depTime' 'distD' ...
+    'timeTraffic_sec' 'timeFreeFlow_sec' 'distT' 'timeTransit_sec'};
+tripsDT.distTot_mi = tripsDT.distD + tripsDT.distT;
+tripsDT.timeTransit_min = tripsDT.timeTransit_sec ./60;
+tripsDT.timeTraffic_min = tripsDT.timeTraffic_sec ./60;
+tripsDT.timeFreeFlow_min = tripsDT.timeFreeFlow_sec ./60;
+tripsDT.timeDrive_min = max(tripsDT.timeTraffic_min, tripsDT.timeFreeFlow_min);
 tempDV = datevec(tripsDT.depTime);
 tripsDT.depTimeHr = tempDV(:,4) + tempDV(:,5)./60 + tempDV(:,6)./60^2;
+tripsDT.timeTotal_min = tripsDT.timeDrive_min + tripsDT.timeTransit_min;
 
 % Extract relevant data from transit > drive trips
 % Composite time & distance for all transit > drive trips
 tripsTD = dataTD(:, [9, 11, 15, 18, 21, 22]);
-tripsTD.Properties.VariableNames = {'depTime' 'distT_mi' ...
-    'timeTransit_sec' 'distD_mi' 'timeTraffic_sec' 'timeFreeFlow_sec'};
-tripsTD.timeTotal_min = (tripsTD.timeTraffic_sec + ...
-    tripsTD.timeFreeFlow_sec + tripsTD.timeTransit_sec) ./60;
+tripsTD.Properties.VariableNames = {'depTime' 'distT' ...
+    'timeTransit_sec' 'distD' 'timeTraffic_sec' 'timeFreeFlow_sec'};
+tripsTD.distTot_mi = tripsTD.distD + tripsTD.distT;
+tripsTD.timeTransit_min = tripsTD.timeTransit_sec ./60;
+tripsTD.timeTraffic_min = tripsTD.timeTraffic_sec ./60;
+tripsTD.timeFreeFlow_min = tripsTD.timeFreeFlow_sec ./60;
+tripsTD.timeDrive_min = max(tripsTD.timeTraffic_min, tripsTD.timeFreeFlow_min);
 tempDV = datevec(tripsTD.depTime);
 tripsTD.depTimeHr = tempDV(:,4) + tempDV(:,5)./60 + tempDV(:,6)./60^2;
+tripsTD.timeTotal_min = tripsTD.timeDrive_min + tripsTD.timeTransit_min;
 
 % Extract relevant data from mixed trips
 % Columns: 1. departure time, 2. Transit mileage
 % 3. Driving mileage, 4. Transit duration, 
 % 5. Driving duration traffic, 6. driving duration freeflow
 tripsMixed1 = dataDT(:, [9, 18, 11, 22, 14, 15]);
-tripsMixed1.Properties.VariableNames = {'depTime' 'distT_mi' 'distD_mi' ...
+tripsMixed1.Properties.VariableNames = {'depTime' 'distT' 'distD' ...
     'timeTransit_sec', 'timeTraffic_sec', 'timeFreeFlow_sec'};
 tripsMixed2 = dataTD(:, [9, 11, 18, 15, 21, 22]);
-tripsMixed2.Properties.VariableNames = {'depTime' 'distT_mi' 'distD_mi' ...
+tripsMixed2.Properties.VariableNames = {'depTime' 'distT' 'distD' ...
     'timeTransit_sec', 'timeTraffic_sec', 'timeFreeFlow_sec'};
-tripsMixed = vertcat(tripsMixed1, tripsMixed2);
+tripsMixed = vertcat(tripsMixed1, tripsMixed2); 
 
 tripsMixed.timeTransit_min = tripsMixed.timeTransit_sec ./60;
-tripsMixed.timeTotal_min = (tripsMixed.timeTraffic_sec + ...
-    tripsMixed.timeFreeFlow_sec + tripsMixed.timeTransit_sec) ./60;
+tripsMixed.timeDrive_min = max(tripsMixed.timeTraffic_sec, ...
+    tripsMixed.timeFreeFlow_sec) ./60;
+tripsMixed.timeTotal_min = tripsMixed.timeDrive_min + ...
+    tripsMixed.timeTransit_min;
 
 % Calculate proportion of driving time in total travel time
-tripsMixed.propD = 1 - (tripsMixed.timeTransit_min ./ ...
-    tripsMixed.timeTotal_min);
+tripsMixed.propD = tripsMixed.timeDrive_min ./ ...
+    tripsMixed.timeTotal_min;
 % Sort into 4 bins
 [tripsMixed.bin, edges] = discretize(tripsMixed.propD, 4);
 
@@ -158,7 +171,7 @@ colors(8,:) = [127, 0, 255] ./255; % drive -> transit, purp
 
 figure(1)
 % driving only
-pd = plot(tripsDrive.depTimeHr, tripsDrive.timeTotal_min, 'o', ...
+pd = plot(tripsDrive.depTimeHr, tripsDrive.timeDrive_min, 'o', ...
     'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'k', 'MarkerSize', 3);
 title('NYU to LGA Apr 7 Travel Duration')
 xlabel('Time of Day')
