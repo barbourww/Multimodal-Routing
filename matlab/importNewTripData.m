@@ -8,7 +8,7 @@ function importNewTripData(sourceFile, targetFile)
 %% Checks
 % Check if the targetFile exists, if yes append, if no create new file
 fullTFpath = strcat('data/',targetFile);
-ex = exist(fullTFpath); % exist needs to be called separately apparently
+ex = exist(fullTFpath,'file'); % exist needs to be called separately
 if ex == 2 % it exists
     append = 1;
 else
@@ -177,15 +177,15 @@ tempDT = datetime(tempDT, 'InputFormat', 'yyyy-MM-dd HH:mm:ss');
 
 % Times are in Central, so convert to specified time zone and tag datetime
 % with the time dzone
-if tz == 'America/New_York'
+if strcmp(tz,'America/New_York')
     tempDT = tempDT + 1/24; % add one hour
     tempDT.TimeZone = tz;
-elseif tz == 'America/Chicago'
+elseif strcmp(tz,'America/Chicago')
     tempDT.TimeZone = tz;
-elseif tz == 'America/Denver'
+elseif strcmp(tz,'America/Denver')
     tempDT = tempDT - 1/24;
     tempDT.TimeZone = tz;
-elseif tz == 'America/Los_Angeles'
+elseif strcmp(tz,'America/Los_Angeles')
     tempDT = tempDT - 2/24;
     tempDT.TimeZone = tz;
 end
@@ -198,9 +198,10 @@ if append == 0
     save(fullTFpath, 'T');
 elseif append == 1
     % load original file
+    T_curr = T; % just for storage
     T_old = load(fullTFpath); % loaded as a struct
-    T_new = vertcat(T_old.T, T);
-    save(fullTFpath, 'T_new');
+    T = vertcat(T_old.T, T);
+    save(fullTFpath, 'T');
 end
 
 end
