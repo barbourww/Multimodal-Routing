@@ -39,35 +39,62 @@ T = readtable(sourceFile, 'Delimiter', '|', 'ReadVariableNames', true, ...
 % spreadsheet read: T = readtable(sourceFile, 'ReadVariableNames', true);
 
 % Overwrite with correct variable names:
-correctNames = ['origin';
-    'split_on_leg';
-    'drive_leg';
-    'avoid';
-    'destination';
-    'mode';
-    'units';
-    'timezone';
-    'departure_time';
-    'split_point';
-    'distance_mi';
-    'end_y';
-    'end_x';
-    'duration_in_traffic_sec';
-    'duration_sec';
-    'start_x';
-    'start_y';
-    'distance_mi_1';
-    'end_y_1';
-    'end_x_1';
-    'duration_in_traffic_sec_1';
-    'duration_sec_1';
-    'start_x_1';
-    'start_y_1'];
+correctNames = {'origin'
+    'split_on_leg'
+    'drive_leg'
+    'avoid'
+    'destination'
+    'mode'
+    'units'
+    'timezone'
+    'departure_time'
+    'split_point'
+    'distance_leg1'             % mi
+    'end_y_leg1'
+    'end_x_leg1'
+    'duration_in_traffic_leg1'  % sec
+    'duration_leg1'             % sec
+    'start_x_leg1'
+    'start_y_leg1'
+    'distance_leg2'             % mi
+    'end_y_leg2'
+    'end_x_leg2'
+    'duration_in_traffic_leg2'  % sec
+    'duration_leg2'             % sec
+    'start_x_leg2'
+    'start_y_leg2'};
+
+origUnits = {''
+    ''
+    ''
+    ''
+    ''
+    ''
+    ''
+    ''
+    ''
+    ''
+    'mi'
+    ''
+    ''
+    'sec'
+    'sec'
+    ''
+    ''
+    'mi'
+    ''
+    ''
+    'sec'
+    'sec'
+    ''
+    ''};
+
 T.Properties.VariableNames = correctNames;
+T.Properties.VariableUnits = origUnits;
 
 %% Distance Conversion and Text to Numeric Processing
-dist_txt = T.distance_mi;
-dist_1_txt = T.distance_mi_1;
+dist_txt = T.distance_mi_leg1;
+dist_1_txt = T.distance_mi_leg2;
 dist_num = NaN(size(dist_txt)); % Initialize numeric vectors
 dist_1_num = NaN(size(dist_1_txt));
 
@@ -91,14 +118,14 @@ for i = 1:size(dist_txt, 1)
     end 
 end
 
-T.distance_mi = dist_num;
-T.distance_mi_1 = dist_1_num;
+T.distance_mi_leg1 = dist_num;
+T.distance_mi_leg2 = dist_1_num;
 
 clear dist_txt dist_1_txt dist_num dist_1_num
 
 %% Duration in Traffic Conversion and Text to Numeric Processing
-dit_txt = T.duration_in_traffic_sec;
-dit_1_txt = T.duration_in_traffic_sec_1;
+dit_txt = T.duration_in_traffic_sec_leg1;
+dit_1_txt = T.duration_in_traffic_sec_leg2;
 dit_num = NaN(size(dit_txt)); % Initialize numeric vectors
 dit_1_num = NaN(size(dit_1_txt));
 
@@ -122,8 +149,8 @@ for i = 1:size(dit_txt, 1)
     end
 end
 
-T.duration_in_traffic_sec = dit_num;
-T.duration_in_traffic_sec_1 = dit_1_num;
+T.duration_in_traffic_sec_leg1 = dit_num;
+T.duration_in_traffic_sec_leg2 = dit_1_num;
 
 clear dit_txt dit_1_txt dit_num dit_1_num
 
