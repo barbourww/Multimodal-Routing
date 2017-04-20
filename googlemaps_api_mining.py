@@ -445,16 +445,18 @@ class GooglemapsAPIMiner:
         if write_pickle:
             try:
                 with open(output_stub + '/' + output_fn + '.cpkl', 'wb') as f:
-                    cPickle.dump(self.results, f)
+                    cPickle.dump({'results': self.results, 'split_cache': self.split_reverse_cache}, f)
             except (cPickle.PicklingError, RuntimeError, ImportError, AttributeError):
                 traceback.print_exc()
                 print "Problem with output as pickle."
-                print "Attempting to save as file './exception_dump.cpkl'."
+                print "Attempting to save only results as file './exception_dump.cpkl'."
                 print "Rename that file to recover results, it may be overwritten if output fails again."
                 try:
                     with open("./exception_dump.cpkl", 'wb') as f:
                         cPickle.dump(self.results, f)
-                except:
+                except BaseException as pe:
+                    print "Failed pickle output again."
+                    print traceback.format_exc(pe)
                     pass
         if write_csv:
             try:
@@ -529,8 +531,9 @@ class GooglemapsAPIMiner:
                             line = [q[ih] if ih in q else '' for ih in self.input_header]
                             line += [recursive_get(res, oh) for oh in outputs_values]
                             writer.writerow(line)
-            except (KeyError, ValueError, IOError, IndexError):
-                traceback.print_exc()
+            except (KeyError, ValueError, IOError, IndexError) as csv_exc:
+                # traceback.print_exc() might be getting around the logging Tee somehow.
+                print traceback.format_exc(csv_exc)
                 print "Problem with output as CSV."
                 print "Attempting to save results as pickle at './exception_dump.cpkl'."
                 print "Rename that file to recover results, it may be overwritten if output fails again."
@@ -553,9 +556,6 @@ class GooglemapsAPIMiner:
         :param write_pickle: write results to pickle file, full query returns in list
         :return: None
         """
-        # TODO: might have problem with parallel execution and shared stdout
-        # TODO: seems to be logging fine, but the traceback isn't making it on the log
-        # TODO: maybe write separate file or cut out other print statements so the traceback is on the screen
         original_stdout = sys.stdout
         log = open(os.path.splitext(input_filename)[0] + "_log.txt", 'w')
         sys.stdout = PrintLogTee(original_stdout, log)
@@ -563,8 +563,10 @@ class GooglemapsAPIMiner:
             self.read_input_queries(input_filename=input_filename, verbose=verbose_input)
             self.run_queries(verbose=verbose_execute, verbose_split=verbose_split)
             self.output_results(output_filename=output_filename, write_csv=write_csv, write_pickle=write_pickle)
-        except BaseException as e:
+        except BaseException as rpe:
             # catch any exception raised and make sure the log gets closed before re-raising
+            # try to get this exception into the log befor closing
+            print traceback.format_exc(rpe)
             log.close()
             sys.stdout = original_stdout
             # re-raise: don't want to do anything with e, or the traceback stack gets lost
@@ -772,6 +774,7 @@ def parallel_run_pipeline(all_args):
     :param all_args: dictionary containing dictionaries of arguments for class initialization and pipeline function
     :return: "Success"/"Failure"
     """
+    return_string = ''
     try:
         pipeline_args = all_args['pipeline_args']
         print "Process", os.getpid(), "pipeline_args:", pipeline_args
@@ -780,14 +783,31 @@ def parallel_run_pipeline(all_args):
         print "Beginning execution of input %s with PID %d." % (pipeline_args['input_filename'], os.getpid())
         GooglemapsAPIMiner(**init_args).run_pipeline(**pipeline_args)
         print "Execution of input %s with PID %d was successful." % (pipeline_args['input_filename'], os.getpid())
-        return "Success"
+        return "Success" + return_string
     except KeyboardInterrupt:
+        # pooled process should pass on Keyboard Interrupt, which will get caught by try:except on pool
         pass
     except BaseException as e:
-        print "Exception raised on PID %d..." % os.getpid()
-        traceback.print_exc()
-        print type(e), e.message
-        return "Failure"
+        # produce error log for what happened. The exception should get re-raised from run_pipeline
+        try:
+            print "Exception raised on PID %d..." % os.getpid()
+            traceback.print_exc(e)
+            return_string += traceback.format_exc(e)
+            in_fn = all_args['pipeline_args']['input_filename']
+            out_stub = os.path.split(in_fn)[0]
+            out_fn = 'output_' + os.path.splitext(os.path.split(in_fn)[-1])[0]
+            # need directory to be at least '.' so filename assembly will be valid (beginning of file can't be '/')
+            if not out_stub:
+                out_stub = '.'
+            # write the exception type and the traceback to the error log
+            with open(out_stub + '/' + out_fn + '.txt') as ef:
+                ef.write(str(type(e)))
+                ef.write(traceback.format_exc(e))
+        # catch something going wrong with error logging
+        except BaseException as e2:
+            traceback.print_exc(e2)
+            return_string += traceback.format_exc(e2)
+    return "Failure" + return_string
 
 
 if __name__ == '__main__':
