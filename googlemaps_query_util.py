@@ -210,10 +210,7 @@ def reprocess_csv(query_filename, results_pickle_filename, split_transit):
     import cPickle
     rp = GooglemapsAPIMiner(api_key_file=None, split_transit=split_transit)
     rp.read_input_queries(input_filename=query_filename, verbose=False)
-    res = cPickle.load(open(results_pickle_filename, 'rb'))
-    l = sorted(list(set([int(r[0][:4]) for r in res])))
-    for r in res:
-        r[0] = "{0:0>4}".format(l.index(int(r[0][:4]))) + r[0][4:]
+    res = sorted(cPickle.load(open(results_pickle_filename, 'rb')), key=lambda x: x[0])
     rp.results = res
     rp.output_results(write_csv=True, write_pickle=False)
 
@@ -257,6 +254,6 @@ if __name__ == '__main__':
     # test multiprocessing
     # main()
     raise KeyboardInterrupt
-    reprocess_csv(query_filename='./results/airports2_04_05/a20405_2.csv',
-                  results_pickle_filename='/Users/wbarbour1/Google Drive/Classes/CEE_418/final_project/results_local/a20405/output_a20405_2.cpkl',
+    reprocess_csv(query_filename='./results/airports7_04_18/a70418_4.csv',
+                  results_pickle_filename='/Users/wbarbour1/Google Drive/Classes/CEE_418/final_project/results_local/a70418/output_a70418_4.cpkl',
                   split_transit=True)
