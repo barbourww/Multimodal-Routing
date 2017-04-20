@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1abd0deb-6026-4be8-86a1-1adbd7f936e0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/googlemaps_api_mining.py" afterPath="$PROJECT_DIR$/googlemaps_api_mining.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
