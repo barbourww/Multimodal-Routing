@@ -128,6 +128,10 @@ end
 T.duration_in_traffic_leg1 = dit1_num;
 T.duration_in_traffic_leg2 = dit2_num;
 
+% Convert non-text durations to minutes
+T.duration_leg1 = T.duration_leg1 ./60;
+T.duration_leg2 = T.duration_leg2 ./60;
+
 clear dit_txt dit_1_txt dit_num dit_1_num
 
 %% Date Time Processing
