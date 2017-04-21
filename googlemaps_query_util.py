@@ -205,12 +205,18 @@ def dist_to_segment(ax, ay, bx, by, cx, cy):
         return min(sqrt((ax - cx)**2 + (ay - cy)**2), sqrt((bx - cx)**2 + (by - cy)**2))
 
 
-def reprocess_csv(query_filename, results_pickle_filename, split_transit):
+def reprocess_csv(query_filename, results_pickle_filename, split_transit, cache_included=True):
     from googlemaps_api_mining import GooglemapsAPIMiner
     import cPickle
     rp = GooglemapsAPIMiner(api_key_file=None, split_transit=split_transit)
     rp.read_input_queries(input_filename=query_filename, verbose=False)
-    res = sorted(cPickle.load(open(results_pickle_filename, 'rb')), key=lambda x: x[0])
+    pkl = cPickle.load(open(results_pickle_filename, 'rb'))
+    if cache_included:
+        res = sorted(pkl['results'], key=lambda x: x[0])
+        cache = pkl['split_cache']
+        rp.split_reverse_cache = cache
+    else:
+        res = sorted(pkl, key=lambda x: x[0])
     rp.results = res
     rp.output_results(write_csv=True, write_pickle=False)
 
@@ -253,7 +259,7 @@ def main():
 if __name__ == '__main__':
     # test multiprocessing
     # main()
-    raise KeyboardInterrupt
-    reprocess_csv(query_filename='./results/airports7_04_18/a70418_4.csv',
-                  results_pickle_filename='/Users/wbarbour1/Google Drive/Classes/CEE_418/final_project/results_local/a70418/output_a70418_4.cpkl',
-                  split_transit=True)
+    inpt = './results/airports7_04_18/a70418_4.csv'
+    pickle = '/Users/wbarbour1/Google Drive/Classes/CEE_418/final_project/results_local/a70418/output_a70418_4.cpkl'
+    reprocess_csv(query_filename=inpt, results_pickle_filename=pickle, split_transit=True,
+                  cache_included=False)
