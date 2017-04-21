@@ -2,12 +2,12 @@ function importNewTripDataMetric(sourceFile, targetFile)
 %% Function importNewTripDataMetric
 % Import Google Maps trip data from csv. Pipe delimited. Save to
 % targetFile; create if it does not exist, append if it does. 
-% Export to 'data' folder and leave table in workspace.
+% Export to 'importeddata' folder and leave table in workspace.
 % sourceFile NEEDS to be specified in single quotes.
 
 %% Checks
 % Check if the targetFile exists, if yes append, if no create new file
-fullTFpath = strcat('data/',targetFile);
+fullTFpath = strcat('importeddata/',targetFile);
 ex = exist(fullTFpath,'file'); % exist needs to be called separately
 if ex == 2 % it exists
     append = 1;
@@ -31,10 +31,11 @@ end
 % converted to numeric.
 
 T = readtable(sourceFile, 'Delimiter', '|', 'ReadVariableNames', true, ...
-    'Format', '%s%s%s%s%s%s%s%s%s%s%f%f%f%s%f%f%f%f%f%f%s%f%f%f');
+    'Format', '%s%s%s%s%s%s%s%s%s%s%f%f%s%f%f%f%f%f%f%s%f%f%f%f');
 % spreadsheet read: T = readtable(sourceFile, 'ReadVariableNames', true);
 
 % Overwrite with correct variable names:
+% Original units in comments
 correctNames = {'origin'    %1
     'split_on_leg'          %2
     'drive_leg'             %3  
@@ -48,14 +49,14 @@ correctNames = {'origin'    %1
     'end_y_leg1'            %11
     'end_x_leg1'            %12
     'duration_in_traffic_leg1'  %13, sec
-    'distance_leg1'         %14, originally meters
+    'distance_leg1'         %14, meters
     'duration_leg1'         %15, sec
     'start_x_leg1'          %16    
     'start_y_leg1'          %17
     'end_y_leg2'            %18
     'end_x_leg2'            %19
     'duration_in_traffic_leg2'  %20, sec
-    'distance_leg2'         %21 originally meters
+    'distance_leg2'         %21 meters
     'duration_leg2'         %22, sec
     'start_x_leg2'          %23
     'start_y_leg2'};        %24
@@ -72,16 +73,16 @@ correctUnits = {''
     ''
     ''
     ''
-    'sec'  % sec
+    'min'  % originally sec
     'mi'             % originally meters
-    'sec'             % sec
+    'min'             % originally sec
     ''
     ''
     ''
     ''
-    'sec'  % sec
+    'min'  % originally sec
     'mi'             % originally meters
-    'sec'             % sec
+    'min'             % originally sec
     ''
     ''};
 
@@ -90,64 +91,42 @@ T.Properties.VariableUnits = correctUnits;
 
 %% Distance Conversion and Text to Numeric Processing
 % Convert from meters to miles
-dist_txt = T.distance_mi_leg1;
-dist_1_txt = T.distance_mi_leg2;
-dist_num = NaN(size(dist_txt)); % Initialize numeric vectors
-dist_1_num = NaN(size(dist_1_txt));
+m_to_mi = 0.000621371; % meters to miles conversion
+T.distance_leg1 = T.distance_leg1 * m_to_mi;
+T.distance_leg2 = T.distance_leg2 * m_to_mi;
 
-for i = 1:size(dist_txt, 1)
-    tempVal = char(dist_txt(i));
-    if isempty(tempVal)
-        dist_num(i) = NaN;
-    elseif tempVal(end-1:end) == 'mi'
-        dist_num(i) = str2double(tempVal(1:end-3));
-    elseif tempVal(end-1:end) == 'ft'
-        dist_num(i) = str2double(tempVal(1:end-3)) / 5280;
-    end
-    
-    tempVal_1 = char(dist_1_txt(i));
-    if isempty(tempVal_1)
-        dist_1_num(i) = NaN;
-    elseif tempVal_1(end-1:end) == 'mi'
-        dist_1_num(i) = str2double(tempVal_1(1:end-3));
-    elseif tempVal_1(end-1:end) == 'ft'
-        dist_1_num(i) = str2double(tempVal_1(1:end-3)) / 5280;
-    end 
-end
-
-T.distance_mi_leg1 = dist_num;
-T.distance_mi_leg2 = dist_1_num;
-
-clear dist_txt dist_1_txt dist_num dist_1_num
+% Change units
+T.units = replace(T.units, 'metric', 'imperial');
 
 %% Duration in Traffic Conversion and Text to Numeric Processing
-dit_txt = T.duration_in_traffic_sec_leg1;
-dit_1_txt = T.duration_in_traffic_sec_leg2;
-dit_num = NaN(size(dit_txt)); % Initialize numeric vectors
-dit_1_num = NaN(size(dit_1_txt));
+% Convert from seconds to minutes
+dit1_txt = T.duration_in_traffic_leg1;
+dit2_txt = T.duration_in_traffic_leg2;
+dit1_num = NaN(size(dit1_txt)); % Initialize numeric vectors
+dit2_num = NaN(size(dit2_txt));
 
-for i = 1:size(dit_txt, 1)
-    tempVal = char(dit_txt(i));
-    if strcmp(tempVal, '')
-        dit_num(i) = NaN;
-    elseif strcmp(tempVal, 'n/a')
-        dit_num(i) = NaN;
+for i = 1:size(dit1_txt, 1)
+    tempVal1 = char(dit1_txt(i));
+    if strcmp(tempVal1, '')
+        dit1_num(i) = NaN;
+    elseif strcmp(tempVal1, 'n/a')
+        dit1_num(i) = NaN;
     else
-        dit_num(i) = str2double(tempVal);
+        dit1_num(i) = str2double(tempVal1) /60; % to minutes
     end
     
-    tempVal_1 = char(dit_1_txt(i));
-    if strcmp(tempVal_1, '')
-        dit_1_num(i) = NaN;
-    elseif strcmp(tempVal_1, 'n/a')
-        dit_1_num(i) = NaN;
+    tempVal2 = char(dit2_txt(i));
+    if strcmp(tempVal2, '')
+        dit2_num(i) = NaN;
+    elseif strcmp(tempVal2, 'n/a')
+        dit2_num(i) = NaN;
     else
-        dit_1_num(i) = str2double(tempVal_1);
+        dit2_num(i) = str2double(tempVal2) /60; % to minutes
     end
 end
 
-T.duration_in_traffic_sec_leg1 = dit_num;
-T.duration_in_traffic_sec_leg2 = dit_1_num;
+T.duration_in_traffic_leg1 = dit1_num;
+T.duration_in_traffic_leg2 = dit2_num;
 
 clear dit_txt dit_1_txt dit_num dit_1_num
 
