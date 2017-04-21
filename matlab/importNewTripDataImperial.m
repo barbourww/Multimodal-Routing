@@ -1,5 +1,6 @@
-function importNewTripData(sourceFile, targetFile)
-%% Function importNewTripData
+function importNewTripDataImperial(sourceFile, targetFile)
+%% Function importNewTripDataImperial
+% WARNING: for old data only! New data in metric.
 % Import Google Maps trip data from csv. Pipe delimited. Save to
 % targetFile; create if it does not exist, append if it does. 
 % Export to 'data' folder and leave table in workspace.
