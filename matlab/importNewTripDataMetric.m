@@ -4,6 +4,7 @@ function importNewTripDataMetric(sourceFile, targetFile)
 % targetFile; create if it does not exist, append if it does. 
 % Export to 'importeddata' folder and leave table in workspace.
 % sourceFile NEEDS to be specified in single quotes.
+% Assumes sourceFile is in the 'sourcedata' folder
 
 %% Checks
 % Check if the targetFile exists, if yes append, if no create new file
@@ -15,8 +16,15 @@ else
     append = 0;
 end
 
+fullSFpath = strcat('sourcedata/', sourceFile);
+ex2 = exist(fullSFpath,'file'); % exist needs to be called separately
+if ex2 ~= 2 % it does not exist
+    msg = 'Source file does not exist in sourcedata dir';
+    error(msg);
+end
+
 % Make sure input is a csv
-if sum(sourceFile(end-2:end) == 'csv') ~= 3
+if sum(fullSFpath(end-2:end) == 'csv') ~= 3
     msg = 'sourceFile is not a csv file';
     error(msg);
 end
@@ -30,7 +38,7 @@ end
 % since "n/a" values are present. These are replaced by blanks then
 % converted to numeric.
 
-T = readtable(sourceFile, 'Delimiter', '|', 'ReadVariableNames', true, ...
+T = readtable(fullSFpath, 'Delimiter', '|', 'ReadVariableNames', true, ...
     'Format', '%s%s%s%s%s%s%s%s%s%s%f%f%s%f%f%f%f%f%f%s%f%f%f%f');
 % spreadsheet read: T = readtable(sourceFile, 'ReadVariableNames', true);
 
@@ -182,6 +190,7 @@ elseif append == 1
     T_old = load(fullTFpath); % loaded as a struct
     T = vertcat(T_old.T, T);
     save(fullTFpath, 'T');
+    disp('Import successful');
 end
 
 end
