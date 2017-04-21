@@ -35,30 +35,30 @@ T = readtable(sourceFile, 'Delimiter', '|', 'ReadVariableNames', true, ...
 % spreadsheet read: T = readtable(sourceFile, 'ReadVariableNames', true);
 
 % Overwrite with correct variable names:
-correctNames = {'origin'
-    'split_on_leg'
-    'drive_leg'
-    'avoid'
-    'destination'
-    'mode'
-    'units'
-    'timezone'
-    'departure_time'
-    'split_point'
-    'distance_leg1'             % originally meters
-    'end_y_leg1'
-    'end_x_leg1'
-    'duration_in_traffic_leg1'  % sec
-    'duration_leg1'             % sec
-    'start_x_leg1'
-    'start_y_leg1'
-    'distance_leg2'             % originally meters
-    'end_y_leg2'
-    'end_x_leg2'
-    'duration_in_traffic_leg2'  % sec
-    'duration_leg2'             % sec
-    'start_x_leg2'
-    'start_y_leg2'};
+correctNames = {'origin'    %1
+    'split_on_leg'          %2
+    'drive_leg'             %3  
+    'avoid'                 %4
+    'destination'           %5
+    'mode'                  %6
+    'units'                 %7
+    'timezone'              %8
+    'departure_time'        %9
+    'split_point'           %10
+    'end_y_leg1'            %11
+    'end_x_leg1'            %12
+    'duration_in_traffic_leg1'  %13, sec
+    'distance_leg1'         %14, originally meters
+    'duration_leg1'         %15, sec
+    'start_x_leg1'          %16    
+    'start_y_leg1'          %17
+    'end_y_leg2'            %18
+    'end_x_leg2'            %19
+    'duration_in_traffic_leg2'  %20, sec
+    'distance_leg2'         %21 originally meters
+    'duration_leg2'         %22, sec
+    'start_x_leg2'          %23
+    'start_y_leg2'};        %24
 
 correctUnits = {''
     ''
@@ -70,18 +70,18 @@ correctUnits = {''
     ''
     ''
     ''
-    'mi'  % originally meters
     ''
     ''
-    'sec'
-    'sec'
+    'sec'  % sec
+    'mi'             % originally meters
+    'sec'             % sec
     ''
     ''
-    'mi'  % originally meters
     ''
     ''
-    'sec'
-    'sec'
+    'sec'  % sec
+    'mi'             % originally meters
+    'sec'             % sec
     ''
     ''};
 
