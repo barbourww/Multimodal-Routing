@@ -1,0 +1,11 @@
+CHI-ORD: U of Chicago (Washington Park) to O'Hare Airport
+HAR-BOS: Harvard transit station to Airport station Boston Logan Airport
+NYU-LGA: New York University to LaGuardia Airport
+ORD-CUB: O'hare airport to Wrigley Field
+
+
+Commutes:
+LWD-HWL: Lincolnwood (41.997519, -87.740903) to Harold Washington Library
+IVP-ONE: Irving Park (41.961216, -87.7413354) to One Prudential Plaza
+OKP-JHC: Oak Park (41.880345, -87.769499) to John Hancock Center
+OOR-WIL: Old Orchard Mall to Willis Tower
