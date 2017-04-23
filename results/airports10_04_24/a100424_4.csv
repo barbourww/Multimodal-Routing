@@ -1,0 +1,2 @@
+origin,destination,mode,avoid,timezone,split_on_leg,drive_leg,departure_time,departure_time_min,departure_time_max,departure_time_delta,unitsRonald Reagan Washington National Airport,McKeldin Mall College Park MD,driving,tolls,eastern,,,,04/24/2017 05:00,04/24/2017 22:00,15,imperialRonald Reagan Washington National Airport,McKeldin Mall College Park MD,transit,,eastern,begin,finish,,04/24/2017 05:00,04/24/2017 22:00,15,imperial
+Ronald Reagan Washington National Airport,McKeldin Mall College Park MD,transit,,eastern,end,start,,04/24/2017 05:00,04/24/2017 22:00,15,imperial
