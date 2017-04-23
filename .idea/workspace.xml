@@ -2,14 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1abd0deb-6026-4be8-86a1-1adbd7f936e0" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/airports2_04_05/a20405_1.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/airports2_04_05/a20405_2.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/airports2_04_05/a20405_3.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/airports2_04_05/a20405_cmd.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/airports2_04_05/output_a20405_1.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/airports2_04_05/output_a20405_2.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/airports2_04_05/output_a20405_3.csv" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/googlemaps_api_mining.py" afterPath="$PROJECT_DIR$/googlemaps_api_mining.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/googlemaps_query_util.py" afterPath="$PROJECT_DIR$/googlemaps_query_util.py" />
     </list>
@@ -43,12 +35,12 @@
       <file leaf-file-name="googlemaps_api_mining.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/googlemaps_api_mining.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.18571429">
-              <caret line="474" column="31" selection-start-line="474" selection-start-column="31" selection-end-line="474" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.67142856">
+              <caret line="534" column="103" selection-start-line="534" selection-start-column="103" selection-end-line="534" selection-end-column="103" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
-                <element signature="e#33313#39164#0" expanded="false" />
-                <element signature="e#39252#43781#0" expanded="false" />
+                <element signature="e#33368#39219#0" expanded="false" />
+                <element signature="e#39307#43836#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -472,8 +464,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#33313#39164#0" expanded="false" />
-            <element signature="e#39252#43781#0" expanded="false" />
+            <element signature="e#33368#39219#0" expanded="false" />
+            <element signature="e#39307#43836#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -516,8 +508,8 @@
           <caret line="495" column="50" selection-start-line="495" selection-start-column="50" selection-end-line="495" selection-end-column="50" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#33313#39164#0" expanded="false" />
-            <element signature="e#39252#43781#0" expanded="false" />
+            <element signature="e#33368#39219#0" expanded="false" />
+            <element signature="e#39307#43836#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -560,8 +552,8 @@
           <caret line="495" column="50" selection-start-line="495" selection-start-column="50" selection-end-line="495" selection-end-column="50" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#33313#39164#0" expanded="false" />
-            <element signature="e#39252#43781#0" expanded="false" />
+            <element signature="e#33368#39219#0" expanded="false" />
+            <element signature="e#39307#43836#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -580,8 +572,8 @@
           <caret line="258" column="35" selection-start-line="258" selection-start-column="35" selection-end-line="258" selection-end-column="35" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#33313#39164#0" expanded="false" />
-            <element signature="e#39252#43781#0" expanded="false" />
+            <element signature="e#33368#39219#0" expanded="false" />
+            <element signature="e#39307#43836#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -624,8 +616,8 @@
           <caret line="258" column="35" selection-start-line="258" selection-start-column="35" selection-end-line="258" selection-end-column="35" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#33313#39164#0" expanded="false" />
-            <element signature="e#39252#43781#0" expanded="false" />
+            <element signature="e#33368#39219#0" expanded="false" />
+            <element signature="e#39307#43836#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -652,8 +644,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#33313#39164#0" expanded="false" />
-            <element signature="e#39252#43781#0" expanded="false" />
+            <element signature="e#33368#39219#0" expanded="false" />
+            <element signature="e#39307#43836#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -696,8 +688,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#33313#39164#0" expanded="false" />
-            <element signature="e#39252#43781#0" expanded="false" />
+            <element signature="e#33368#39219#0" expanded="false" />
+            <element signature="e#39307#43836#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -716,8 +708,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#33313#39164#0" expanded="false" />
-            <element signature="e#39252#43781#0" expanded="false" />
+            <element signature="e#33368#39219#0" expanded="false" />
+            <element signature="e#39307#43836#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -870,12 +862,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/googlemaps_api_mining.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.18571429">
-          <caret line="474" column="31" selection-start-line="474" selection-start-column="31" selection-end-line="474" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.67142856">
+          <caret line="534" column="103" selection-start-line="534" selection-start-column="103" selection-end-line="534" selection-end-column="103" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#33313#39164#0" expanded="false" />
-            <element signature="e#39252#43781#0" expanded="false" />
+            <element signature="e#33368#39219#0" expanded="false" />
+            <element signature="e#39307#43836#0" expanded="false" />
           </folding>
         </state>
       </provider>
