@@ -446,7 +446,8 @@ class GooglemapsAPIMiner:
         if write_pickle:
             try:
                 with open(output_stub + '/' + output_fn + '.cpkl', 'wb') as f:
-                    cPickle.dump({'results': self.results, 'split_cache': self.split_reverse_cache}, f)
+                    cPickle.dump({'results': self.results, 'split_cache': self.split_reverse_cache,
+                                  'queries': self.queries}, f)
             except (cPickle.PicklingError, RuntimeError, ImportError, AttributeError):
                 traceback.print_exc()
                 print "Problem with output as pickle."
@@ -511,11 +512,32 @@ class GooglemapsAPIMiner:
                                         print "Couldn't discern split point - no origin/destination match in results."
                                 except ValueError:
                                     print "Couldn't find source query for split query pair.", res[0]
-                                    end_loc = "{}/{}".format(recursive_get(res[1],
-                                                                           (0, 'legs', 0, 'end_location', 'lat')),
-                                                             recursive_get(res[1],
-                                                                           (0, 'legs', 0, 'end_location', 'lng')))
-                                    line += [str(end_loc).strip('(').strip(')')]
+                                    try:
+                                        qex = self.queries[[True if qry['id'] == res[0][:4] + '0000-0' else False
+                                                            for qry in self.queries].index(True)]
+                                        if 'departure_time' in qex:
+                                            endpt = 'end_location'
+                                        elif 'arrival_time' in qex:
+                                            endpt = 'start_location'
+                                        else:
+                                            raise ValueError
+                                        # pull likely split point from first query destination
+                                        el = (recursive_get(res[1], (0, 'legs', 0, endpt, 'lat')),
+                                              recursive_get(res[1], (0, 'legs', 0, endpt, 'lng')))
+                                        candidates = [(haversine(el[1], el[0], src[1], src[0]) * 5280., loc)
+                                                      for src, loc in self.split_reverse_cache.items()]
+                                        if any([c[0] < 150. for c in candidates]):
+                                            m = min(candidates, key=lambda x: x[0])
+                                            print "\tBut found likely candidate location in cache, distance =", m[0]
+                                            end_loc = m[1]
+                                        else:
+                                            print "\tResorted to lat/long."
+                                            end_loc = "{}/{}".format(el[0], el[1])
+                                        line += [str(end_loc).strip('(').strip(')')]
+                                    except ValueError:
+                                        print "- Could not discern alignment of query time."
+                                        line += ['']
+
                                 line += [recursive_get(res[1], oh) for oh in outputs_values]
                                 line += [recursive_get(res[2], oh) for oh in outputs_values]
                             else:
@@ -525,7 +547,7 @@ class GooglemapsAPIMiner:
                                 # for nonexistent second leg
                                 line += [''] * len(outputs_values)
                             # output the line
-                            writer.writerow([filter(lambda x: x in ascii_printable, li) for li in line])
+                            writer.writerow([li if type(li) is not str else filter(lambda x: x in ascii_printable, li) for li in line])
                     else:
                         output_header = self.input_header + list(outputs_keys)
                         writer.writerow(output_header)
