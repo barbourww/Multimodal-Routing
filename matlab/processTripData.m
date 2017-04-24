@@ -275,4 +275,6 @@ save(matname, 'Tnew');
 % Save Excel
 xlsname = strcat(targetName, '.xlsx');
 writetable(Tnew, xlsname);
+
+disp('Data processing successful');
 end
