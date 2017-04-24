@@ -1,7 +1,11 @@
+To airport:
 CHI-ORD: U of Chicago (Washington Park) to O'Hare Airport
 HAR-BOS: Harvard transit station to Airport station Boston Logan Airport
 NYU-LGA: New York University to LaGuardia Airport
-ORD-CUB: O'hare airport to Wrigley Field
+
+From airport:
+ORD-CUB: O'Hare airport to Wrigley Field
+IAD-GTU: Dulles airport to Georgetown University
 
 
 Commutes:
