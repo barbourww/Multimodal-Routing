@@ -473,7 +473,6 @@ class GooglemapsAPIMiner:
                                'start_y': (0, 'legs', 0, 'start_location', 'lat'),
                                'end_x': (0, 'legs', 0, 'end_location', 'lng'),
                                'end_y': (0, 'legs', 0, 'end_location', 'lat')}
-                ascii_printable = string.printable
                 with open(output_stub + '/' + output_fn + '.csv', 'w') as f:
                     writer = csv.writer(f, delimiter='|')
                     outputs_keys, outputs_values = zip(*outputs.items())
@@ -547,17 +546,19 @@ class GooglemapsAPIMiner:
                                 # for nonexistent second leg
                                 line += [''] * len(outputs_values)
                             # output the line
-                            writer.writerow([li if type(li) is not str else filter(lambda x: x in ascii_printable, li) for li in line])
+                            writer.writerow([li if type(li) not in (str, unicode) else li.encode('ascii', 'ignore') for li in line])
                     else:
                         output_header = self.input_header + list(outputs_keys)
                         writer.writerow(output_header)
                         for q, res in zip(self.queries, self.results):
                             line = [q[ih] if ih in q else '' for ih in self.input_header]
                             line += [recursive_get(res, oh) for oh in outputs_values]
-                            writer.writerow([filter(lambda x: x in ascii_printable, li) for li in line])
+                            writer.writerow([li if type(li) not in (str, unicode) else li.encode('ascii', 'ignore') for li in line])
             except (KeyError, ValueError, IOError, IndexError) as csv_exc:
                 # traceback.print_exc() might be getting around the logging Tee somehow.
                 print traceback.format_exc(csv_exc)
+                for li in line:
+                    print li, type(li)
                 print "Problem with output as CSV."
                 print "Attempting to save results as pickle at './exception_dump.cpkl'."
                 print "Rename that file to recover results, it may be overwritten if output fails again."
