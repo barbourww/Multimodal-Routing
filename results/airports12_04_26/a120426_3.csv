@@ -1,0 +1,2 @@
+origin,destination,mode,avoid,timezone,split_on_leg,drive_leg,departure_time,departure_time_min,departure_time_max,departure_time_delta,unitsHarvard transit station Boston MA,Airport station Boston MA,driving,tolls,eastern,,,,04/26/2017 05:00,04/26/2017 22:00,10,imperialHarvard transit station Boston MA,Airport station Boston MA,transit,,eastern,begin,start,,04/26/2017 05:00,04/26/2017 22:00,10,imperial
+Harvard transit station Boston MA,Airport station Boston MA,transit,,eastern,end,finish,,04/26/2017 05:00,04/26/2017 22:00,10,imperial
