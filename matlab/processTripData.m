@@ -22,14 +22,16 @@ varnames = {
     'Date'                      % 10
     'Day'                       % 11
     'Local_time'                % 12
-    'Drive_leg1_distance'    % 13
-    'Drive_leg1_duration'    % 14
-    'Transit_leg1_distance'  % 15
-    'Transit_leg1_duration'  % 16
-    'Drive_leg2_distance'    % 17
-    'Drive_leg2_duration'    % 18
-    'Transit_leg2_distance'  % 19
-    'Transit_leg2_duration'  % 20
+    'Drive_leg1_distance'       % 13
+    'Drive_leg1_duration'       % 14
+    'Transit_leg1_distance'     % 15
+    'Transit_leg1_duration'     % 16
+    'Drive_leg2_distance'       % 17
+    'Drive_leg2_duration'       % 18
+    'Transit_leg2_distance'     % 19
+    'Transit_leg2_duration'     % 20
+    'Duration_bin'              % 21
+    'Distance_bin'              % 22
     };
 varunits = {
     ''                          % 1
@@ -52,6 +54,8 @@ varunits = {
     'minutes'                   % 18
     'miles'                     % 19
     'minutes'                   % 20
+    ''                          % 21
+    ''                          % 22
     };
 
 %% Preprocessing on all rows
@@ -79,7 +83,7 @@ Tdrive.duration = max(Tdrive.duration_in_traffic_leg1, ...
 
 % Initialize empty table
 nrowsd = size(Tdrive,1);
-Tdrive_new = cell2table(cell(nrowsd,20), 'VariableNames', varnames);
+Tdrive_new = cell2table(cell(nrowsd,22), 'VariableNames', varnames);
 Tdrive_new.Properties.VariableUnits = varunits;
 
 % Assign old table columns to new
@@ -105,6 +109,8 @@ Tdrive_new.Drive_leg2_distance = nancold;
 Tdrive_new.Drive_leg2_duration = nancold;
 Tdrive_new.Transit_leg2_distance = nancold;
 Tdrive_new.Transit_leg2_duration = nancold;
+Tdrive_new.Duration_bin = nancold;
+Tdrive_new.Distance_bin = nancold;
 
 
 %% 2. Process transit only
@@ -118,7 +124,7 @@ Ttransit = Tin(strcmp(Tin.mode,'transit') & ...
 
 % Initialize empty table
 nrowst = size(Ttransit,1);
-Ttransit_new = cell2table(cell(nrowst,20), 'VariableNames', varnames);
+Ttransit_new = cell2table(cell(nrowst,22), 'VariableNames', varnames);
 Ttransit_new.Properties.VariableUnits = varunits;
 
 % Assign old table columns to new
@@ -144,6 +150,8 @@ Ttransit_new.Drive_leg2_distance = nancolt;
 Ttransit_new.Drive_leg2_duration = nancolt;
 Ttransit_new.Transit_leg2_distance = nancolt;
 Ttransit_new.Transit_leg2_duration = nancolt;
+Ttransit_new.Duration_bin = nancolt;
+Ttransit_new.Distance_bin = nancolt;
 
 %% 3. Process drive -> transit
 % Criteria: 
@@ -160,7 +168,7 @@ Tdt.duration1 = max(Tdt.duration_in_traffic_leg1, ...
 
 % Initialize empty table
 nrowsdt = size(Tdt,1);
-Tdt_new = cell2table(cell(nrowsdt,20), 'VariableNames', varnames);
+Tdt_new = cell2table(cell(nrowsdt,22), 'VariableNames', varnames);
 Tdt_new.Properties.VariableUnits = varunits;
 
 % Assign old table columns to new
@@ -203,7 +211,11 @@ for i=1:nrowsdt
     end
 end
 
-
+% Binning duration and distance
+Tdt_new.Duration_bin = discretize(Tdt_new.Drive_leg1_duration ./ ...
+    Tdt_new.Transit_leg2_duration, 4);
+Tdt_new.Distance_bin = discretize(Tdt_new.Drive_leg1_distance ./ ...
+    Tdt_new.Transit_leg2_distance, 4);
 
 %% 4. Process transit -> drive
 % Criteria: 
@@ -220,7 +232,7 @@ Ttd.duration2 = max(Ttd.duration_in_traffic_leg2, ...
 
 % Initialize empty table
 nrowstd = size(Ttd,1);
-Ttd_new = cell2table(cell(nrowstd,20), 'VariableNames', varnames);
+Ttd_new = cell2table(cell(nrowstd,22), 'VariableNames', varnames);
 Ttd_new.Properties.VariableUnits = varunits;
 
 % Assign old table columns to new
@@ -263,6 +275,11 @@ for i=1:nrowstd
     end
 end
 
+% Binning duration and distance
+Ttd_new.Duration_bin = discretize(Ttd_new.Drive_leg1_duration ./ ...
+    Ttd_new.Transit_leg2_duration, 4);
+Ttd_new.Distance_bin = discretize(Ttd_new.Drive_leg1_distance ./ ...
+    Ttd_new.Transit_leg2_distance, 4);
 
 
 %% Concatenate and export
