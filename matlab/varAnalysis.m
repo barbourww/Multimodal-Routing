@@ -37,33 +37,42 @@ numUniqueTimes = numel(sortedTimes); %137
 
 timeWindow = 15/60/24; % 15 min
 
+sampleSumStats = cell2table(cell(0,2));
+
 figure(2)
 ctr = 1;
-for t = 1:10:numUniqueTimes
+for t = 1:10:floor(numUniqueTimes/2)
     tempTime = sortedTimes(t);
     data30min = dataDriveOnly(...
         (dataDriveOnly.Local_time >= tempTime - timeWindow) & ...
         (dataDriveOnly.Local_time <= tempTime + timeWindow), :);
-    subplot(7, 2, ctr)
+    subplot(4, 2, ctr)
     histogram(data30min.Drive_leg1_duration,20)
     title(datestr(tempTime))
+    tempTimes(ctr) = tempTime;
+    sampleSumStats{ctr,1} = mean(data30min.Drive_leg1_duration);
+    sampleSumStats{ctr,2} = sqrt(var(data30min.Drive_leg1_duration));
     ctr = ctr + 1;
 end
 
-% figure(3)
-% ctr = 1;
-% for t = ceil(numUniqueTimes/2):10:numUniqueTimes
-%     tempTime = sortedTimes(t);
-%     data30min = dataDriveOnly(...
-%         (dataDriveOnly.Local_time >= tempTime - timeWindow) & ...
-%         (dataDriveOnly.Local_time <= tempTime + timeWindow), :);
-%     subplot(9, 2, ctr)
-%     histogram(data30min.Drive_leg1_duration,20)
-%     title(datestr(tempTime))
-%     ctr = ctr + 1;
-% end
+figure(3)
+ctr2 = 1;
+for t = ceil(numUniqueTimes/2):10:numUniqueTimes
+    tempTime = sortedTimes(t);
+    data30min = dataDriveOnly(...
+        (dataDriveOnly.Local_time >= tempTime - timeWindow) & ...
+        (dataDriveOnly.Local_time <= tempTime + timeWindow), :);
+    subplot(4, 2, ctr2)
+    histogram(data30min.Drive_leg1_duration,20)
+    title(datestr(tempTime))
+    tempTimes(ctr+ctr2) = tempTime;
+    sampleSumStats{ctr+ctr2,1} = mean(data30min.Drive_leg1_duration);
+    sampleSumStats{ctr+ctr2,2} = sqrt(var(data30min.Drive_leg1_duration));
+    ctr2 = ctr2 + 1;
+end
 
-
+sampleSumStats.Properties.VariableNames = {'Mean', 'SD'};
+sampleSumStats.Time = tempTimes';
 
 
 
