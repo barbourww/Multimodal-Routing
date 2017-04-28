@@ -213,9 +213,9 @@ end
 
 % Binning duration and distance
 Tdt_new.Duration_bin = discretize(Tdt_new.Drive_leg1_duration ./ ...
-    Tdt_new.Transit_leg2_duration, 4);
+    (Tdt_new.Drive_leg1_duration+Tdt_new.Transit_leg2_duration), 4);
 Tdt_new.Distance_bin = discretize(Tdt_new.Drive_leg1_distance ./ ...
-    Tdt_new.Transit_leg2_distance, 4);
+    (Tdt_new.Drive_leg1_distance+Tdt_new.Transit_leg2_distance), 4);
 
 %% 4. Process transit -> drive
 % Criteria: 
@@ -276,10 +276,10 @@ for i=1:nrowstd
 end
 
 % Binning duration and distance
-Ttd_new.Duration_bin = discretize(Ttd_new.Drive_leg1_duration ./ ...
-    Ttd_new.Transit_leg2_duration, 4);
-Ttd_new.Distance_bin = discretize(Ttd_new.Drive_leg1_distance ./ ...
-    Ttd_new.Transit_leg2_distance, 4);
+Ttd_new.Duration_bin = discretize(Ttd_new.Drive_leg2_duration ./ ...
+    (Ttd_new.Drive_leg2_duration+Ttd_new.Transit_leg1_duration), 4);
+Ttd_new.Distance_bin = discretize(Ttd_new.Drive_leg2_distance ./ ...
+    (Ttd_new.Drive_leg2_distance+Ttd_new.Transit_leg1_distance), 4);
 
 
 %% Concatenate and export
