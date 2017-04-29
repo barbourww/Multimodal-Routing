@@ -53,8 +53,8 @@ for t = 1:numTimeDrive
     tempTimes(t) = tempTime;
 end
 
-driveSumStats.Properties.VariableNames = {'Mean', 'SD'};
-driveSumStats.Time = tempTimes';
+driveSumStats.Properties.VariableNames = {'Mean_drive', 'SD_drive'};
+driveSumStats.TimeDrive = tempTimes';
 
 %% Mean and SD Calculations - 2. Transit
 % Get unique departure times
@@ -73,8 +73,8 @@ for t = 1:numTimeTransit
     tempTimes(t) = tempTime;
 end
 
-transitSumStats.Properties.VariableNames = {'Mean', 'SD'};
-transitSumStats.Time = tempTimes';
+transitSumStats.Properties.VariableNames = {'Mean_transit', 'SD_transit'};
+transitSumStats.TimeTransit = tempTimes';
 
 %% Mean and SD Calculations - 3. Drive -> Transit
 sortTimeDT = unique(sort(wdDT.Local_time));
@@ -92,9 +92,49 @@ for t = 1:numTimeDT
     tempTimes(t) = tempTime;
 end
 
-DTSumStats.Properties.VariableNames = {'Mean', 'SD'};
-DTSumStats.Time = tempTimes';
+DTSumStats.Properties.VariableNames = {'Mean_DT', 'SD_DT'};
+DTSumStats.TimeDT = tempTimes';
 
 %% Mean and SD Calculations - 4. Transit -> Drive
 sortTimeTD = unique(sort(wdTD.Local_time));
+numTimeTD = numel(sortTimeTD);
+
+TDSumStats = cell2table(cell(0,2));
+
+for t = 1:numTimeTD
+    tempTime = sortTimeTD(t);
+    tempData = wdTD(...
+        (wdTD.Local_time >= tempTime - timeWindow) & ...
+        (wdTD.Local_time <= tempTime + timeWindow), :);
+    TDSumStats(t,:) = {mean(tempData.Trip_duration) ...
+        sqrt(var(tempData.Trip_duration))};
+    tempTimes(t) = tempTime;
+end
+
+TDSumStats.Properties.VariableNames = {'Mean_TD', 'SD_TD'};
+TDSumStats.TimeTD = tempTimes';
+
+%% Merge
+% For Chi, all unique times were the same, so just combine.
+CHI_ORD_SumStats = horzcat(driveSumStats, transitSumStats, DTSumStats, ...
+    TDSumStats);
+
+% Get rid of extra columns
+CHI_ORD_SumStats.TimeTransit = [];
+CHI_ORD_SumStats.TimeDT = [];
+CHI_ORD_SumStats.TimeTD = [];
+CHI_ORD_SumStats = [CHI_ORD_SumStats(:,3) CHI_ORD_SumStats(:,1:2) ...
+    CHI_ORD_SumStats(:,4:end)];
+CHI_ORD_SumStats.Properties.VariableNames(1) = {'Time'};
+
+%% Export
+% Save mat
+save('CHI_ORD_sumstats.mat', 'CHI_ORD_SumStats');
+
+% Save Excel
+xlsname = 'CHI_ORD_SumStats.xlsx';
+writetable(CHI_ORD_SumStats, xlsname);
+
+
+
 
