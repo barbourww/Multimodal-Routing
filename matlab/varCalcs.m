@@ -1,12 +1,12 @@
 %% Travel Time Mean & Variance Calculations
 clear; clc; close all;
-load processeddata\CHI_ORD_xls.mat
+load processeddata\ORD_CUB_xls.mat
 
 %% Extract datasets for each mode choice
 % Separate weekday and weekend
-wdData = Tnew(Tnew.Day ~= 1 | Tnew.Day ~= 7, :); % weekday
+wdData = Tnew(Tnew.Day ~= 1 & Tnew.Day ~= 7, :); % weekday
 weData = Tnew(Tnew.Day == 1 | Tnew.Day == 7, :); % weekend
-% no weekend data for Chicago
+% no weekend data for CHI_ORD, DCA_UMD, HAR_BOS, IAD_GTU, NYU_LGA, ORD_CUB
 
 % 1. Driving only
 wdDrive = wdData(isnan(wdData.Duration_bin) & ...
@@ -115,25 +115,25 @@ TDSumStats.Properties.VariableNames = {'Mean_TD', 'SD_TD'};
 TDSumStats.TimeTD = tempTimes';
 
 %% Merge
-% For Chi, all unique times were the same, so just combine.
-CHI_ORD_SumStats = horzcat(driveSumStats, transitSumStats, DTSumStats, ...
+% all unique times were the same, so just combine.
+ORD_CUB_SumStats = horzcat(driveSumStats, transitSumStats, DTSumStats, ...
     TDSumStats);
 
 % Get rid of extra columns
-CHI_ORD_SumStats.TimeTransit = [];
-CHI_ORD_SumStats.TimeDT = [];
-CHI_ORD_SumStats.TimeTD = [];
-CHI_ORD_SumStats = [CHI_ORD_SumStats(:,3) CHI_ORD_SumStats(:,1:2) ...
-    CHI_ORD_SumStats(:,4:end)];
-CHI_ORD_SumStats.Properties.VariableNames(1) = {'Time'};
+ORD_CUB_SumStats.TimeTransit = [];
+ORD_CUB_SumStats.TimeDT = [];
+ORD_CUB_SumStats.TimeTD = [];
+ORD_CUB_SumStats = [ORD_CUB_SumStats(:,3) ORD_CUB_SumStats(:,1:2) ...
+    ORD_CUB_SumStats(:,4:end)];
+ORD_CUB_SumStats.Properties.VariableNames(1) = {'Time'};
 
 %% Export
 % Save mat
-save('CHI_ORD_sumstats.mat', 'CHI_ORD_SumStats');
+save('ORD_CUB_sumstats.mat', 'ORD_CUB_SumStats');
 
 % Save Excel
-xlsname = 'CHI_ORD_SumStats.xlsx';
-writetable(CHI_ORD_SumStats, xlsname);
+xlsname = 'ORD_CUB_SumStats.xlsx';
+writetable(ORD_CUB_SumStats, xlsname);
 
 
 
