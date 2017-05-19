@@ -74,7 +74,7 @@ def recursive_get(obj, gets):
         else:
             return obj.__getitem__(gets[0])
     except (KeyError, IndexError):
-        return 'n/a'
+        return ''
 
 
 def localize_to_query_timezone(time_in_query, timezone_in_query):
